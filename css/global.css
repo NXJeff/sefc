@@ -1,7 +1,8 @@
 body, h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6, input {
 	font-family: 'Open Sans',"HelveticaNeue","Helvetica Neue",Helvetica,Arial,sans-serif;
-    font-weight: 200 !important;
+    font-weight: 100 !important;
     color:#657483;
+
 }
 
 body {
@@ -18,7 +19,13 @@ h3, .h3 {
     font-weight: 100 !important;
 }
 
+.list-value {
+    float:right;
+}
 
+.list-description {
+    white-space:normal;
+}
 
 
 .topmsg {
@@ -87,4 +94,17 @@ h3, .h3 {
     -webkit-backface-visibility: hidden;
 }
 
-
+/* Hack for the panel start */
+.ui-panel.ui-panel-open {
+    position:fixed;
+}
+.ui-panel-inner {
+    position: absolute;
+    top: 1px;
+    left: 0;
+    right: 0;
+    bottom: 0px;
+    overflow: scroll;
+    -webkit-overflow-scrolling: touch;
+}
+/* Hack for the panel end */
