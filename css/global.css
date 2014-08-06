@@ -1,0 +1,90 @@
+body, h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6, input {
+	font-family: 'Open Sans',"HelveticaNeue","Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-weight: 200 !important;
+    color:#657483;
+}
+
+body {
+line-height: 1.43;
+}
+
+h3, .h3 {
+    font-size= 11;
+}
+
+.ui-btn {
+    color: #657483;
+    font-family: 'Open Sans',"HelveticaNeue","Helvetica Neue",Helvetica,Arial,sans-serif !important;
+    font-weight: 100 !important;
+}
+
+
+
+
+.topmsg {
+    display:none;
+    height: auto; 
+    /*background-color: #f3dddd;*/
+    background: rgb(0,0,0);
+    background: rgba(0,0,0, 0.7);
+    text-decoration:none;
+    border:1px solid;
+    border-color:#404040;
+    box-shadow: 0px 3px 2px #888888;
+    color: #ffffff;
+    text-shadow: 2px 2px #000000;
+    text-align: center;
+    padding:  5px 0 5px 0;
+    width: 100%;
+    position: absolute;
+    z-index: 10;
+}
+
+#iframeclass {
+    width:100%; 
+    height: 100%;
+}
+
+
+
+#postBlockA {
+	height:auto; padding-top: 10px; padding-bottom: 10px;
+	font-size:18px; white-space: normal;
+}
+
+#postBlockB {
+	height:auto; padding-top: 30px; padding-bottom: 30px;
+	font-size:14px; white-space: normal;
+}
+
+#statusChecker {
+    text-align: center;
+}
+
+#confirmResCode {
+	text-align: center;
+	font-size: 3em;
+	color: #0B4C5F;
+}
+
+#logo {
+     width: auto;
+	  height : auto;
+	  max-height: 100%;
+	  max-width: 100%;
+	  display: block;
+	  margin-left: auto;
+	  margin-right: auto;
+}
+
+/*hack to widen the header title*/
+.ui-header .ui-title {
+  
+}
+
+/*fix the bug of flickering page transitions*/
+.ui-page {
+    -webkit-backface-visibility: hidden;
+}
+
+
