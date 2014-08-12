@@ -14,6 +14,7 @@ class Audio
 	private $_play_count;
 	private $_url;
 	private $_uploaduser;
+    private $_desc;
 
 	public function __construct(
 		$id,
@@ -27,7 +28,8 @@ class Audio
 		$filesize,
 		$play_count,
 		$url,
-		$uploaduser) 
+		$uploaduser,
+        $desc) 
 	{
 		$this->_id = $id;
 		$this->_source  = $source;
@@ -41,6 +43,7 @@ class Audio
 		$this->_play_count  = $play_count;
 		$this->_url  = $url;
 		$this->_uploaduser  = $uploaduser;
+        $this->_desc = $desc;
 	}
 
 	 public function setId($id)
@@ -167,6 +170,17 @@ class Audio
         $this->_uploaduser = $_uploaduser;
         return $this;
     }
+
+     public function setDesc($desc)
+    {
+        $this->_desc = $desc;
+    }
+    
+    public function getDesc()
+    {
+        return $this->_desc;
+    }
+
 }
 
 ?>
