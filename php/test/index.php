@@ -77,13 +77,14 @@ $user = $settings['database']['username'];
 $pswd =  $settings['database']['password'];
 $db = $settings['database']['schema'];
 $conn = mysql_connect( $settings['database']['host'], $user, $pswd);  
-mysql_select_db($db, $conn); 
+mysql_set_charset('utf8',$conn); 
+mysql_select_db($db, $conn);
+
 
 foreach ($aFiles as $sSingleFile) {
     // print_r($aFiles);
     //$aTags = readID3($sSingleFile); // obtaining ID3 tags info
     $audio = $AE->GetInfo($sSingleFile);
-    print_r($audio);
     $createdDate = getCreatedDate($sSingleFile);
     $extraMeta = getExtraMeta($sSingleFile);
     $filesize = $extraMeta['filesize'];
