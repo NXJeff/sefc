@@ -1,12 +1,12 @@
 <?php
 header( 'Content-Type: text/html; charset=utf-8' ); 
 //Get the db config file from global external source
-$file = '../../conf/db.ini'; 
+$file = 'conf/db.ini'; 
 if (!$settings = parse_ini_file($file, TRUE)) throw new exception('Unable to open ' . $file . '.');
 session_start();
 
-require ('../inc/AudioExif.class.php');
-require ('../inc/mp3file.class.php');
+require ('inc/AudioExif.class.php');
+require ('inc/mp3file.class.php');
 $AE = new AudioExif($charset = 'utf8');
 
 // set error reporting level
@@ -17,12 +17,12 @@ else
 
 
 // gathering all mp3 files in 'mp3' folder into array
-$sDir = '..\..\content\messages\1\\';
-$aFiles = array();
-$rDir = opendir($sDir);
-print $s_Dir;
+// $sDir = '\messages\1\\';
+// $aFiles = array();
+// $rDir = opendir($sDir);
+// print $s_Dir;
 
-$di = new RecursiveDirectoryIterator('..\..\content\messages');
+$di = new RecursiveDirectoryIterator('messages/');
 foreach (new RecursiveIteratorIterator($di) as $filename => $file) {
     if (!$file->isFile())
         continue;
@@ -82,7 +82,7 @@ mysql_select_db($db, $conn);
 
 
 foreach ($aFiles as $sSingleFile) {
-    print_r($aFiles);
+    // print_r($aFiles);
     //$aTags = readID3($sSingleFile); // obtaining ID3 tags info
     $audio = $AE->GetInfo($sSingleFile);
     $createdDate = getCreatedDate($sSingleFile);
@@ -92,6 +92,7 @@ foreach ($aFiles as $sSingleFile) {
     $title = $audio['Title'];
     $speaker = $audio['Artist'];
     $url = getURL($sSingleFile);
+    $language = getLanguage($sSingleFile);
 
     // print getDuration($sSingleFile);
 
@@ -103,7 +104,7 @@ foreach ($aFiles as $sSingleFile) {
     // $sList2 .= '<tr><td>'.$aTags['Title'].'</td><td>'.$aTags['Encoded'].'</td><td>'.$aTags['Copyright'].'</td>
     //                 <td>'.$aTags['Publisher'].'</td><td>'.$aTags['OriginalArtist'].'</td><td>'.$aTags['URL'].'</td>
     //                 <td>'.$aTags['Comments'].'</td><td>'.$aTags['Composer'].'</td></tr>';
-    $query = "INSERT INTO audio (audio_title, audio_speaker, audio_duration, audio_added_date, audio_filesize, audio_url) VALUES ('$title', '$speaker', '$duration', '$createdDate', '$filesize', '$url')";
+    $query = "INSERT INTO audio (audio_title, audio_speaker, audio_duration, audio_added_date, audio_filesize, audio_url, audio_language) VALUES ('$title', '$speaker', '$duration', '$createdDate', '$filesize', '$url', '$language')";
 
     // print $query;
      mysql_query($query);
@@ -148,6 +149,19 @@ function getExtraMeta($sFile)
 function getURL($sFile) 
 {   
     return str_replace('\\','/', $sFile);
+}
+
+function getLanguage($sFile) 
+{
+    if (strpos($sFile,'english') !== false) {
+        return 'EN';
+    } else if (strpos($sFile,'chinese') !== false) {
+        return 'CN';
+    } else if (strpos($sFile,'bilingual') !== false) {
+        return 'BI';
+    }
+
+    return '';
 }
 
 ?>
