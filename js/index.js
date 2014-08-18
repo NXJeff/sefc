@@ -3,6 +3,8 @@
 var quickSearch = "title";
 
 
+
+
 //Prevent back navigation
 $(window).on("navigate", function (event, data) {
   var direction = data.state.direction;
@@ -75,6 +77,11 @@ $( document ).on( "pageinit", "#mainpage", function() {
 
 });
 
+$( document ).on( "pageinit", "#search2", function() {
+    console.log("onload");
+    init_iscroll('#wrapper');
+});
+
 
 // $(document).on("pageinit", function(){
 //     var serviceURL = "../php/services.php"; 
@@ -114,37 +121,5 @@ $( document ).on( "pageinit", "#mainpage", function() {
 // });
 
 
-//Test for iscrollview
-$(document).delegate("#search2", "pageinit", function(event){
 
 
-    $(".iscroll-wrapper", this).bind({
-        iscroll_onpulldown: function(event, data){
-            //react to a pull-down as necessary here
-            console.log("retrieving / refreshing.. ");
-            //then call this to reset the pull-to-refresh controls:
-            data.iscrollview.refresh();
-        },
-
-        iscroll_onpullup: function(event, data){
-            //load more history
-            console.log("loading more content..");
-            //reset the pull-up-to-load-more controls
-            data.iscrollview.refresh();
-        },
-        iscroll_onscrollend: function(event, data){
-            if($(document).height() > $(window).height())
-            {
-                if($(window).scrollTop() == $(document).height() - $(window).height()){
-                    console.log("The Bottom");
-                }
-            }
-            
-        }
-    }
-
-
-
-
-    );
-});
