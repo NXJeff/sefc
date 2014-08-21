@@ -104,7 +104,7 @@ foreach ($aFiles as $sSingleFile) {
     // $sList2 .= '<tr><td>'.$aTags['Title'].'</td><td>'.$aTags['Encoded'].'</td><td>'.$aTags['Copyright'].'</td>
     //                 <td>'.$aTags['Publisher'].'</td><td>'.$aTags['OriginalArtist'].'</td><td>'.$aTags['URL'].'</td>
     //                 <td>'.$aTags['Comments'].'</td><td>'.$aTags['Composer'].'</td></tr>';
-    $query = "INSERT INTO audio (audio_title, audio_speaker, audio_duration, audio_added_date, audio_filesize, audio_url, audio_language) VALUES ('$title', '$speaker', '$duration', '$createdDate', '$filesize', '$url', '$language')";
+    $query = "INSERT INTO audio (title, speaker, duration, added_date, filesize, url, language) VALUES ('$title', '$speaker', '$duration', '$createdDate', '$filesize', '$url', '$language')";
 
     // print $query;
      mysql_query($query);

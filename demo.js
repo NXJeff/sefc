@@ -12,20 +12,22 @@ var items_per_page = 10;
 			setTimeout(function() { // This immitates the CALLBACK of your AJAX function
 				if (!refresh) {
 					// Loading the initial content
-					$(wrapperId + ' > #scroller > ul').append('<li>Pretty row initial content</li>');
-					$(wrapperId + ' > #scroller > ul').append('<li>Pretty row initial content</li>');
-					$(wrapperId + ' > #scroller > ul').append('<li>Pretty row initial content</li>');
-					$(wrapperId + ' > #scroller > ul').append('<li>Pretty row initial content</li>');
-					$(wrapperId + ' > #scroller > ul').append('<li>Pretty row initial content</li>');
-					$(wrapperId + ' > #scroller > ul').append('<li>Pretty row initial content</li>');
-					$(wrapperId + ' > #scroller > ul').append('<li>Pretty row initial content</li>');
-					$(wrapperId + ' > #scroller > ul').append('<li>Pretty row initial content</li>');
-					$(wrapperId + ' > #scroller > ul').append('<li>Pretty row initial content</li>');
-					$(wrapperId + ' > #scroller > ul').append('<li>Pretty row initial content</li>');
+					populateAudioList();
+					// $(wrapperId + ' > #scroller > ul').append('<li data-icon="false"><a href="#search3">Pretty row initial content</a></li>');
+					// $(wrapperId + ' > #scroller > ul').append('<li>Pretty row initial content</li>');
+					// $(wrapperId + ' > #scroller > ul').append('<li>Pretty row initial content</li>');
+					// $(wrapperId + ' > #scroller > ul').append('<li>Pretty row initial content</li>');
+					// $(wrapperId + ' > #scroller > ul').append('<li>Pretty row initial content</li>');
+					// $(wrapperId + ' > #scroller > ul').append('<li>Pretty row initial content</li>');
+					// $(wrapperId + ' > #scroller > ul').append('<li>Pretty row initial content</li>');
+					// $(wrapperId + ' > #scroller > ul').append('<li>Pretty row initial content</li>');
+					// $(wrapperId + ' > #scroller > ul').append('<li>Pretty row initial content</li>');
+					// $(wrapperId + ' > #scroller > ul').append('<li>Pretty row initial content</li>');
+
 				} else if (refresh && !next_page) {
 					// Refreshing the content
 					$(wrapperId + ' > #scroller > ul').html('');
-					$(wrapperId + ' > #scroller > ul').append('<li>Pretty row Refreshed</li>');
+					$(wrapperId + ' > #scroller > ul').append('<li data-icon="false"><a href="#search3">Pretty row Refreshed</a></li>');
 					$(wrapperId + ' > #scroller > ul').append('<li>Pretty row Refreshed</li>');
 					$(wrapperId + ' > #scroller > ul').append('<li>Pretty row Refreshed</li>');
 					$(wrapperId + ' > #scroller > ul').append('<li>Pretty row Refreshed</li>');
@@ -41,7 +43,7 @@ var items_per_page = 10;
 					$(wrapperId + ' > #scroller > ul').append('<li>Pretty row Refreshed</li>');
 				} else if (refresh && next_page) {
 					// Loading the next-page content and refreshing
-					$(wrapperId + ' > #scroller > ul').append('<li>Pretty row X</li>');
+					$(wrapperId + ' > #scroller > ul').append('<li data-icon="false"><a href="#search3">Pretty row X</a></li>');
 					$(wrapperId + ' > #scroller > ul').append('<li>Pretty row X</li>');
 					$(wrapperId + ' > #scroller > ul').append('<li>Pretty row X</li>');
 					$(wrapperId + ' > #scroller > ul').append('<li>Pretty row X</li>');
@@ -55,7 +57,10 @@ var items_per_page = 10;
 					$(wrapperId + ' > #scroller > ul').append('<li>Pretty row X</li>');
 				}
 			
+			$(wrapperId + ' > #scroller > ul').listview().listview('refresh');
+
 				if (refresh) {
+					console.log("refresh listview");
 					
 					myScroll.refresh();
 					pullActionCallback();
@@ -99,7 +104,7 @@ var items_per_page = 10;
 			if (pullDownEl && pullDownEl.className.match('loading')) {
 				
 				pullDownEl.className = 'pullDown';
-				pullDownEl.querySelector('.pullDownLabel').innerHTML = 'Pull down to refresh';
+				pullDownEl.querySelector('.pullDownLabel').innerHTML = 'Pull down and hold to refresh';
 				
 				myScroll.scrollTo(0, parseInt(pullUpOffset)*(-1), 200);
 				
@@ -174,7 +179,7 @@ var items_per_page = 10;
 						this.minScrollY = 0;
 					} else if (this.y <= 5 && pullDownEl && pullDownEl.className.match('flip')) {
 						pullDownEl.className = 'pullDown';
-						pullDownEl.querySelector('.pullDownLabel').innerHTML = 'Pull down to refresh';
+						pullDownEl.querySelector('.pullDownLabel').innerHTML = 'Pull down and hold to refresh';
 						this.minScrollY = -pullDownOffset;
 					}
 					
@@ -201,7 +206,7 @@ var items_per_page = 10;
 			
 			// In order to prevent seeing the "pull down to refresh" before the iScoll is trigger - the wrapper is located at left:-9999px and returned to left:0 after the iScoll is initiated
 			setTimeout(function() {
-				$('#wrapper').css({left:0});
+				$(wrapperId).css({left:0});
 			}, 100);
 		}
 		
@@ -209,6 +214,10 @@ var items_per_page = 10;
 			
 			load_content();
 			this.wrapperId = id;
+			// console.log('clear');
+			// $(wrapperId + ' > #scroller > ul').empty(); //clear
+			// $(wrapperId + ' > #scroller > ul').listview().listview('refresh');
+
 			
 		}
 		
