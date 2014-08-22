@@ -136,9 +136,8 @@ $( document ).on( "pageinit", "#audioListPage", function() {
 });
 
 
-
 /** Retriever function */
-function populateAudioList() {
+function populateAudioList(offset, itemperpage, orderBy, orderAs) {
     var listCode = "";
     showLoading("Retrieving Data..", true);
     // retrieve all the 'ann' stand for announcement in database
@@ -175,17 +174,21 @@ function populateAudioList() {
                 // }
 
                 listCode += "<li data-name='"+this.title+"' data-id='"+this.title+"'><h3 style = \"text-shadow: 0px 0px #ffffff; white-space: normal;\">"+ this.title + ' - ' +this.speaker+"</h3></li>" ;
+
+                return 'true';
             });
                 } else {    
-                    listCode = "<li data-role=\"list-divider\">Anouncements</li><li data-icon=\"false\"><a href=\"#\"><h2>No Result</h2><p><strong></strong></p></a></li>";
+                    listCode = "<li data-role=\"list-divider\">End Of List</li>";
                 }
 
                 $('#audioList').append(listCode);
                 $('#audioList').listview('refresh');
                 hideLoading();
+
+                return 'false';
             // } 
         },
-        // data: { "req" : encrypt(JSON.stringify(postdata)) }
+        data: { "reqID" : 'A1',  'offset': offset, 'itemperpage': itemperpage, 'orderBy': orderBy, 'orderAs': orderAs }
     });
 }
 

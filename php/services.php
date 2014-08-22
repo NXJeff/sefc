@@ -9,6 +9,10 @@ function __autoload($class_name) {
 
 require_once('include_dao.php');
 
+$jsonObject = json_decode($_POST['resID'], true);
+if(isset($_POST['reqID'])){ $request = $_POST['reqID']; } 
+
+
 
 
 //Get the db config file from global external source
@@ -34,7 +38,17 @@ session_start();
 
 
 //print all rows order by title
-$arr = DAOFactory::getAudioDAO()->queryAll();
+switch($request) {
+
+	case 'A1':
+		if(isset($_POST['offset'])){ $offset = $_POST['offset']; } 
+		if(isset($_POST['itemperpage'])){ $items = $_POST['itemperpage']; } 
+		if(isset($_POST['orderBy'])){ $orderBy = $_POST['orderBy']; } 
+		if(isset($_POST['orderAs'])){ $orderAs = $_POST['orderAs']; } 
+		$arr = DAOFactory::getAudioDAO()->queryLazyLoad($offset, $items, $orderBy, $orderAs);
+
+}
+
 
 print_r (json_encode($arr));
 

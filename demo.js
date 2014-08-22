@@ -2,6 +2,7 @@ var items_per_page = 10;
 		var scroll_in_progress = false;
 		var myScroll;
 		var wrapperId;
+		var more = true;
 		
 		load_content = function(refresh, next_page) {
 			
@@ -12,49 +13,16 @@ var items_per_page = 10;
 			setTimeout(function() { // This immitates the CALLBACK of your AJAX function
 				if (!refresh) {
 					// Loading the initial content
-					populateAudioList();
-					// $(wrapperId + ' > #scroller > ul').append('<li data-icon="false"><a href="#search3">Pretty row initial content</a></li>');
-					// $(wrapperId + ' > #scroller > ul').append('<li>Pretty row initial content</li>');
-					// $(wrapperId + ' > #scroller > ul').append('<li>Pretty row initial content</li>');
-					// $(wrapperId + ' > #scroller > ul').append('<li>Pretty row initial content</li>');
-					// $(wrapperId + ' > #scroller > ul').append('<li>Pretty row initial content</li>');
-					// $(wrapperId + ' > #scroller > ul').append('<li>Pretty row initial content</li>');
-					// $(wrapperId + ' > #scroller > ul').append('<li>Pretty row initial content</li>');
-					// $(wrapperId + ' > #scroller > ul').append('<li>Pretty row initial content</li>');
-					// $(wrapperId + ' > #scroller > ul').append('<li>Pretty row initial content</li>');
-					// $(wrapperId + ' > #scroller > ul').append('<li>Pretty row initial content</li>');
+					more = populateAudioList();
 
 				} else if (refresh && !next_page) {
 					// Refreshing the content
-					$(wrapperId + ' > #scroller > ul').html('');
-					$(wrapperId + ' > #scroller > ul').append('<li data-icon="false"><a href="#search3">Pretty row Refreshed</a></li>');
-					$(wrapperId + ' > #scroller > ul').append('<li>Pretty row Refreshed</li>');
-					$(wrapperId + ' > #scroller > ul').append('<li>Pretty row Refreshed</li>');
-					$(wrapperId + ' > #scroller > ul').append('<li>Pretty row Refreshed</li>');
-					$(wrapperId + ' > #scroller > ul').append('<li>Pretty row Refreshed</li>');
-					$(wrapperId + ' > #scroller > ul').append('<li>Pretty row Refreshed</li>');
-					$(wrapperId + ' > #scroller > ul').append('<li>Pretty row Refreshed</li>');
-					$(wrapperId + ' > #scroller > ul').append('<li>Pretty row Refreshed</li>');
-					$(wrapperId + ' > #scroller > ul').append('<li>Pretty row Refreshed</li>');
-					$(wrapperId + ' > #scroller > ul').append('<li>Pretty row Refreshed</li>');
-					$(wrapperId + ' > #scroller > ul').append('<li>Pretty row Refreshed</li>');
-					$(wrapperId + ' > #scroller > ul').append('<li>Pretty row Refreshed</li>');
-					$(wrapperId + ' > #scroller > ul').append('<li>Pretty row Refreshed</li>');
-					$(wrapperId + ' > #scroller > ul').append('<li>Pretty row Refreshed</li>');
+					more = populateAudioList();
+					
 				} else if (refresh && next_page) {
 					// Loading the next-page content and refreshing
-					$(wrapperId + ' > #scroller > ul').append('<li data-icon="false"><a href="#search3">Pretty row X</a></li>');
-					$(wrapperId + ' > #scroller > ul').append('<li>Pretty row X</li>');
-					$(wrapperId + ' > #scroller > ul').append('<li>Pretty row X</li>');
-					$(wrapperId + ' > #scroller > ul').append('<li>Pretty row X</li>');
-					$(wrapperId + ' > #scroller > ul').append('<li>Pretty row X</li>');
-					$(wrapperId + ' > #scroller > ul').append('<li>Pretty row X</li>');
-					$(wrapperId + ' > #scroller > ul').append('<li>Pretty row X</li>');
-					$(wrapperId + ' > #scroller > ul').append('<li>Pretty row X</li>');
-					$(wrapperId + ' > #scroller > ul').append('<li>Pretty row X</li>');
-					$(wrapperId + ' > #scroller > ul').append('<li>Pretty row X</li>');
-					$(wrapperId + ' > #scroller > ul').append('<li>Pretty row X</li>');
-					$(wrapperId + ' > #scroller > ul').append('<li>Pretty row X</li>');
+					var offset = (next_page-1)*items_per_page;	
+					more = populateAudioList(offset, items_per_page);
 				}
 			
 			$(wrapperId + ' > #scroller > ul').listview().listview('refresh');
@@ -93,7 +61,11 @@ var items_per_page = 10;
 			} else {
 				var next_page = 2;
 			}
-			load_content('refresh', next_page);
+
+			if(more) {
+				load_content('refresh', next_page);
+			}
+			
 			$(wrapperId + ' > #scroller > ul').data('page', next_page);
 			
 			if (callback) {

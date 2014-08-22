@@ -1,60 +1,52 @@
 var items_per_page = 10;
-		var scroll_in_progress = false;
-		var myScroll;
-		
-		load_content = function(refresh, next_page) {
-			
+var scroll_in_progress = false;
+var myScroll;
+var wrapperId;
+var more = 'true';
+
+load_content = function(refresh, next_page) {
+
+
+
 			// This is a DEMO function which generates DEMO content into the scroller.
 			// Here you should place your AJAX request to fetch the relevant content (e.g. $.post(...))
 			
 			console.log(refresh, next_page);
 			setTimeout(function() { // This immitates the CALLBACK of your AJAX function
+				more = 'true';
 				if (!refresh) {
 					// Loading the initial content
-					$('#wrapper > #scroller > ul').append('<li>Pretty row initial content</li>');
-					$('#wrapper > #scroller > ul').append('<li>Pretty row initial content</li>');
-					$('#wrapper > #scroller > ul').append('<li>Pretty row initial content</li>');
-					$('#wrapper > #scroller > ul').append('<li>Pretty row initial content</li>');
-					$('#wrapper > #scroller > ul').append('<li>Pretty row initial content</li>');
-					$('#wrapper > #scroller > ul').append('<li>Pretty row initial content</li>');
-					$('#wrapper > #scroller > ul').append('<li>Pretty row initial content</li>');
-					$('#wrapper > #scroller > ul').append('<li>Pretty row initial content</li>');
-					$('#wrapper > #scroller > ul').append('<li>Pretty row initial content</li>');
-					$('#wrapper > #scroller > ul').append('<li>Pretty row initial content</li>');
+					more = populateAudioList();
+					console.log(more);
+					// $(wrapperId + ' > #scroller > ul').append('<li data-icon="false"><a href="#search3">Pretty row initial content</a></li>');
+					// $(wrapperId + ' > #scroller > ul').append('<li>Pretty row initial content</li>');
+					// $(wrapperId + ' > #scroller > ul').append('<li>Pretty row initial content</li>');
+					// $(wrapperId + ' > #scroller > ul').append('<li>Pretty row initial content</li>');
+					// $(wrapperId + ' > #scroller > ul').append('<li>Pretty row initial content</li>');
+					// $(wrapperId + ' > #scroller > ul').append('<li>Pretty row initial content</li>');
+					// $(wrapperId + ' > #scroller > ul').append('<li>Pretty row initial content</li>');
+					// $(wrapperId + ' > #scroller > ul').append('<li>Pretty row initial content</li>');
+					// $(wrapperId + ' > #scroller > ul').append('<li>Pretty row initial content</li>');
+					// $(wrapperId + ' > #scroller > ul').append('<li>Pretty row initial content</li>');
+
 				} else if (refresh && !next_page) {
 					// Refreshing the content
-					$('#wrapper > #scroller > ul').html('');
-					$('#wrapper > #scroller > ul').append('<li>Pretty row Refreshed</li>');
-					$('#wrapper > #scroller > ul').append('<li>Pretty row Refreshed</li>');
-					$('#wrapper > #scroller > ul').append('<li>Pretty row Refreshed</li>');
-					$('#wrapper > #scroller > ul').append('<li>Pretty row Refreshed</li>');
-					$('#wrapper > #scroller > ul').append('<li>Pretty row Refreshed</li>');
-					$('#wrapper > #scroller > ul').append('<li>Pretty row Refreshed</li>');
-					$('#wrapper > #scroller > ul').append('<li>Pretty row Refreshed</li>');
-					$('#wrapper > #scroller > ul').append('<li>Pretty row Refreshed</li>');
-					$('#wrapper > #scroller > ul').append('<li>Pretty row Refreshed</li>');
-					$('#wrapper > #scroller > ul').append('<li>Pretty row Refreshed</li>');
-					$('#wrapper > #scroller > ul').append('<li>Pretty row Refreshed</li>');
-					$('#wrapper > #scroller > ul').append('<li>Pretty row Refreshed</li>');
-					$('#wrapper > #scroller > ul').append('<li>Pretty row Refreshed</li>');
-					$('#wrapper > #scroller > ul').append('<li>Pretty row Refreshed</li>');
+					more = populateAudioList();
+					console.log(more);
+					
 				} else if (refresh && next_page) {
 					// Loading the next-page content and refreshing
-					$('#wrapper > #scroller > ul').append('<li>Pretty row X</li>');
-					$('#wrapper > #scroller > ul').append('<li>Pretty row X</li>');
-					$('#wrapper > #scroller > ul').append('<li>Pretty row X</li>');
-					$('#wrapper > #scroller > ul').append('<li>Pretty row X</li>');
-					$('#wrapper > #scroller > ul').append('<li>Pretty row X</li>');
-					$('#wrapper > #scroller > ul').append('<li>Pretty row X</li>');
-					$('#wrapper > #scroller > ul').append('<li>Pretty row X</li>');
-					$('#wrapper > #scroller > ul').append('<li>Pretty row X</li>');
-					$('#wrapper > #scroller > ul').append('<li>Pretty row X</li>');
-					$('#wrapper > #scroller > ul').append('<li>Pretty row X</li>');
-					$('#wrapper > #scroller > ul').append('<li>Pretty row X</li>');
-					$('#wrapper > #scroller > ul').append('<li>Pretty row X</li>');
+					var offset = (next_page-1)*items_per_page;	
+					console.log('offset:' + offset + ' ');
+					more = populateAudioList(offset, items_per_page);
+					// populateAudioList(next_page*items_per_page, items_per_page);
+					console.log(more);
 				}
-			
+
+				$(wrapperId + ' > #scroller > ul').listview().listview('refresh');
+
 				if (refresh) {
+					console.log("refresh listview");
 					
 					myScroll.refresh();
 					pullActionCallback();
@@ -70,25 +62,29 @@ var items_per_page = 10;
 					
 				}
 			}, 1000);
-			
-		};
-		
-		function pullDownAction() {
-			load_content('refresh');
-			$('#wrapper > #scroller > ul').data('page', 1);
-			
+
+
+
+};
+
+function pullDownAction() {
+	load_content('refresh');
+	$(wrapperId + ' > #scroller > ul').data('page', 1);
+
 			// Since "topOffset" is not supported with iscroll-5
-			$('#wrapper > .scroller').css({top:0});
+			$(wrapperId + ' > .scroller').css({top:0});
 			
 		}
 		function pullUpAction(callback) {
-			if ($('#wrapper > #scroller > ul').data('page')) {
-				var next_page = parseInt($('#wrapper > #scroller > ul').data('page'), 10) + 1;
+			if ($(wrapperId + ' > #scroller > ul').data('page')) {
+				var next_page = parseInt($(wrapperId + ' > #scroller > ul').data('page'), 10) + 1;
 			} else {
 				var next_page = 2;
 			}
-			load_content('refresh', next_page);
-			$('#wrapper > #scroller > ul').data('page', next_page);
+			if(more == 'true') {
+				load_content('refresh', next_page);
+			}
+			$(wrapperId + ' > #scroller > ul').data('page', next_page);
 			
 			if (callback) {
 				callback();
@@ -98,7 +94,7 @@ var items_per_page = 10;
 			if (pullDownEl && pullDownEl.className.match('loading')) {
 				
 				pullDownEl.className = 'pullDown';
-				pullDownEl.querySelector('.pullDownLabel').innerHTML = 'Pull down to refresh';
+				pullDownEl.querySelector('.pullDownLabel').innerHTML = 'Pull down and hold to refresh';
 				
 				myScroll.scrollTo(0, parseInt(pullUpOffset)*(-1), 200);
 				
@@ -130,34 +126,34 @@ var items_per_page = 10;
 		}
 		
 		function trigger_myScroll(offset) {
-			pullDownEl = document.querySelector('#wrapper .pullDown');
+			pullDownEl = document.querySelector(wrapperId + ' .pullDown');
 			if (pullDownEl) {
 				pullDownOffset = pullDownEl.offsetHeight;
 			} else {
 				pullDownOffset = 0;
 			}
-			pullUpEl = document.querySelector('#wrapper .pullUp');	
+			pullUpEl = document.querySelector(wrapperId + ' .pullUp');	
 			if (pullUpEl) {
 				pullUpOffset = pullUpEl.offsetHeight;
 			} else {
 				pullUpOffset = 0;
 			}
 			
-			if ($('#wrapper ul > li').length < items_per_page) {
+			if ($(wrapperId + ' ul > li').length < items_per_page) {
 				// If we have only 1 page of result - we hide the pullup and pulldown indicators.
-				$('#wrapper .pullDown').hide();
-				$('#wrapper .pullUp span').hide();
+				$(wrapperId + ' .pullDown').hide();
+				$(wrapperId + ' .pullUp span').hide();
 				offset = 0;
 			} else if (!offset) {
 				// If we have more than 1 page of results and offset is not manually defined - we set it to be the pullUpOffset.
 				offset = pullUpOffset;
 			}
 			
-			myScroll = new IScroll('#wrapper', {
-				probeType:1, tap:true, click:false, preventDefaultException:{tagName:/.*/}, mouseWheel:true, scrollbars:true, fadeScrollbars:true, interactiveScrollbars:false, keyBindings:false,
-				deceleration:0.0002,
-				startY:(parseInt(offset)*(-1))
-			});
+			myScroll = new IScroll(wrapperId, {
+			probeType:1, tap:true, click:false, preventDefaultException:{tagName:/.*/}, mouseWheel:true, scrollbars:true, fadeScrollbars:true, interactiveScrollbars:false, keyBindings:false,
+			deceleration:0.0002,
+			startY:(parseInt(offset)*(-1))
+		});
 			
 			myScroll.on('scrollStart', function () {
 				scroll_in_progress = true;
@@ -166,14 +162,14 @@ var items_per_page = 10;
 				
 				scroll_in_progress = true;
 				
-				if ($('#wrapper ul > li').length >= items_per_page) {
+				if ($(wrapperId + ' ul > li').length >= items_per_page) {
 					if (this.y >= 5 && pullDownEl && !pullDownEl.className.match('flip')) {
 						pullDownEl.className = 'pullDown flip';
 						pullDownEl.querySelector('.pullDownLabel').innerHTML = 'Release to refresh';
 						this.minScrollY = 0;
 					} else if (this.y <= 5 && pullDownEl && pullDownEl.className.match('flip')) {
 						pullDownEl.className = 'pullDown';
-						pullDownEl.querySelector('.pullDownLabel').innerHTML = 'Pull down to refresh';
+						pullDownEl.querySelector('.pullDownLabel').innerHTML = 'Pull down and hold to refresh';
 						this.minScrollY = -pullDownOffset;
 					}
 					
@@ -187,7 +183,7 @@ var items_per_page = 10;
 				setTimeout(function() {
 					scroll_in_progress = false;
 				}, 100);
-				if ($('#wrapper ul > li').length >= items_per_page) {
+				if ($(wrapperId + ' ul > li').length >= items_per_page) {
 					if (pullDownEl && pullDownEl.className.match('flip')) {
 						pullDownEl.className = 'pullDown loading';
 						pullDownEl.querySelector('.pullDownLabel').innerHTML = 'Loading...';
@@ -200,13 +196,18 @@ var items_per_page = 10;
 			
 			// In order to prevent seeing the "pull down to refresh" before the iScoll is trigger - the wrapper is located at left:-9999px and returned to left:0 after the iScoll is initiated
 			setTimeout(function() {
-				$('#wrapper').css({left:0});
+				$(wrapperId).css({left:0});
 			}, 100);
 		}
 		
-		function loaded() {
+		function init_iscroll(id) {
 			
 			load_content();
+			this.wrapperId = id;
+			// console.log('clear');
+			// $(wrapperId + ' > #scroller > ul').empty(); //clear
+			// $(wrapperId + ' > #scroller > ul').listview().listview('refresh');
+
 			
 		}
 		
