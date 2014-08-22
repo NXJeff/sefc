@@ -4,7 +4,6 @@ var quickSearch = "title";
 
 
 
-
 //Prevent back navigation
 $(window).on("navigate", function (event, data) {
   var direction = data.state.direction;
@@ -129,8 +128,8 @@ $( document ).on( "pageinit", "#search3", function() {
 });
 
 $( document ).on( "pageinit", "#audioListPage", function() {
-    console.log("audioListPage IN");
-    init_iscroll('#audioListWrapper');
+
+    init_iscroll('#audioListWrapper', 'populateAudioList');
 
     
 });
@@ -138,16 +137,20 @@ $( document ).on( "pageinit", "#audioListPage", function() {
 
 /** Retriever function */
 function populateAudioList(offset, itemperpage, orderBy, orderAs) {
-    var listCode = "";
-    showLoading("Retrieving Data..", true);
+    // showLoading("Retrieving Data..", true);
     // retrieve all the 'ann' stand for announcement in database
     // var postdata = { "posttype": 'ann'}; 
-    
-    $.ajax({
-        url: 'php/services.php',
-        type: 'post',
-        dataType: 'text',
-        success: function (response) {
+    if(offset == 0) {
+        more = true;
+    }
+    // console.log('more: ' +more);
+    // console.log('offset: ' +offset);
+    if(more) {
+        $.ajax({
+            url: 'php/services.php',
+            type: 'post',
+            dataType: 'text',
+            success: function (response) {
             // var dec = decrypt(response);
             var res = JSON.parse(response); //parse to array object
 
@@ -161,35 +164,65 @@ function populateAudioList(offset, itemperpage, orderBy, orderAs) {
                     // data = res.data;
                     audioList = res;   
                 }
+
+                if(offset == 0) {
+                    $(getCurrentWrapperScrollerId()).html('');
+                }
                 
                 // $('#audioList').empty();
                 if(audioList!=null && audioList.length > 0) {
                     $.each(audioList, function () {
+                        $(getCurrentWrapperScrollerId()).append("<li data-name='"+this.title+"' data-id='"+this.title+"'><span>"+ this.title + ' - ' +this.speaker+"</span></li>") ;
+                        more = true;
 
-                //Set the divider if the divide for the type is not added
-                //Group all the post by its type
-                // if(tempPost != postTitle) {
-                //     listCode += "<li data-role=\"list-divider\">" + postTitle + "</li>" ;
-                //     tempPost = postTitle;
-                // }
-
-                listCode += "<li data-name='"+this.title+"' data-id='"+this.title+"'><h3 style = \"text-shadow: 0px 0px #ffffff; white-space: normal;\">"+ this.title + ' - ' +this.speaker+"</h3></li>" ;
-
-                return 'true';
-            });
-                } else {    
-                    listCode = "<li data-role=\"list-divider\">End Of List</li>";
+                    });
+                } else {   
+                    var count = $(wrapperId + " li").length; 
+                    $(getCurrentWrapperScrollerId()).append("<li data-role=\"list-divider\"><span>End Of List - "+count+" records </span></li>");
+                    more = false;
                 }
 
-                $('#audioList').append(listCode);
-                $('#audioList').listview('refresh');
-                hideLoading();
+                $(getCurrentWrapperScrollerId()).listview().listview('refresh');
 
-                return 'false';
-            // } 
-        },
-        data: { "reqID" : 'A1',  'offset': offset, 'itemperpage': itemperpage, 'orderBy': orderBy, 'orderAs': orderAs }
-    });
+                //trigger refresh on iscroll
+                refreshScroll(offset);
+            },
+            data: { "reqID" : 'A1',  'offset': offset, 'itemperpage': itemperpage, 'orderBy': orderBy, 'orderAs': orderAs }
+        });
+} else {
+    refreshScroll(offset);
+}
+}
+
+/**
+*   option: 0 = initial load, 1 = refresh the list, 2 = request next page
+*
+*/
+function lazyLoadHandler(option, offset, itemsperpage) {
+    if(option == 0) {
+
+        switch(functionId) {
+            case 'populateAudioList':
+            populateAudioList(); 
+            break;
+        }
+        
+    } else if (option == 1) {
+
+        switch(functionId) {
+            case 'populateAudioList':
+            populateAudioList(0);
+            break;
+        }
+        
+    } else if (option == 2) {
+
+        switch(functionId) {
+            case 'populateAudioList':
+            populateAudioList(offset, itemsperpage);
+            break;
+        } 
+    }
 }
 
 
@@ -207,5 +240,9 @@ function hideLoading() {
     $.mobile.loading( "hide" );
 }
 
+//Get the Scroller UL ID by current wrapper
+function getCurrentWrapperScrollerId() {
+    return wrapperId + ' > #scroller > ul';
+}
 
 /** convenient methods END */

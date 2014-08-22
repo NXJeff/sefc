@@ -3,7 +3,7 @@
  * Intreface DAO
  *
  * @author: http://phpdao.com
- * @date: 2014-08-21 17:28
+ * @date: 2014-08-22 16:39
  */
 interface AudioDAO{
 

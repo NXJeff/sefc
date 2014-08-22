@@ -2,93 +2,66 @@ var items_per_page = 10;
 var scroll_in_progress = false;
 var myScroll;
 var wrapperId;
-var more = 'true';
+var functionId;
+var more = true;
 
 load_content = function(refresh, next_page) {
 
+	setTimeout(function() { 
 
+		//console.log(refresh, next_page);
+		if (!refresh) {
+			lazyLoadHandler(0);
+		} else if (refresh && !next_page) {
+			lazyLoadHandler(1);		
+		} else if (refresh && next_page) {
+			var offset = (next_page-1)*items_per_page;
+			lazyLoadHandler(2, offset, items_per_page);
+		}
+	}, 1000);
+}
 
-			// This is a DEMO function which generates DEMO content into the scroller.
-			// Here you should place your AJAX request to fetch the relevant content (e.g. $.post(...))
-			
-			console.log(refresh, next_page);
-			setTimeout(function() { // This immitates the CALLBACK of your AJAX function
-				more = 'true';
-				if (!refresh) {
-					// Loading the initial content
-					more = populateAudioList();
-					console.log(more);
-					// $(wrapperId + ' > #scroller > ul').append('<li data-icon="false"><a href="#search3">Pretty row initial content</a></li>');
-					// $(wrapperId + ' > #scroller > ul').append('<li>Pretty row initial content</li>');
-					// $(wrapperId + ' > #scroller > ul').append('<li>Pretty row initial content</li>');
-					// $(wrapperId + ' > #scroller > ul').append('<li>Pretty row initial content</li>');
-					// $(wrapperId + ' > #scroller > ul').append('<li>Pretty row initial content</li>');
-					// $(wrapperId + ' > #scroller > ul').append('<li>Pretty row initial content</li>');
-					// $(wrapperId + ' > #scroller > ul').append('<li>Pretty row initial content</li>');
-					// $(wrapperId + ' > #scroller > ul').append('<li>Pretty row initial content</li>');
-					// $(wrapperId + ' > #scroller > ul').append('<li>Pretty row initial content</li>');
-					// $(wrapperId + ' > #scroller > ul').append('<li>Pretty row initial content</li>');
+ //trigger refresh on iscroll * need to be called every append on the list
+ function refreshScroll(refresh) {
+ 	if (refresh || refresh == 0) {
+ 		myScroll.refresh();
+ 		pullActionCallback();
 
-				} else if (refresh && !next_page) {
-					// Refreshing the content
-					more = populateAudioList();
-					console.log(more);
-					
-				} else if (refresh && next_page) {
-					// Loading the next-page content and refreshing
-					var offset = (next_page-1)*items_per_page;	
-					console.log('offset:' + offset + ' ');
-					more = populateAudioList(offset, items_per_page);
-					// populateAudioList(next_page*items_per_page, items_per_page);
-					console.log(more);
-				}
-
-				$(wrapperId + ' > #scroller > ul').listview().listview('refresh');
-
-				if (refresh) {
-					console.log("refresh listview");
-					
-					myScroll.refresh();
-					pullActionCallback();
-					
-				} else {
-					
-					if (myScroll) {
-						myScroll.destroy();
-						$(myScroll.scroller).attr('style', ''); // Required since the styles applied by IScroll might conflict with transitions of parent layers.
-						myScroll = null;
+ 	} else {
+ 		if (myScroll) {
+ 			myScroll.destroy();
+							$(myScroll.scroller).attr('style', ''); // Required since the styles applied by IScroll might conflict with transitions of parent layers.
+							myScroll = null;
+						}
+						trigger_myScroll();
+						
 					}
-					trigger_myScroll();
-					
 				}
-			}, 1000);
 
-
-
-};
-
-function pullDownAction() {
-	load_content('refresh');
-	$(wrapperId + ' > #scroller > ul').data('page', 1);
+				function pullDownAction() {
+					load_content('refresh');
+					$(wrapperId + ' > #scroller > ul').data('page', 1);
 
 			// Since "topOffset" is not supported with iscroll-5
 			$(wrapperId + ' > .scroller').css({top:0});
 			
 		}
 		function pullUpAction(callback) {
+			
 			if ($(wrapperId + ' > #scroller > ul').data('page')) {
 				var next_page = parseInt($(wrapperId + ' > #scroller > ul').data('page'), 10) + 1;
 			} else {
 				var next_page = 2;
 			}
-			if(more == 'true') {
-				load_content('refresh', next_page);
-			}
+
+			load_content('refresh', next_page);
+
 			$(wrapperId + ' > #scroller > ul').data('page', next_page);
-			
+
 			if (callback) {
 				callback();
 			}
+
 		}
 		function pullActionCallback() {
 			if (pullDownEl && pullDownEl.className.match('loading')) {
@@ -173,13 +146,12 @@ function pullDownAction() {
 						this.minScrollY = -pullDownOffset;
 					}
 					
-					console.log(this.y);
+					// console.log(this.y);
 					pullActionDetect.check(0);
 					
 				}
 			});
 			myScroll.on('scrollEnd', function () {
-				console.log('scroll ended');
 				setTimeout(function() {
 					scroll_in_progress = false;
 				}, 100);
@@ -200,14 +172,11 @@ function pullDownAction() {
 			}, 100);
 		}
 		
-		function init_iscroll(id) {
+		function init_iscroll(wrapperID, functionID) {
 			
 			load_content();
-			this.wrapperId = id;
-			// console.log('clear');
-			// $(wrapperId + ' > #scroller > ul').empty(); //clear
-			// $(wrapperId + ' > #scroller > ul').listview().listview('refresh');
-
+			this.wrapperId = wrapperID;
+			this.functionId = functionID;
 			
 		}
 		

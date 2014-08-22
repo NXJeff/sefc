@@ -3,7 +3,7 @@
  * Class that operate on table 'users'. Database Mysql.
  *
  * @author: http://phpdao.com
- * @date: 2014-08-21 17:28
+ * @date: 2014-08-22 16:39
  */
 class UsersMySqlDAO implements UsersDAO{
 
@@ -99,7 +99,7 @@ class UsersMySqlDAO implements UsersDAO{
 		return $this->executeUpdate($sqlQuery);
 	}
 
-	public function queryByUserPassword($value){
+		public function queryByUserPassword($value){
 		$sql = 'SELECT * FROM users WHERE user_password = ?';
 		$sqlQuery = new SqlQuery($sql);
 		$sqlQuery->set($value);
@@ -135,7 +135,7 @@ class UsersMySqlDAO implements UsersDAO{
 	}
 
 
-	public function deleteByUserPassword($value){
+		public function deleteByUserPassword($value){
 		$sql = 'DELETE FROM users WHERE user_password = ?';
 		$sqlQuery = new SqlQuery($sql);
 		$sqlQuery->set($value);
@@ -219,7 +219,7 @@ class UsersMySqlDAO implements UsersDAO{
 		return QueryExecutor::execute($sqlQuery);
 	}
 	
-		
+
 	/**
 	 * Execute sql query
 	 */
@@ -240,5 +240,51 @@ class UsersMySqlDAO implements UsersDAO{
 	protected function executeInsert($sqlQuery){
 		return QueryExecutor::executeInsert($sqlQuery);
 	}
+
+	/*
+	*	Convenient method to check the variable is empty or not
+	*/
+	protected function IsNullOrEmptyString($param){
+		return (!isset($param) || trim($param)==='');
+	}
+
+	/**
+	 * Pagination Fetching 
+	 *
+	 * @param $orderColumn column name
+	 */
+	public function queryLazyLoad($offset, $item, $whereClause, $orderColumn, $orderAs){
+
+		if(!$offset || !$item) {
+			$offset = 0;
+			$item = 10;
+			// $orderColumn = 'title';
+			// $orderAs = 'desc';
+		}
+
+		$sql = 'SELECT * FROM users ';
+
+		if(!$this->IsNullOrEmptyString($whereClause)) 
+		{
+			$sql .= ' WHERE ' .$whereClause .' ';
+		}
+
+		if(!$this->IsNullOrEmptyString($orderColumn))
+		{ 
+			$sql .= ' ORDER BY ' .$orderColumn; 
+		}
+
+		if(!$this->IsNullOrEmptyString($orderAs)) 
+		{ 
+			$sql .= ' '.$orderAs. ' '; 
+		}
+
+		$sql .= 'LIMIT ' . $offset .','. $item;
+		
+		$sqlQuery = new SqlQuery($sql);
+		return $this->getList($sqlQuery);
+	}
+
+
 }
 ?>

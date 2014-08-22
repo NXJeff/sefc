@@ -1,4 +1,4 @@
-<?php
+ <?php
 
 error_reporting(0);
 header('Access-Control-Allow-Origin: *');
@@ -45,7 +45,9 @@ switch($request) {
 		if(isset($_POST['itemperpage'])){ $items = $_POST['itemperpage']; } 
 		if(isset($_POST['orderBy'])){ $orderBy = $_POST['orderBy']; } 
 		if(isset($_POST['orderAs'])){ $orderAs = $_POST['orderAs']; } 
-		$arr = DAOFactory::getAudioDAO()->queryLazyLoad($offset, $items, $orderBy, $orderAs);
+		if(isset($_POST['whereClause'])){ $whereClause = $_POST['whereClause']; } 
+		$arr = DAOFactory::getAudioDAO()->queryLazyLoad($offset, $items, $whereClause, $orderBy, $orderAs);
+		break;
 
 }
 

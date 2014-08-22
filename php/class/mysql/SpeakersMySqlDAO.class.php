@@ -3,7 +3,7 @@
  * Class that operate on table 'speakers'. Database Mysql.
  *
  * @author: http://phpdao.com
- * @date: 2014-08-21 17:28
+ * @date: 2014-08-22 16:39
  */
 class SpeakersMySqlDAO implements SpeakersDAO{
 
@@ -103,7 +103,7 @@ class SpeakersMySqlDAO implements SpeakersDAO{
 		return $this->executeUpdate($sqlQuery);
 	}
 
-	public function queryByLanguage($value){
+		public function queryByLanguage($value){
 		$sql = 'SELECT * FROM speakers WHERE language = ?';
 		$sqlQuery = new SqlQuery($sql);
 		$sqlQuery->set($value);
@@ -153,7 +153,7 @@ class SpeakersMySqlDAO implements SpeakersDAO{
 	}
 
 
-	public function deleteByLanguage($value){
+		public function deleteByLanguage($value){
 		$sql = 'DELETE FROM speakers WHERE language = ?';
 		$sqlQuery = new SqlQuery($sql);
 		$sqlQuery->set($value);
@@ -253,7 +253,7 @@ class SpeakersMySqlDAO implements SpeakersDAO{
 		return QueryExecutor::execute($sqlQuery);
 	}
 	
-		
+
 	/**
 	 * Execute sql query
 	 */
@@ -274,5 +274,51 @@ class SpeakersMySqlDAO implements SpeakersDAO{
 	protected function executeInsert($sqlQuery){
 		return QueryExecutor::executeInsert($sqlQuery);
 	}
+
+	/*
+	*	Convenient method to check the variable is empty or not
+	*/
+	protected function IsNullOrEmptyString($param){
+		return (!isset($param) || trim($param)==='');
+	}
+
+	/**
+	 * Pagination Fetching 
+	 *
+	 * @param $orderColumn column name
+	 */
+	public function queryLazyLoad($offset, $item, $whereClause, $orderColumn, $orderAs){
+
+		if(!$offset || !$item) {
+			$offset = 0;
+			$item = 10;
+			// $orderColumn = 'title';
+			// $orderAs = 'desc';
+		}
+
+		$sql = 'SELECT * FROM speakers ';
+
+		if(!$this->IsNullOrEmptyString($whereClause)) 
+		{
+			$sql .= ' WHERE ' .$whereClause .' ';
+		}
+
+		if(!$this->IsNullOrEmptyString($orderColumn))
+		{ 
+			$sql .= ' ORDER BY ' .$orderColumn; 
+		}
+
+		if(!$this->IsNullOrEmptyString($orderAs)) 
+		{ 
+			$sql .= ' '.$orderAs. ' '; 
+		}
+
+		$sql .= 'LIMIT ' . $offset .','. $item;
+		
+		$sqlQuery = new SqlQuery($sql);
+		return $this->getList($sqlQuery);
+	}
+
 }
+
 ?>

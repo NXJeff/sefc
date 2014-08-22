@@ -152,5 +152,49 @@ ${deleteByFieldFunctions}
 	protected function executeInsert($sqlQuery){
 		return QueryExecutor::executeInsert($sqlQuery);
 	}
+
+	/*
+	*	Convenient method to check the variable is empty or not
+	*/
+	protected function IsNullOrEmptyString($param){
+		return (!isset($param) || trim($param)==='');
+	}
+
+	/**
+	 * Pagination Fetching 
+	 *
+	 * @param $orderColumn column name
+	 */
+	public function queryLazyLoad($offset, $item, $whereClause, $orderColumn, $orderAs){
+
+		if(!$offset || !$item) {
+			$offset = 0;
+			$item = 10;
+			// $orderColumn = 'title';
+			// $orderAs = 'desc';
+		}
+
+		$sql = 'SELECT * FROM ${table_name} ';
+
+		if(!$this->IsNullOrEmptyString($whereClause)) 
+		{
+			$sql .= ' WHERE ' .$whereClause .' ';
+		}
+
+		if(!$this->IsNullOrEmptyString($orderColumn))
+		{ 
+			$sql .= ' ORDER BY ' .$orderColumn; 
+		}
+
+		if(!$this->IsNullOrEmptyString($orderAs)) 
+		{ 
+			$sql .= ' '.$orderAs. ' '; 
+		}
+
+		$sql .= 'LIMIT ' . $offset .','. $item;
+		
+		$sqlQuery = new SqlQuery($sql);
+		return $this->getList($sqlQuery);
+	}
 }
 ?>
