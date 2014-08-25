@@ -4,18 +4,18 @@ var quickSearch = "title";
 
 
 
-//Prevent back navigation
-$(window).on("navigate", function (event, data) {
-  var direction = data.state.direction;
-  if (direction == 'back') {
+// //Prevent back navigation
+// $(window).on("navigate", function (event, data) {
+//   var direction = data.state.direction;
+//   if (direction == 'back') {
 
-    $.mobile.changePage($(document.location.href = "#"+$.mobile.activePage.attr("id")), {transition: 'none'});
-    event.preventDefault();
-}
-if (direction == 'forward') {
-    // do something else
-}
-});
+//     $.mobile.changePage($(document.location.href = "#"+$.mobile.activePage.attr("id")), {transition: 'none'});
+//     event.preventDefault();
+// }
+// if (direction == 'forward') {
+//     // do something else
+// }
+// });
 
 /**  Quick Search Page START **/
 $( document ).on( "pageinit", "#search", function() {
@@ -97,7 +97,12 @@ console.log($(this).attr('data-id'));
             $.mobile.changePage($(document.location.href = "#search"), {transition: 'slideup'});
             break;
 
-            case 'browseByMonth':
+            case 'recent':
+            init_iscroll('#recentlyAddedWrapper', 'recentAudio');
+            $.mobile.changePage($(document.location.href = "#recent"), {transition: 'slide'});
+            break;
+
+
 
 
         }
@@ -136,10 +141,16 @@ $( document ).on( "pageinit", "#audioListPage", function() {
 
 
 /** Retriever function */
-function populateAudioList(offset, itemperpage, orderBy, orderAs) {
-    // showLoading("Retrieving Data..", true);
+function populateRecentAudio(offset, itemperpage, orderBy, orderAs, init) {
+
+    if(init) {
+        showLoading("Loading...", true, true);
+    }
+    
     // retrieve all the 'ann' stand for announcement in database
     // var postdata = { "posttype": 'ann'}; 
+    var orderBy = 'added_date';
+    var orderAs = 'desc';
     if(offset == 0) {
         more = true;
     }
@@ -186,6 +197,9 @@ function populateAudioList(offset, itemperpage, orderBy, orderAs) {
 
                 //trigger refresh on iscroll
                 refreshScroll(offset);
+                if(init) {
+                    hideLoading();
+                }
             },
             data: { "reqID" : 'A1',  'offset': offset, 'itemperpage': itemperpage, 'orderBy': orderBy, 'orderAs': orderAs }
         });
@@ -202,37 +216,49 @@ function lazyLoadHandler(option, offset, itemsperpage) {
     if(option == 0) {
 
         switch(functionId) {
-            case 'populateAudioList':
-            populateAudioList(); 
+            case 'recentAudio':
+            populateRecentAudio(null,null,null,null,true); 
             break;
         }
         
     } else if (option == 1) {
 
         switch(functionId) {
-            case 'populateAudioList':
-            populateAudioList(0);
+            case 'recentAudio':
+            populateRecentAudio(0);
             break;
         }
         
     } else if (option == 2) {
 
         switch(functionId) {
-            case 'populateAudioList':
-            populateAudioList(offset, itemsperpage);
+            case 'recentAudio':
+            populateRecentAudio(offset, itemsperpage);
             break;
         } 
     }
 }
 
+$( document ).on( "pageinit", "#player", function() {
 
+    $('#testplayerbutton').unbind('click').bind('click', function (e) {
+
+        console.log("testplayerbutton clicked");
+
+        $('#playlist').append(' <li><div class="ui360 ui360-vis centerwrapper" style="background-image: none;"><div class="sm2-360ui"><canvas class="sm2-canvas" width="256" height="256"></canvas> <span class="sm2-360btn sm2-360btn-default"></span> <div class="sm2-timing alignTweak" style="font-size: 1px; opacity: 0;">0:00</div> <div class="sm2-cover"></div></div><a href="content/messages/1/09-Feb-2014-Record-Sun-09-35-53.mp3" class="ui-link sm2_link">asdasdsad</a></div></li>');
+
+        $('#playlist').listview().listview( "refresh" );
+
+});
+
+});
 
 
 
 /** convenient methods START */
 //This is a convenient method to display custom loading message
-function showLoading(msgText,textVisible) {
-    $.mobile.loading('show', { text: msgText , textVisible: textVisible, theme: "b"});
+function showLoading(msgText,textVisible, textonly) {
+    $.mobile.loading('show', { text: msgText , textVisible: textVisible, textonly: textonly});
 }
 
 //Hide the loading

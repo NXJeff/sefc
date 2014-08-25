@@ -18,7 +18,7 @@ load_content = function(refresh, next_page) {
 			var offset = (next_page-1)*items_per_page;
 			lazyLoadHandler(2, offset, items_per_page);
 		}
-	}, 1000);
+	}, 500);
 }
 
  //trigger refresh on iscroll * need to be called every append on the list

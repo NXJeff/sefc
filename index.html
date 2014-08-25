@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="js/jquery.mobile-1.4.3/jquery.mobile-1.4.3.min.css" />
   <link rel="stylesheet" href="css/global.css" /> 
   <link rel="stylesheet" href="css/icons.css" /> 
-<!--   <link rel="stylesheet" href="css/flat-ui/jquery.mobile.flatui.min.css" />  -->
+  <!--   <link rel="stylesheet" href="css/flat-ui/jquery.mobile.flatui.min.css" />  -->
 
   <script src="js/jquery/jquery-1.11.1.min.js"></script>
   <script src="js/jquery.mobile-1.4.3/jquery.mobile-1.4.3.min.js"></script>
@@ -15,13 +15,23 @@
   <script type="text/javascript" src="js/iscroll/iscroll-probe.js"></script>
   <script type="text/javascript" src="js/iscroll_lazyload.js" ></script>
   <script type="text/javascript" src="js/index.js"></script>
+  
+  <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+  <script type="text/javascript" src="js/360player/script/berniecode-animator.js"></script>
+  <script src="js/player/soundmanager2.js"></script>
+  <script type="text/javascript" src="js/360player/script/360player.js"></script>
+  <script src="js/player.js"></script>
+
+  <link rel="stylesheet" type="text/css" href="js/360player/360player.css" />
+  <link rel="stylesheet" type="text/css" href="js/360player/360player-visualization.css" />
   <script id="panel-init">
   $(function() {
     $( "body>[data-role='panel']" ).panel();
   });
   </script>
-  <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
-    
+
+
+
 </head>
 <body>
 
@@ -66,7 +76,7 @@
       <li data-id="chineseSpeaker"><a data-id="chineseSpeaker" id="chineseSpeaker" href="#speakers" data-icon="check" data-iconpos="right"><span class="entypo-user">Chinese Speaker</span></a></li>
       <li data-id="englishSpeaker"><a id="englishSpeaker" href="#speakers" data-icon="check" data-iconpos="right" ><span class="entypo-user">English Speaker</span></a></li>
       <li data-role="divider"></li>
-      <li data-id="recentlyAdded"><a id="recentlyAdded" data-icon="check" data-iconpos="right"><span class="entypo-list">Recently Added</span></a></li>
+      <li data-id="recent"><a><span class="entypo-list">Recently Added</span></a></li>
       <li data-id="browseByMonth"><a id="browseByMonth" data-icon="check" data-iconpos="right"><span class="entypo-database">Browse by Month</span></a></li>
 
     </ul>
@@ -138,20 +148,20 @@
 <!-- Speaker Detail Page END -->
 
 <!-- Audio List Page START -->
-<div data-role="page" id="audioListPage">
+<div data-role="page" id="recent">
   <div data-role="header">
-    <a href="#home">Home</a>
+    <a data-rel="back">Back</a>
     <h1>Messages</h1>
   </div>
   <div data-role="content">
-    <div id="audioListWrapper" class="iscroll-wrapper">
+    <div id="recentlyAddedWrapper" class="iscroll-wrapper">
       <div id="scroller" data-iscroll>
         <div class="pullDown">
           <span class="pullDownIcon"></span>
           <span class="pullDownLabel">Pull down and hold to refresh...</span>
         </div>
 
-        <ul id="audioList" data-role="listview" data-inset="true">
+        <ul id="recentlyAddedList" data-role="listview" data-inset="true">
         </ul>
 
         <div class="pullUp">
@@ -161,28 +171,23 @@
   </div>
 </div>
 
-<!-- Audio List Page End -->
 
-<div data-role="page" id="search3">
+<!-- Audio Player Page START -->
+<div data-role="page" id="player">
   <div data-role="header">
-    <a href="#search2" id="search2back">Back</a>
-    <h1>Messages</h1>
+    <a data-rel="back">Back</a>
+    <h1>Audio Player</h1>
   </div>
   <div data-role="content">
-    <div id="search3wrapper" class="iscroll-wrapper">
-      <div id="scroller" data-iscroll>
-        <div class="pullDown">
-          <span class="pullDownIcon"></span>
-          <span class="pullDownLabel">Pull down and hold to refresh...</span>
-        </div>
 
-        <ul data-role="listview" data-inset="true">
-        </ul>
+    <ul data-role="listview" id="playlist" data-inset="true">
+      <li><div class="ui360 ui360-vis centerwrapper"><a href="content/messages/1/02-Feb-2014-Record-Sun-10-02-10.mp3">The Fugitives - Graffiti Sex</a></div></li>
 
-        <div class="pullUp">
-        </div>
-      </div>
-    </div>
+      <li><div class="ui360 ui360-vis centerwrapper"><a href="content/messages/1/03-Aug-2014-Record-Sun-09-39-56.mp3">Testing</a></div></li>
+
+      <a data-role="button" id="testplayerbutton">Test</a>
+    </ul>
+
   </div>
 </div>
 

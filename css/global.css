@@ -26,7 +26,9 @@ h3, .h3 {
 .list-description {
     white-space:normal;
 }
-
+.centerwrapper {
+    margin: 0 auto !important;
+}
 
 .topmsg {
     display:none;
@@ -75,13 +77,13 @@ h3, .h3 {
 }
 
 #logo {
- width: auto;
- height : auto;
- max-height: 100%;
- max-width: 100%;
- display: block;
- margin-left: auto;
- margin-right: auto;
+   width: auto;
+   height : auto;
+   max-height: 100%;
+   max-width: 100%;
+   display: block;
+   margin-left: auto;
+   margin-right: auto;
 }
 
 /*hack to widen the header title*/
@@ -178,7 +180,7 @@ body,ul,li {
 
 #scroller li span{
     /*font-size: 60px;*/
-     /*-webkit-font-smoothing: subpixel-antialiased;*/
+    /*-webkit-font-smoothing: subpixel-antialiased;*/
     /*text-align: center;*/
     /*font-size: 60px;*/
     white-space: nowrap;
@@ -189,7 +191,7 @@ body,ul,li {
 .iscroll-wrapper div, .iscroll-wrapper li{
     -webkit-perspective: 1000;
     -webkit-transform: translate3d(0,0,0);
-  
+
 }
 /*#scroller li {
     padding: 0 10px;
@@ -218,3 +220,5 @@ body,ul,li {
         from {-ms-transform:rotate(0deg) translateZ(0)}
         to {-ms-transform:rotate(360deg) translateZ(0)}
     }
+
+
