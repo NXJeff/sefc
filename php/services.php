@@ -38,18 +38,18 @@ session_start();
 
 
 //print all rows order by title
-switch($request) {
+// switch($request) {
 
-	case 'A1':
+// 	case 'A1':
 		if(isset($_POST['offset'])){ $offset = $_POST['offset']; } 
 		if(isset($_POST['itemperpage'])){ $items = $_POST['itemperpage']; } 
 		if(isset($_POST['orderBy'])){ $orderBy = $_POST['orderBy']; } 
 		if(isset($_POST['orderAs'])){ $orderAs = $_POST['orderAs']; } 
 		if(isset($_POST['whereClause'])){ $whereClause = $_POST['whereClause']; } 
 		$arr = DAOFactory::getAudioDAO()->queryLazyLoad($offset, $items, $whereClause, $orderBy, $orderAs);
-		break;
+		// break;
 
-}
+// }
 
 
 print_r (json_encode($arr));

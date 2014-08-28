@@ -2,6 +2,7 @@ body, h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6, input {
 	font-family: 'Open Sans',"HelveticaNeue","Helvetica Neue",Helvetica,Arial,sans-serif;
     font-weight: 100 !important;
     color:#657483;
+    -webkit-font-smoothing: subpixel-antialiased;
 
 }
 
@@ -27,7 +28,7 @@ h3, .h3 {
     white-space:normal;
 }
 .centerwrapper {
-    margin: 0 auto !important;
+    margin: 0 auto !important;  
 }
 
 .topmsg {
@@ -77,18 +78,19 @@ h3, .h3 {
 }
 
 #logo {
-   width: auto;
-   height : auto;
-   max-height: 100%;
-   max-width: 100%;
-   display: block;
-   margin-left: auto;
-   margin-right: auto;
+ width: auto;
+ height : auto;
+ max-height: 100%;
+ max-width: 100%;
+ display: block;
+ margin-left: auto;
+ margin-right: auto;
 }
 
 /*hack to widen the header title*/
-.ui-header .ui-title {
-
+.ui-header-fixed *, .ui-footer *, .ui-title span, #rmusic{
+    /*-webkit-perspective: 1000;*/
+    -webkit-transform: translate3d(0,0,0);
 }
 
 /*fix the bug of flickering page transitions*/
@@ -116,7 +118,7 @@ h3, .h3 {
 
 
 /* iSCROLL */
-* {
+/** {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
@@ -131,22 +133,28 @@ body,ul,li {
     margin: 0;
     border: 0;
 
-}
+    }*/
 
 
-.iscroll-wrapper {
-    position: absolute;
-    z-index: 1;
-    top: 45px;
-    bottom: 48px;
-    left:9999px; /* Not a must - can be 0 - but it makes the appearance of the content a bit nicer */
-    width: 100%;
-    height: 94%;
-    background: #ccc;
-    overflow: hidden;
-}
+    .iscroll-wrapper {
+        position: absolute;
+        z-index: 1;
+        top: 45px;
+        bottom: 48px;
+        left:9999px; /* Not a must - can be 0 - but it makes the appearance of the content a bit nicer */
+        width: 100%;
+        height: 94%;
+        background: #ccc;
+        overflow: hidden;
+    }
 
-#scroller {
+    .iscroll-wrapper2 {
+        position: absolute;
+        z-index: 1;
+        /*overflow: hidden;*/
+    }
+
+/*#scroller {
     position: absolute;
     z-index: 1;
     -webkit-tap-highlight-color: rgba(0,0,0,0);
@@ -167,32 +175,32 @@ body,ul,li {
     -o-text-size-adjust: none;
     text-size-adjust: none;
 
-}
+    }*/
 
-#scroller ul {
+/*#scroller ul {
     list-style: none;
     padding: 0;
     margin: 0;
     width: 100%;
     text-align: left;
     
-}
+    }*/
 
-#scroller li span{
-    /*font-size: 60px;*/
-    /*-webkit-font-smoothing: subpixel-antialiased;*/
-    /*text-align: center;*/
-    /*font-size: 60px;*/
-    white-space: nowrap;
-    /*text-shadow: 0 0 2px #000;   */
+    /*#scroller li span{*/
+        /*font-size: 60px;*/
+        /*-webkit-font-smoothing: subpixel-antialiased;*/
+        /*text-align: center;*/
+        /*font-size: 60px;*/
+        /*white-space: nowrap;*/
+        /*text-shadow: 0 0 2px #000;   */
 
-}
-/* Fix blurry text in the iScroller list */
-.iscroll-wrapper div, .iscroll-wrapper li{
-    -webkit-perspective: 1000;
-    -webkit-transform: translate3d(0,0,0);
+        /*}*/
+        /* Fix blurry text in the iScroller list */
+        /*.iscroll-wrapper div, .iscroll-wrapper li{
+            -webkit-perspective: 1000;
+            -webkit-transform: translate3d(0,0,0);
 
-}
+        }*/
 /*#scroller li {
     padding: 0 10px;
     height: 80px;
@@ -203,7 +211,7 @@ body,ul,li {
     font-size: 14px;
     }*/
 
-    .pullDownLabel, .pullUpLabel {color:#999;-webkit-transform: translate3d(0,0,0);}
+/*    .pullDownLabel, .pullUpLabel {color:#999;-webkit-transform: translate3d(0,0,0);}
     .pullDown, .pullUp {background:#fff;height:40px;line-height:40px;font-weight:bold;font-size:0.8em;color:#888}
     .pullDown .pullDownIcon, .pullUp .pullUpIcon {display:block;float:left;opacity:0.4;width:40px;height:40px;background:url(../images/pull_to_refresh.png) 0 0 no-repeat;-webkit-background-size:40px 80px;-ms-background-size:40px 80px; background-size:40px 80px;-webkit-transition-property:-webkit-transform;-ms-transition-property:-webkit-transform;-webkit-transition-duration:250ms;-ms-transition-duration:250ms}
     .pullDown .pullDownIcon {-webkit-transform:rotate(0deg) translateZ(0);-ms-transform:rotate(0deg) translateZ(0)}
@@ -219,6 +227,30 @@ body,ul,li {
     @-ms-keyframes loading {
         from {-ms-transform:rotate(0deg) translateZ(0)}
         to {-ms-transform:rotate(360deg) translateZ(0)}
+        }*/
+
+
+/*    ol { padding: 0px; margin: 50px auto; list-style: decimal-leading-zero inside; color: #ccc; width: 460px; border-top: 1px solid #ccc; font-size: 0.9em; }
+    ol li { position: relative; margin: 0px auto; padding: 9px 2px 10px; border-bottom: 1px solid #ccc; cursor: pointer; min-width: 20px;}
+    ol li a { display: block;  padding: 0px 0px 0px 0px; }
+    li.playing { color: #aaa; text-shadow: 1px 1px 0px rgba(255, 255, 255, 0.3);}
+    li.playing a { text-indent: 20px; color: #ff43d8 !important; }
+    li.playing:before { content: '♬'; width: 14px; height: 14px; padding: 3px; line-height: 14px; margin: 0px; position: absolute; left: 5px; top: 9px; color: #000; font-size: 13px; text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.2); z-index:999;}
+ 
+    .audiojs { padding: 0px; margin: 10px auto;  }
+    */
+
+    /* Fix blurry text in the iScroller list */
+    div span{
+        -webkit-perspective: 1000;
+        -webkit-transform: translate3d(0,0,0);
+
     }
 
+    #audioplayer {
+        margin-top: 1em;
+    }
 
+    .transparentBgText {
+        background-color:rgba(233,233,233,0.5);
+    }

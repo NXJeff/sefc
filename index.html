@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1 " />
   <title> SEFC </title>
   <link rel="stylesheet" href="js/jquery.mobile-1.4.3/jquery.mobile-1.4.3.min.css" />
   <link rel="stylesheet" href="css/global.css" /> 
@@ -11,19 +11,12 @@
 
   <script src="js/jquery/jquery-1.11.1.min.js"></script>
   <script src="js/jquery.mobile-1.4.3/jquery.mobile-1.4.3.min.js"></script>
-
-  <script type="text/javascript" src="js/iscroll/iscroll-probe.js"></script>
-  <script type="text/javascript" src="js/iscroll_lazyload.js" ></script>
   <script type="text/javascript" src="js/index.js"></script>
   
   <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
-  <script type="text/javascript" src="js/360player/script/berniecode-animator.js"></script>
-  <script src="js/player/soundmanager2.js"></script>
-  <script type="text/javascript" src="js/360player/script/360player.js"></script>
-  <script src="js/player.js"></script>
 
-  <link rel="stylesheet" type="text/css" href="js/360player/360player.css" />
-  <link rel="stylesheet" type="text/css" href="js/360player/360player-visualization.css" />
+  <script type="text/javascript" src="js/player/audio.js"></script>
+
   <script id="panel-init">
   $(function() {
     $( "body>[data-role='panel']" ).panel();
@@ -50,7 +43,7 @@
   <!-- /panel -->
 
 
-  <div  data-role="header" data-position="fixed">
+  <div  data-role="header" data-position="fixed" data-tap-toggle="false">
     <a href="#left-panel" data-icon="edit" >Menu</a>
     <h1>
      SEFC Main    
@@ -78,6 +71,14 @@
       <li data-role="divider"></li>
       <li data-id="recent"><a><span class="entypo-list">Recently Added</span></a></li>
       <li data-id="browseByMonth"><a id="browseByMonth" data-icon="check" data-iconpos="right"><span class="entypo-database">Browse by Month</span></a></li>
+
+      <li data-role="divider"></li>
+      <li data-id="recent"><a><span class="entypo-list">Recently Added</span></a></li>
+      <li data-id="browseByMonth"><a id="browseByMonth" data-icon="check" data-iconpos="right"><span class="entypo-database">Browse by Month</span></a></li>
+
+      <li data-role="divider"></li>
+      <li data-id="recent"><a><span class="entypo-list">Recently Added</span></a></li>
+      <li data-id="browseByMonth"><a id="browseByMonth" href="#player" data-transition="flip" data-icon="check" data-iconpos="right"><span class="entypo-database">Browse by Month</span></a></li>
 
     </ul>
   </div>
@@ -154,7 +155,10 @@
     <h1>Messages</h1>
   </div>
   <div data-role="content">
-    <div id="recentlyAddedWrapper" class="iscroll-wrapper">
+
+    <ul id="recentlyAddedList" data-role="listview" data-inset="true">
+    </ul>
+    <!-- <div id="recentlyAddedWrapper" class="iscroll-wrapper">
       <div id="scroller" data-iscroll>
         <div class="pullDown">
           <span class="pullDownIcon"></span>
@@ -167,30 +171,47 @@
         <div class="pullUp">
         </div>
       </div>
-    </div>
+    </div> -->
   </div>
 </div>
 
 
 <!-- Audio Player Page START -->
 <div data-role="page" id="player">
-  <div data-role="header">
-    <a data-rel="back">Back</a>
-    <h1>Audio Player</h1>
+  <div data-role="header" data-position="fixed" data-tap-toggle="false" style="background-color:rgba(233,233,233,0.7);"> <h2><span class="transparentBgText">Playlist</span></h2>
+    <a data-rel="back" >Back</a>
   </div>
-  <div data-role="content">
+  <div data-role="content" >
 
-    <ul data-role="listview" id="playlist" data-inset="true">
-      <li><div class="ui360 ui360-vis centerwrapper"><a href="content/messages/1/02-Feb-2014-Record-Sun-10-02-10.mp3">The Fugitives - Graffiti Sex</a></div></li>
 
-      <li><div class="ui360 ui360-vis centerwrapper"><a href="content/messages/1/03-Aug-2014-Record-Sun-09-39-56.mp3">Testing</a></div></li>
+    <ul data-role="listview" data-inset="true" id="playlist">
 
-      <a data-role="button" id="testplayerbutton">Test</a>
+      <li data-icon="false"><a href="#" data-src="content/messages/1/02-Feb-2014-Record-Sun-10-02-10.mp3">dead wrong intro</a></li>
+      
+
+
     </ul>
 
+
+    <a id="testplayerbutton" data-role="button"><span>Test button</span></a>
+
+
   </div>
+
+  <div data-role="footer" data-position="fixed" data-tap-toggle="false" style="text-align: center; background-color:rgba(233,233,233,0.7);">
+
+    <audio id="audioplayer" style="width: 80%; min-width:300px " controls ></audio><br>
+    <h4><span id="rmusic" class="transparentBgText" style="">Testing 1 2 3</span></h4>
+    <div style="grid-rows:500px (30px 60px);">
+
+      <a id="btn-pre" class="ui-btn ui-mini"><span class="iconicfill-first" style="margin:auto; font-size:20px; line-height: 10px;padding-left: 1em;"></span></a>
+      <a id="btn-next" class="ui-btn ui-mini"><span class="iconicfill-last" style="margin:auto; font-size:20px; line-height: 10px; padding-left: 1em;"></span></a>
+      <a id="btn-loop" class="ui-btn ui-mini"><span class="iconicfill-loop-alt2" style="margin:auto; font-size:20px; line-height: 10px; padding-left: 1em;"></span></a>
+    </div>
+  </div>
+
+
 </div>
-
-
+</div>
 </body>
 </html>
