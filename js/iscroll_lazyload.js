@@ -174,9 +174,10 @@ load_content = function(refresh, next_page) {
 		
 		function init_iscroll(wrapperID, functionID) {
 			
-			load_content();
+			
 			this.wrapperId = wrapperID;
 			this.functionId = functionID;
+			load_content();
 			
 		}
 		

@@ -1,6 +1,7 @@
 
 //Variables
 var quickSearch = "title";
+var more = true;
 
 
 
@@ -98,15 +99,15 @@ console.log($(this).attr('data-id'));
             break;
 
             case 'recent':
-            init_iscroll('#recentlyAddedWrapper', 'recentAudio');
+            // init_iscroll('#recentlyAddedWrapper', 'recentAudio');
+            populateRecentAudio(null,null,null,null,true); 
             $.mobile.changePage($(document.location.href = "#recent"), {transition: 'slide'});
             break;
 
-
-
-
+            // case 'browseByMonth':
+            // $.mobile.changePage($(document.location.href = "#player"), {transition: 'flip'});
+            // break;
         }
-        //retrieveAndPopulateProductDetail($(this).attr('data-id'));
     });
 
 });
@@ -114,10 +115,27 @@ console.log($(this).attr('data-id'));
 /**  Main Page END **/
 
 
-$( document ).on( "pageinit", "#search2", function() {
-    console.log("onload");
-    init_iscroll('#wrapper');
+/**  Recent Page START **/
+
+$( document ).on( "pageinit", "#recent", function() {
+    $('#recentlyAddedList').delegate('li', 'vclick', function (e) {
+
+
+        //Data ID
+        var dataid = $(this).attr('data-id');
+
+        if(dataid="loadmore") {
+            populateRecentAudio();
+        }
+
+    });
+
 });
+/**  Recent Page END **/
+
+
+
+
 
 $( document ).on( "pageinit", "#search3", function() {
 
@@ -134,29 +152,42 @@ $( document ).on( "pageinit", "#search3", function() {
 
 $( document ).on( "pageinit", "#audioListPage", function() {
 
-    init_iscroll('#audioListWrapper', 'populateAudioList');
+    // init_iscroll('#audioListWrapper', 'populateAudioList');
 
     
 });
 
 
+
 /** Retriever function */
 function populateRecentAudio(offset, itemperpage, orderBy, orderAs, init) {
 
+    console.log("init:" +init);
     if(init) {
-        showLoading("Loading...", true, true);
+        $('#recentlyAddedList').html('');
+        
     }
+
+    if(document.getElementById("loading")!=null) {
+        document.getElementById("loading").remove();
+    }
+    $('#recentlyAddedList').append('<li id="loading">Loading.. </li>');
+    $('#recentlyAddedList').listview().listview('refresh');
     
-    // retrieve all the 'ann' stand for announcement in database
-    // var postdata = { "posttype": 'ann'}; 
     var orderBy = 'added_date';
     var orderAs = 'desc';
+    var count;
     if(offset == 0) {
         more = true;
     }
+
+    count = $("#recentlyAddedList li").length; 
+    itemperpage = 10;
+    offset = count -1;
+
     // console.log('more: ' +more);
     // console.log('offset: ' +offset);
-    if(more) {
+    if(document.getElementById("loading")!=null) {
         $.ajax({
             url: 'php/services.php',
             type: 'post',
@@ -177,35 +208,45 @@ function populateRecentAudio(offset, itemperpage, orderBy, orderAs, init) {
                 }
 
                 if(offset == 0) {
-                    $(getCurrentWrapperScrollerId()).html('');
+                    $('#recentlyAddedList').html('');
                 }
-                
-                // $('#audioList').empty();
+
+                if(document.getElementById("loading")!=null) {
+                    document.getElementById("loading").remove();
+                }
+
                 if(audioList!=null && audioList.length > 0) {
                     $.each(audioList, function () {
-                        $(getCurrentWrapperScrollerId()).append("<li data-name='"+this.title+"' data-id='"+this.title+"'><span>"+ this.title + ' - ' +this.speaker+"</span></li>") ;
+                        $('#recentlyAddedList').append("<li data-name='"+this+"' data-id='"+this.title+"'><span>" + ($("#recentlyAddedList li").length + 1) + '. ' + this.title + ' - ' +this.speaker+"</span></li>") ;
                         more = true;
 
                     });
+
+                    if(audioList.length !== 10) {
+                        more =false;
+                    }
                 } else {   
-                    var count = $(wrapperId + " li").length; 
-                    $(getCurrentWrapperScrollerId()).append("<li data-role=\"list-divider\"><span>End Of List - "+count+" records </span></li>");
                     more = false;
                 }
-
-                $(getCurrentWrapperScrollerId()).listview().listview('refresh');
+                
+                if(more) {
+                    $('#recentlyAddedList').append('<li id="loading" data-id="loadmore" data-role=\"list-divider\" style="text-align:center;" data-theme="b" ><span>Load More</span></li>');
+                } else {
+                    count = $("#recentlyAddedList li").length; 
+                    if(document.getElementById("endlist")!=null) {
+                        document.getElementById("endlist").remove();
+                    }
+                    $('#recentlyAddedList').append("<li data-id=\"endlist\" data-role=\"list-divider\"><span>End Of List - "+count+" records </span></li>");
+                }
+                
+                $('#recentlyAddedList').listview().listview('refresh');
 
                 //trigger refresh on iscroll
-                refreshScroll(offset);
-                if(init) {
-                    hideLoading();
-                }
+                // refreshScroll(offset);   
             },
             data: { "reqID" : 'A1',  'offset': offset, 'itemperpage': itemperpage, 'orderBy': orderBy, 'orderAs': orderAs }
         });
-} else {
-    refreshScroll(offset);
-}
+    } 
 }
 
 /**
@@ -239,17 +280,20 @@ function lazyLoadHandler(option, offset, itemsperpage) {
     }
 }
 
+
 $( document ).on( "pageinit", "#player", function() {
 
     $('#testplayerbutton').unbind('click').bind('click', function (e) {
 
         console.log("testplayerbutton clicked");
 
-        $('#playlist').append(' <li><div class="ui360 ui360-vis centerwrapper" style="background-image: none;"><div class="sm2-360ui"><canvas class="sm2-canvas" width="256" height="256"></canvas> <span class="sm2-360btn sm2-360btn-default"></span> <div class="sm2-timing alignTweak" style="font-size: 1px; opacity: 0;">0:00</div> <div class="sm2-cover"></div></div><a href="content/messages/1/09-Feb-2014-Record-Sun-09-35-53.mp3" class="ui-link sm2_link">asdasdsad</a></div></li>');
+
+        $('#playlist').append('<li data-icon="false"><a href="#" data-name="" data-src="content/messages/1/04-May-2014-Record-Sun-09-43-42.mp3">juicy-r</a></li>');
 
         $('#playlist').listview().listview( "refresh" );
-
-});
+        reloadPlayerList($("#playlist > li").last());
+        console.log($("#playlist").last());
+    }); 
 
 });
 
@@ -272,3 +316,20 @@ function getCurrentWrapperScrollerId() {
 }
 
 /** convenient methods END */
+
+    // "description": null,
+    // "uploadedUser": null,
+    // "source": null,
+    // "category": null,
+    // "language": "CN",
+    // "title": "\u4e0d\u8981\u5904\u5728\u5b89\u4e50\u533a",
+    // "speaker": "\u9648\u6dfb\u8363\u7267\u5e08",
+    // "duration": "57:09",
+    // "addedDate": "2014-03-09",
+    // "filesize": "27433414",
+    // "playCount": "0",
+    // "url": "messages\/chinese\/201408\/09-Mar-2014-Record-Sun-09-35-59.mp3"
+
+    Element.prototype.remove = function() {
+        this.parentElement.removeChild(this);
+    }
