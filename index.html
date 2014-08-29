@@ -11,11 +11,12 @@
 
   <script src="js/jquery/jquery-1.11.1.min.js"></script>
   <script src="js/jquery.mobile-1.4.3/jquery.mobile-1.4.3.min.js"></script>
+  <script type="text/javascript" src="js/player/audio.js"></script>
   <script type="text/javascript" src="js/index.js"></script>
   
   <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
 
-  <script type="text/javascript" src="js/player/audio.js"></script>
+  
 
   <script id="panel-init">
   $(function() {
@@ -43,7 +44,7 @@
   <!-- /panel -->
 
 
-  <div  data-role="header" data-position="fixed" data-tap-toggle="false">
+  <div data-role="header" data-position="fixed" data-tap-toggle="false" >
     <a href="#left-panel" data-icon="edit" >Menu</a>
     <h1>
      SEFC Main    
@@ -70,14 +71,6 @@
       <li data-id="englishSpeaker"><a id="englishSpeaker" href="#speakers" data-icon="check" data-iconpos="right" ><span class="entypo-user">English Speaker</span></a></li>
       <li data-role="divider"></li>
       <li data-id="recent"><a><span class="entypo-list">Recently Added</span></a></li>
-      <li data-id="browseByMonth"><a id="browseByMonth" data-icon="check" data-iconpos="right"><span class="entypo-database">Browse by Month</span></a></li>
-
-      <li data-role="divider"></li>
-      <li data-id="recent"><a><span class="entypo-list">Recently Added</span></a></li>
-      <li data-id="browseByMonth"><a id="browseByMonth" data-icon="check" data-iconpos="right"><span class="entypo-database">Browse by Month</span></a></li>
-
-      <li data-role="divider"></li>
-      <li data-id="recent"><a><span class="entypo-list">Recently Added</span></a></li>
       <li data-id="browseByMonth"><a id="browseByMonth" href="#player" data-transition="flip" data-icon="check" data-iconpos="right"><span class="entypo-database">Browse by Month</span></a></li>
 
     </ul>
@@ -96,7 +89,6 @@
  </h1>
 </div>
 <div role="main" class="ui-content">
- <!-- <ul id="autocomplete" data-role="listview" data-inset="true"  data-filter-placeholder="Find a sermon" data-filter-theme="a" data-filter="true" data-listomatic="true"></ul> -->
 
  <ul id="listview" data-role="listview" data-filter="true" data-listomatic="true"></ul>
  
@@ -185,17 +177,7 @@
 
 
     <ul data-role="listview" data-inset="true" id="playlist">
-
-      <li data-icon="false"><a href="#" data-src="content/messages/1/02-Feb-2014-Record-Sun-10-02-10.mp3">dead wrong intro</a></li>
-      
-
-
     </ul>
-
-
-    <a id="testplayerbutton" data-role="button"><span>Test button</span></a>
-
-
   </div>
 
   <div data-role="footer" data-position="fixed" data-tap-toggle="false" style="text-align: center; background-color:rgba(233,233,233,0.7);">
@@ -210,8 +192,21 @@
     </div>
   </div>
 
-
+  <div data-role="popup" id="playlistPopupMenu" data-theme="a">
+  <ul data-role="listview" data-inset="true" id="playlistContextMenu" style="min-width:210px;">
+    <li data-role="list-divider" >Choose an action</li>
+    <li data-icon="false" data-id="playlistPlay"><a href="#">Play</a></li>
+    <li data-icon="false" data-id="playlistRemove"><a href="#">Remove</a></li>
+    <li data-icon="false" data-id="playlistRemoveAll"><a href="#">Remove All</a></li>
+    <li data-icon="false" data-id="playlistDetail"><a href="#">Go To Detail Page</a></li>
+    <li data-icon="false" data-id="playlistReport"><a href="#">Report</a></li>
+  </ul>
 </div>
+</div>
+
+
+
+
 </div>
 </body>
 </html>

@@ -118,16 +118,15 @@ console.log($(this).attr('data-id'));
 /**  Recent Page START **/
 
 $( document ).on( "pageinit", "#recent", function() {
-    $('#recentlyAddedList').delegate('li', 'vclick', function (e) {
-
-
+    $('#recentlyAddedList').undelegate('li', 'vclick').delegate('li', 'vclick', function (e) {
         //Data ID
         var dataid = $(this).attr('data-id');
-
-        if(dataid="loadmore") {
+        console.log(dataid);
+        if(dataid=='loadmore') {
             populateRecentAudio();
+        } else {
+            addToPlayList(JSON.parse($(this).attr('data-name')));
         }
-
     });
 
 });
@@ -136,36 +135,10 @@ $( document ).on( "pageinit", "#recent", function() {
 
 
 
-
-$( document ).on( "pageinit", "#search3", function() {
-
-    console.log("onload");
-    init_iscroll('#search3wrapper');
-
-    $('#search2back').unbind('click').bind('click', function (e) {
-        console.log("onload");
-        init_iscroll('#wrapper');
-    });
-
-    
-});
-
-$( document ).on( "pageinit", "#audioListPage", function() {
-
-    // init_iscroll('#audioListWrapper', 'populateAudioList');
-
-    
-});
-
-
-
 /** Retriever function */
 function populateRecentAudio(offset, itemperpage, orderBy, orderAs, init) {
-
-    console.log("init:" +init);
     if(init) {
         $('#recentlyAddedList').html('');
-        
     }
 
     if(document.getElementById("loading")!=null) {
@@ -217,7 +190,7 @@ function populateRecentAudio(offset, itemperpage, orderBy, orderAs, init) {
 
                 if(audioList!=null && audioList.length > 0) {
                     $.each(audioList, function () {
-                        $('#recentlyAddedList').append("<li data-name='"+this+"' data-id='"+this.title+"'><span>" + ($("#recentlyAddedList li").length + 1) + '. ' + this.title + ' - ' +this.speaker+"</span></li>") ;
+                        $('#recentlyAddedList').append("<li data-name='"+JSON.stringify(this)+"' data-id='"+this.title+"'><a href='#'><span>" + ($("#recentlyAddedList li").length + 1) + '. ' + this.title + ' - ' +this.speaker+"</span></a></li>") ;
                         more = true;
 
                     });
@@ -246,7 +219,7 @@ function populateRecentAudio(offset, itemperpage, orderBy, orderAs, init) {
             },
             data: { "reqID" : 'A1',  'offset': offset, 'itemperpage': itemperpage, 'orderBy': orderBy, 'orderAs': orderAs }
         });
-    } 
+} 
 }
 
 /**
@@ -291,7 +264,7 @@ $( document ).on( "pageinit", "#player", function() {
         $('#playlist').append('<li data-icon="false"><a href="#" data-name="" data-src="content/messages/1/04-May-2014-Record-Sun-09-43-42.mp3">juicy-r</a></li>');
 
         $('#playlist').listview().listview( "refresh" );
-        reloadPlayerList($("#playlist > li").last());
+    
         console.log($("#playlist").last());
     }); 
 
