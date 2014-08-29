@@ -182,6 +182,7 @@ function populateRecentAudio(offset, itemperpage, orderBy, orderAs, init) {
 
                 if(offset == 0) {
                     $('#recentlyAddedList').html('');
+                    $('#recentlyAddedList').append('<li data-role=\"list-divider\" style="text-align:center;"><span>Recent Released</span></li>');
                 }
 
                 if(document.getElementById("loading")!=null) {
@@ -190,7 +191,10 @@ function populateRecentAudio(offset, itemperpage, orderBy, orderAs, init) {
 
                 if(audioList!=null && audioList.length > 0) {
                     $.each(audioList, function () {
-                        $('#recentlyAddedList').append("<li data-name='"+JSON.stringify(this)+"' data-id='"+this.title+"'><a href='#'><span>" + ($("#recentlyAddedList li").length + 1) + '. ' + this.title + ' - ' +this.speaker+"</span></a></li>") ;
+
+                        console.log($(this));
+
+                        $('#recentlyAddedList').append('<li data-icon="false"><a href="#"><span class="li-numbering"> #' + ($("#recentlyAddedList li").length) + '</span><span class="li-added-date typicons-time">' + friendlyDate(this.addedDate + 'T00:00:00Z') + '</span><span class="iconicfill-document-alt-fill li-title">' + this.title + '</span><span class="iconicfill-user li-author">'+ this.speaker +'</span><span class="iconicfill-clock li-duration">' + this.duration + '</span><div class="li-views-likes"><span class="li-views-likes-icons typicons-heart">0</span><span class="li-views-likes-icons iconicstroke-play">123123</span></div></a></li>');
                         more = true;
 
                     });
@@ -199,6 +203,7 @@ function populateRecentAudio(offset, itemperpage, orderBy, orderAs, init) {
                         more =false;
                     }
                 } else {   
+                    $('#recentlyAddedList').append('<li stlye="text-align: center;">No Record Found.</li>');
                     more = false;
                 }
                 
@@ -254,24 +259,6 @@ function lazyLoadHandler(option, offset, itemsperpage) {
 }
 
 
-$( document ).on( "pageinit", "#player", function() {
-
-    $('#testplayerbutton').unbind('click').bind('click', function (e) {
-
-        console.log("testplayerbutton clicked");
-
-
-        $('#playlist').append('<li data-icon="false"><a href="#" data-name="" data-src="content/messages/1/04-May-2014-Record-Sun-09-43-42.mp3">juicy-r</a></li>');
-
-        $('#playlist').listview().listview( "refresh" );
-    
-        console.log($("#playlist").last());
-    }); 
-
-});
-
-
-
 /** convenient methods START */
 //This is a convenient method to display custom loading message
 function showLoading(msgText,textVisible, textonly) {
@@ -306,3 +293,35 @@ function getCurrentWrapperScrollerId() {
     Element.prototype.remove = function() {
         this.parentElement.removeChild(this);
     }
+
+    function friendlyDate(time){
+        console.log(time);
+    var date = new Date((time || "").replace(/-/g,"/").replace(/[TZ]/g," ")),
+        diff = (((new Date()).getTime() - date.getTime()) / 1000),
+        day_diff = Math.floor(diff / 86400);
+            
+    if ( isNaN(day_diff) || day_diff < 0 || day_diff >= 31 )
+        return  date.toDateString(); ;
+
+    console.log(day_diff);
+            
+    return day_diff == 0 && (
+            diff < 60 && "just now" ||
+            diff < 120 && "1 minute ago" ||
+            diff < 3600 && Math.floor( diff / 60 ) + " minutes ago" ||
+            diff < 7200 && "1 hour ago" ||
+            diff < 86400 && Math.floor( diff / 3600 ) + " hours ago") ||
+        day_diff == 1 && "Yesterday" ||
+        day_diff < 7 && day_diff + " days ago" ||
+        day_diff < 31 && Math.ceil( day_diff / 7 ) + " weeks ago";
+}
+
+// If jQuery is included in the page, adds a jQuery plugin to handle it as well
+if ( typeof jQuery != "undefined" )
+    jQuery.fn.prettyDate = function(){
+        return this.each(function(){
+            var date = prettyDate(this.title);
+            if ( date )
+                jQuery(this).text( date );
+        });
+    };

@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1 " />
   <title> SEFC </title>
-  <link rel="stylesheet" href="js/jquery.mobile-1.4.3/jquery.mobile-1.4.3.min.css" />
+  <link rel="stylesheet" href="js/jquery.mobile-1.4.3/jquery.mobile-1.4.3.css" />
   <link rel="stylesheet" href="css/global.css" /> 
   <link rel="stylesheet" href="css/icons.css" /> 
   <!--   <link rel="stylesheet" href="css/flat-ui/jquery.mobile.flatui.min.css" />  -->
@@ -140,32 +140,48 @@
 </div> 
 <!-- Speaker Detail Page END -->
 
-<!-- Audio List Page START -->
+<!-- Recent Page START -->
 <div data-role="page" id="recent">
-  <div data-role="header">
+  <div data-role="header" data-position="fixed" data-tap-toggle="false">
     <a data-rel="back">Back</a>
-    <h1>Messages</h1>
+    <h1>Sermons</h1>
   </div>
   <div data-role="content">
 
     <ul id="recentlyAddedList" data-role="listview" data-inset="true">
     </ul>
-    <!-- <div id="recentlyAddedWrapper" class="iscroll-wrapper">
-      <div id="scroller" data-iscroll>
-        <div class="pullDown">
-          <span class="pullDownIcon"></span>
-          <span class="pullDownLabel">Pull down and hold to refresh...</span>
-        </div>
-
-        <ul id="recentlyAddedList" data-role="listview" data-inset="true">
-        </ul>
-
-        <div class="pullUp">
-        </div>
-      </div>
-    </div> -->
   </div>
 </div>
+
+<!-- Recent Page END -->
+
+<!-- Audio Detail Page START -->
+<div data-role="page" id="audiodetail">
+  <div data-role="header" data-position="fixed" data-tap-toggle="false">
+    <a data-rel="back">Back</a>
+    <h1>Sermons</h1>
+  </div>
+  <div data-role="content">
+    <div class="centerwrapper">
+      <ul id="audiodetailUl" data-role="listview" data-inset="true">
+        <li data-role="list-divider"></li>
+        <li>
+          <div class="ad-imageView">
+            <span class="iconicfill-user ad-noImageIcon"></span>
+          </div>
+          <span class="iconicfill-user ad-author">周杰轮</span>
+          <span class="iconicfill-document-alt-fill ad-title">测试</span>
+          <span class="iconicfill-clock ad-duration">测试</span>
+
+
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+</div>
+
+<!-- Audio Detail END -->
 
 
 <!-- Audio Player Page START -->
@@ -193,17 +209,17 @@
   </div>
 
   <div data-role="popup" id="playlistPopupMenu" data-theme="a">
-  <ul data-role="listview" data-inset="true" id="playlistContextMenu" style="min-width:210px;">
-    <li data-role="list-divider" >Choose an action</li>
-    <li data-icon="false" data-id="playlistPlay"><a href="#">Play</a></li>
-    <li data-icon="false" data-id="playlistRemove"><a href="#">Remove</a></li>
-    <li data-icon="false" data-id="playlistRemoveAll"><a href="#">Remove All</a></li>
-    <li data-icon="false" data-id="playlistDetail"><a href="#">Go To Detail Page</a></li>
-    <li data-icon="false" data-id="playlistReport"><a href="#">Report</a></li>
-  </ul>
+    <ul data-role="listview" data-inset="true" id="playlistContextMenu" style="min-width:210px;">
+      <li data-role="list-divider" >Choose an action</li>
+      <li data-icon="false" data-id="playlistPlay"><a href="#">Play</a></li>
+      <li data-icon="false" data-id="playlistRemove"><a href="#">Remove</a></li>
+      <li data-icon="false" data-id="playlistRemoveAll"><a href="#">Remove All</a></li>
+      <li data-icon="false" data-id="playlistDetail"><a href="#">Go To Detail Page</a></li>
+      <li data-icon="false" data-id="playlistReport"><a href="#">Report</a></li>
+    </ul>
+  </div>
 </div>
-</div>
-
+<!-- Audio Player Page END -->
 
 
 

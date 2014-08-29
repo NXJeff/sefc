@@ -5,7 +5,8 @@ $(function() {
     Player = {
         // 歌曲路径
         // path : 'http://sefc.uhostall.com/',
-        path : 'http://192.168.1.102:81/sefc/content/',
+        // path : 'http://192.168.1.102:81/sefc/content/',
+        path : 'http://192.168.137.1:81/sefc/content/',
 
         // 歌曲数据
         data : new Array(),
@@ -129,7 +130,8 @@ $(function() {
 
             // 歌曲被点击
             $('#playlist').undelegate('li', 'vclick').delegate('li', 'vclick', function (e) {
-                playByMe($(this).index());
+                selectedIndex = $(this).index();
+                $('#playlistPopupMenu').popup().popup("open", {transition: 'slideup'});
             });
 
             $('#playlistContextMenu').undelegate('li', 'vclick').delegate('li', 'vclick', function (e) {
@@ -137,21 +139,26 @@ $(function() {
 
                 console.log(dataid);
                 switch(dataid) {
+                    case 'playlistPlay':
+                    playByMe(selectedIndex);
+                    break;
                     case 'playlistRemove':
                     removeFromList(selectedIndex);
                     break;
                     case 'playlistRemoveAll':
                     removeAll();
                     break;
-
+                    case 'playlistDetail':
+                    case 'playlistReport':
+                    break;
                 }
                 $('#playlistPopupMenu').popup().popup("close");
             });
 
-            $('#playlist').undelegate('li', 'taphold').delegate('li', 'taphold', function (e) {
-                selectedIndex = $(this).index();
-                $('#playlistPopupMenu').popup().popup("open", {transition: 'slideup'});
-            });
+            // $('#playlist').undelegate('li', 'taphold').delegate('li', 'taphold', function (e) {
+            //     selectedIndex = $(this).index();
+            //     $('#playlistPopupMenu').popup().popup("open", {transition: 'slideup'});
+            // });
         }
     };
 
@@ -206,7 +213,7 @@ function removeAll() {
 function showEmptyList() {
     if($("#playlist li").length == 0) {
         $("#playlist").html('');
-        $("#playlist").append('<li data-icon="false" id="emptyList">Playlist is empty.</a></li>');
+        $("#playlist").append('<li data-icon="false" data-role="list-divider" id="emptyList">Playlist is empty.</a></li>');
         $("#playlist").listview().listview('refresh');
     }
 }

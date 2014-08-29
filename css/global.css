@@ -78,13 +78,13 @@ h3, .h3 {
 }
 
 #logo {
- width: auto;
- height : auto;
- max-height: 100%;
- max-width: 100%;
- display: block;
- margin-left: auto;
- margin-right: auto;
+   width: auto;
+   height : auto;
+   max-height: 100%;
+   max-width: 100%;
+   display: block;
+   margin-left: auto;
+   margin-right: auto;
 }
 
 /*hack to widen the header title*/
@@ -200,7 +200,7 @@ body,ul,li {
             -webkit-perspective: 1000;
             -webkit-transform: translate3d(0,0,0);
 
-        }*/
+            }*/
 /*#scroller li {
     padding: 0 10px;
     height: 80px;
@@ -254,3 +254,150 @@ body,ul,li {
     .transparentBgText {
         background-color:rgba(233,233,233,0.5);
     }
+
+
+    .li-title {
+        font-size: 20px;
+        display: block;
+        margin: 3px 8px 3px 8px;
+
+    }
+    .li-title::before {
+        font-size: 20px;
+        padding-right: 2em;
+        margin-left: 1em;
+    }
+
+    .li-author {
+        font-size: 14px;
+        display: block;
+        margin: 3px 8px 3px 8px;
+        line-height: 20px;
+    }
+
+    .li-author::before {
+        font-size: 20px;
+        padding-right: 2em;
+        margin-left: 1em;
+    }
+
+    .li-added-date {
+        font-size: 12px;
+        float: right;
+        display: inline;
+        line-height: 12px;
+        
+    }
+
+    .li-added-date::before{
+        padding-right: 0.4em;
+        font-size: 16px;
+        vertical-align: middle;
+        line-height: 12px;
+    }
+
+    .li-views-likes {
+        font-size: 12px;
+        float: right;
+        display: inline;
+        padding-right: 0.4em;
+        vertical-align: middle;
+    }
+
+/*    .li-views-likes::before {
+        float: right;
+        }*/
+
+        .li-views-likes-icons {
+            margin: 5px;
+            padding: 2px;
+        }
+
+        .li-views-likes-icons::before {
+            padding-right: 0.3em;
+        }
+
+        .li-numbering {
+            font-size: 9px;
+            display: inline;
+            margin: 0;
+        }
+        .li-duration {
+            font-size: 14px;
+            display: block;
+            margin: 3px 8px 3px 8px;
+            line-height: 20px;
+        }    
+
+        .li-duration::before{
+            font-size: 20px;
+            padding-right: 2em;
+            margin-left: 0.9em;
+        }
+
+        #audiodetailUl {
+            max-width: 1024px;
+            margin: 0px auto;
+        }
+
+
+        .ad-author {
+            font-size: 20px;
+            display: block;
+            margin: 3px 8px 3px 8px;
+            line-height: 20px;
+        }
+
+        .ad-author::before {
+            content:"Author";
+            font-size: 20px;
+            padding-right: 2em;
+            margin-left: 1em;
+        }
+
+        .ad-title {
+            font-size: 20px;
+            display: block;
+            margin: 3px 8px 3px 8px;
+
+        }
+        .ad-title::before {
+            content:"Title";
+            font-size: 20px;
+            padding-right: 2em;
+            margin-left: 1em;
+        }
+
+        .ad-authorimg {
+            font-size: 80px;
+
+        }
+
+        .ad-imageView {
+            max-width: 320;
+            height: 480;
+            text-align: center;
+            display: block;
+        }
+
+        .ad-noImageIcon {
+            font-size: 95px;
+        }
+
+
+        .ad-duration {
+            font-size: 20px;
+            display: block;
+            margin: 3px 8px 3px 8px;
+            line-height: 20px;
+        }    
+
+        .ad-duration::before{
+            font-size: 20px;
+            padding-right: 2em;
+            margin-left: 0.9em;
+        }
+
+
+
+
