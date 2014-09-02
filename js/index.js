@@ -3,6 +3,10 @@
 var quickSearch = "title";
 var more = true;
 
+$(document).bind( "mobileinit", function () {
+    
+});
+
 
 
 // //Prevent back navigation
@@ -54,8 +58,8 @@ $( document ).on( "pageinit", "#search", function() {
 
 /**  Main Page START **/
 $( document ).on( "pageinit", "#mainpage", function() {
-
-
+console.log('test');
+$.mobile.page.prototype.options.contentTheme = "a";
     //Button Listeners
     /** 
     *   OnClick event on Buttons
@@ -291,37 +295,40 @@ function getCurrentWrapperScrollerId() {
     // "url": "messages\/chinese\/201408\/09-Mar-2014-Record-Sun-09-35-59.mp3"
 
     Element.prototype.remove = function() {
-        this.parentElement.removeChild(this);
-    }
+                    this.parentElement.removeChild(this);
+                }
 
-    function friendlyDate(time){
-        console.log(time);
-    var date = new Date((time || "").replace(/-/g,"/").replace(/[TZ]/g," ")),
-        diff = (((new Date()).getTime() - date.getTime()) / 1000),
-        day_diff = Math.floor(diff / 86400);
-            
-    if ( isNaN(day_diff) || day_diff < 0 || day_diff >= 31 )
-        return  date.toDateString(); ;
+                function friendlyDate(time){
+                    console.log(time);
+                var date = new Date((time || "").replace(/-/g,"/").replace(/[TZ]/g," ")),
+                    diff = (((new Date()).getTime() - date.getTime()) / 1000),
+                    day_diff = Math.floor(diff / 86400);
+                        
+                if ( isNaN(day_diff) || day_diff < 0 || day_diff >= 31 )
+                    return  date.toDateString(); ;
 
-    console.log(day_diff);
-            
-    return day_diff == 0 && (
-            diff < 60 && "just now" ||
-            diff < 120 && "1 minute ago" ||
-            diff < 3600 && Math.floor( diff / 60 ) + " minutes ago" ||
-            diff < 7200 && "1 hour ago" ||
-            diff < 86400 && Math.floor( diff / 3600 ) + " hours ago") ||
-        day_diff == 1 && "Yesterday" ||
-        day_diff < 7 && day_diff + " days ago" ||
-        day_diff < 31 && Math.ceil( day_diff / 7 ) + " weeks ago";
-}
+                console.log(day_diff);
+                        
+                return day_diff == 0 && (
+                        diff < 60 && "just now" ||
+                        diff < 120 && "1 minute ago" ||
+                        diff < 3600 && Math.floor( diff / 60 ) + " minutes ago" ||
+                        diff < 7200 && "1 hour ago" ||
+                        diff < 86400 && Math.floor( diff / 3600 ) + " hours ago") ||
+                    day_diff == 1 && "Yesterday" ||
+                    day_diff < 7 && day_diff + " days ago" ||
+                    day_diff < 31 && Math.ceil( day_diff / 7 ) + " weeks ago";
+            }
 
-// If jQuery is included in the page, adds a jQuery plugin to handle it as well
-if ( typeof jQuery != "undefined" )
-    jQuery.fn.prettyDate = function(){
-        return this.each(function(){
-            var date = prettyDate(this.title);
-            if ( date )
-                jQuery(this).text( date );
-        });
+            // If jQuery is included in the page, adds a jQuery plugin to handle it as well
+            if ( typeof jQuery != "undefined" )
+                jQuery.fn.prettyDate = function(){
+                    return this.each(function(){
+                        var date = prettyDate(this.title);
+                        if ( date )
+                            jQuery(this).text( date );
+                    });
     };
+
+
+

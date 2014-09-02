@@ -1,7 +1,7 @@
 body, h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6, input {
 	font-family: 'Open Sans',"HelveticaNeue","Helvetica Neue",Helvetica,Arial,sans-serif;
     font-weight: 100 !important;
-    color:#657483;
+    text-shadow: 0px 0px transparent;
     -webkit-font-smoothing: subpixel-antialiased;
 
 }
@@ -12,6 +12,10 @@ body {
 
 h3, .h3 {
     font-size= 11;
+}
+
+.ui-li-divider {
+    text-shadow: 0px 0px transparent !important;
 }
 
 .ui-btn {
