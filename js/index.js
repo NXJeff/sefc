@@ -58,8 +58,8 @@ $( document ).on( "pageinit", "#search", function() {
 
 /**  Main Page START **/
 $( document ).on( "pageinit", "#mainpage", function() {
-console.log('test');
-$.mobile.page.prototype.options.contentTheme = "a";
+    console.log('test');
+    $.mobile.page.prototype.options.contentTheme = "a";
     //Button Listeners
     /** 
     *   OnClick event on Buttons
@@ -122,16 +122,7 @@ console.log($(this).attr('data-id'));
 /**  Recent Page START **/
 
 $( document ).on( "pageinit", "#recent", function() {
-    $('#recentlyAddedList').undelegate('li', 'vclick').delegate('li', 'vclick', function (e) {
-        //Data ID
-        var dataid = $(this).attr('data-id');
-        console.log(dataid);
-        if(dataid=='loadmore') {
-            populateRecentAudio();
-        } else {
-            addToPlayList(JSON.parse($(this).attr('data-name')));
-        }
-    });
+    
 
 });
 /**  Recent Page END **/
@@ -198,7 +189,7 @@ function populateRecentAudio(offset, itemperpage, orderBy, orderAs, init) {
 
                         console.log($(this));
 
-                        $('#recentlyAddedList').append('<li data-icon="false"><a href="#"><span class="li-numbering"> #' + ($("#recentlyAddedList li").length) + '</span><span class="li-added-date typicons-time">' + friendlyDate(this.addedDate + 'T00:00:00Z') + '</span><span class="iconicfill-document-alt-fill li-title">' + this.title + '</span><span class="iconicfill-user li-author">'+ this.speaker +'</span><span class="iconicfill-clock li-duration">' + this.duration + '</span><div class="li-views-likes"><span class="li-views-likes-icons typicons-heart">0</span><span class="li-views-likes-icons iconicstroke-play">123123</span></div></a></li>');
+                        $('#recentlyAddedList').append("<li data-icon='false' data-name='"+JSON.stringify(this)+"'><a href='#'><span class='li-numbering'> #" + ($("#recentlyAddedList li").length) + "</span><span class='li-added-date typicons-time'>" + friendlyDate(this.addedDate + "T00:00:00Z") + "</span><span class='iconicfill-document-alt-fill li-title'>" + this.title + "</span><span class='iconicfill-user li-author'>"+ this.speaker +"</span><span class='iconicfill-clock li-duration'>" + this.duration + "</span><div class='li-views-likes'><span class='li-views-likes-icons typicons-heart'>0</span><span class='li-views-likes-icons iconicstroke-play'>123123</span></div></a></li>");
                         more = true;
 
                     });
@@ -295,30 +286,30 @@ function getCurrentWrapperScrollerId() {
     // "url": "messages\/chinese\/201408\/09-Mar-2014-Record-Sun-09-35-59.mp3"
 
     Element.prototype.remove = function() {
-                    this.parentElement.removeChild(this);
-                }
+        this.parentElement.removeChild(this);
+    }
 
-                function friendlyDate(time){
-                    console.log(time);
-                var date = new Date((time || "").replace(/-/g,"/").replace(/[TZ]/g," ")),
-                    diff = (((new Date()).getTime() - date.getTime()) / 1000),
-                    day_diff = Math.floor(diff / 86400);
-                        
-                if ( isNaN(day_diff) || day_diff < 0 || day_diff >= 31 )
-                    return  date.toDateString(); ;
+    function friendlyDate(time){
+        console.log(time);
+        var date = new Date((time || "").replace(/-/g,"/").replace(/[TZ]/g," ")),
+        diff = (((new Date()).getTime() - date.getTime()) / 1000),
+        day_diff = Math.floor(diff / 86400);
+        
+        if ( isNaN(day_diff) || day_diff < 0 || day_diff >= 31 )
+            return  date.toDateString(); ;
 
-                console.log(day_diff);
-                        
-                return day_diff == 0 && (
-                        diff < 60 && "just now" ||
-                        diff < 120 && "1 minute ago" ||
-                        diff < 3600 && Math.floor( diff / 60 ) + " minutes ago" ||
-                        diff < 7200 && "1 hour ago" ||
-                        diff < 86400 && Math.floor( diff / 3600 ) + " hours ago") ||
-                    day_diff == 1 && "Yesterday" ||
-                    day_diff < 7 && day_diff + " days ago" ||
-                    day_diff < 31 && Math.ceil( day_diff / 7 ) + " weeks ago";
-            }
+        console.log(day_diff);
+        
+        return day_diff == 0 && (
+            diff < 60 && "just now" ||
+            diff < 120 && "1 minute ago" ||
+            diff < 3600 && Math.floor( diff / 60 ) + " minutes ago" ||
+            diff < 7200 && "1 hour ago" ||
+            diff < 86400 && Math.floor( diff / 3600 ) + " hours ago") ||
+        day_diff == 1 && "Yesterday" ||
+        day_diff < 7 && day_diff + " days ago" ||
+        day_diff < 31 && Math.ceil( day_diff / 7 ) + " weeks ago";
+    }
 
             // If jQuery is included in the page, adds a jQuery plugin to handle it as well
             if ( typeof jQuery != "undefined" )
@@ -328,7 +319,7 @@ function getCurrentWrapperScrollerId() {
                         if ( date )
                             jQuery(this).text( date );
                     });
-    };
+                };
 
 
 

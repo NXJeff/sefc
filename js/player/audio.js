@@ -14,6 +14,7 @@ $(function() {
         // 当前播放歌曲的 索引
         currentIndex : -1,
         selectedIndex : -1,
+        selectedIndexData : null,
 
         //  播放器元素jquery对象
         $audio : $('audio'),
@@ -122,10 +123,16 @@ $(function() {
             // 播放指定歌曲
             function playByMe(i) {
                 console.log("index:", i);
+                console.log("playByME DATA: " + Player.data[i]);
                 Player.audio.src = Player.path + Player.data[i].url;
                 Player.audio.play();
                 Player.currentIndex = i;
                 Player.$rmusic.html(Player.data[Player.currentIndex].title + ' - ' + Player.data[Player.currentIndex].speaker );
+
+                $('#playlist li a').removeClass('entypo-right-dir');
+
+                $('#playlist li:eq('+ i +') a').addClass('entypo-right-dir');
+                $('#playlist').listview().listview('refresh');
             }
 
             // 歌曲被点击
@@ -134,6 +141,47 @@ $(function() {
                 $('#playlistPopupMenu').popup().popup("open", {transition: 'slideup'});
             });
 
+            /**  Recent Page START **/
+            $('#recentlyAddedList').undelegate('li', 'vclick').delegate('li', 'vclick', function (e) {
+                    //Data ID
+                    var dataid = $(this).attr('data-id');
+                    // console.log(dataid);
+                    // console.log($(this).attr('data-name'));
+                    if(dataid=='loadmore') {
+                        populateRecentAudio();
+                    } else {
+
+                        selectedIndex = $(this).index();
+                        selectedIndexData = $(this).attr('data-name');
+                        $('#recentPlaylistPopupMenu').popup().popup("open", {transition: 'slideup'});
+                        // addToPlayList(JSON.parse($(this).attr('data-name')));
+                    }
+                });
+
+            //recent list 
+            $('#recentPlayListContextMenu').undelegate('li', 'vclick').delegate('li', 'vclick', function (e) {
+                var dataid = $(this).attr('data-id');
+                console.log($(this).attr('data-name'));
+
+                console.log(dataid);
+
+                switch(dataid) {
+                    case 'playnow':
+                    addToPlayList(JSON.parse(selectedIndexData), true);
+                    break;
+                    case 'queue':
+                    // removeFromList(selectedIndex);
+                    addToPlayList(JSON.parse(selectedIndexData), false);
+                    break;
+                    case 'detail':
+                    removeAll();
+                    break;
+                }
+                $('#recentPlaylistPopupMenu').popup().popup("close");
+            });
+            /**  Recent Page END **/
+
+            //Playlist in audio player
             $('#playlistContextMenu').undelegate('li', 'vclick').delegate('li', 'vclick', function (e) {
                 var dataid = $(this).attr('data-id');
 
@@ -141,6 +189,10 @@ $(function() {
                 switch(dataid) {
                     case 'playlistPlay':
                     playByMe(selectedIndex);
+                    break;
+                    case 'playlistStopAll' :
+                    Player.audio.pause();
+                    Player.audio.currentTime = 0;
                     break;
                     case 'playlistRemove':
                     removeFromList(selectedIndex);
@@ -155,19 +207,22 @@ $(function() {
                 $('#playlistPopupMenu').popup().popup("close");
             });
 
+
+            
+
             // $('#playlist').undelegate('li', 'taphold').delegate('li', 'taphold', function (e) {
             //     selectedIndex = $(this).index();
             //     $('#playlistPopupMenu').popup().popup("open", {transition: 'slideup'});
             // });
-        }
-    };
+}
+};
 
-    Player.init();
-    Player.ready();
+Player.init();
+Player.ready();
 
 });
 
-function addToPlayList(data) {
+function addToPlayList(data, playnow) {
     hideEmptyList();
     console.log(JSON.stringify(data));
     Player.data.push(data);
@@ -178,7 +233,12 @@ function addToPlayList(data) {
  Player.$mList.append('<li data-icon="false" index='+index+' data-name='+data+'><a href="#" >' + trackNumber + '. ' + data.title +' - ' + data.speaker + '</a></li>');
  Player.$mList.listview().listview('refresh');
 
- if(Player.data.length == 1) {
+//  if(Player.data.length == 1) {
+//     $('#btn-next').click(); 
+// }
+
+if(playnow) {
+    Player.currentIndex = Player.data.length - 2; 
     $('#btn-next').click(); 
 }
 }
@@ -224,4 +284,10 @@ function hideEmptyList() {
     }
 }
 
+function showFooterPlayer() {
+
+
+
+    $("[id^=audioPlayerFooter]").empty().append(infoFooter);
+}
 

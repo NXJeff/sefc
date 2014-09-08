@@ -82,13 +82,13 @@ h3, .h3 {
 }
 
 #logo {
-   width: auto;
-   height : auto;
-   max-height: 100%;
-   max-width: 100%;
-   display: block;
-   margin-left: auto;
-   margin-right: auto;
+ width: auto;
+ height : auto;
+ max-height: 100%;
+ max-width: 100%;
+ display: block;
+ margin-left: auto;
+ margin-right: auto;
 }
 
 /*hack to widen the header title*/
@@ -402,6 +402,27 @@ body,ul,li {
             margin-left: 0.9em;
         }
 
+        .playerButton {
+            padding-right: 1em;
+            vertical-align: middle;
+        }
+
+        .footerTitle {
+            color:#FFFFFF;
+
+            font-size:150%;
+            line-height:30px;
+            overflow:hidden;
+            float:left;
+            white-space:nowrap;  
+            width: 60%
+
+        }
+
+        .footerControl {
+            float:right;
+            width: 40%
+        }
 
 
 
