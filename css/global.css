@@ -82,13 +82,13 @@ h3, .h3 {
 }
 
 #logo {
- width: auto;
- height : auto;
- max-height: 100%;
- max-width: 100%;
- display: block;
- margin-left: auto;
- margin-right: auto;
+   width: auto;
+   height : auto;
+   max-height: 100%;
+   max-width: 100%;
+   display: block;
+   margin-left: auto;
+   margin-right: auto;
 }
 
 /*hack to widen the header title*/
@@ -407,6 +407,10 @@ body,ul,li {
             vertical-align: middle;
         }
 
+        .audioPlayerFooter {
+            display: none;
+        }
+
         .footerTitle {
             color:#FFFFFF;
 
@@ -415,14 +419,25 @@ body,ul,li {
             overflow:hidden;
             float:left;
             white-space:nowrap;  
-            width: 60%
+            width: 100%
 
         }
 
         .footerControl {
             float:right;
-            width: 40%
+            /*width: 40%;*/
         }
+
+        .footercontrolbutton {
+            float:right;
+            font-size: 20px;
+        }
+
+        .iconspacer {
+            padding-right: 1em;
+        }
+
+
 
 
 

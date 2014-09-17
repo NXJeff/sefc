@@ -5,9 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1 " />
   <title> SEFC </title>
   <link rel="stylesheet" href="js/jquery.mobile-1.4.3/simpleblue.css" />
-<link rel="stylesheet" href="js/jquery.mobile-1.4.3/jquery.mobile.icons.min.css" />
-<!--   <link rel="stylesheet" href="js/jquery.mobile-1.4.3/jquery.mobile-1.4.3.css" /> -->
-   <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.3/jquery.mobile.structure-1.4.3.min.css" /> 
+  <link rel="stylesheet" href="js/jquery.mobile-1.4.3/jquery.mobile.icons.min.css" />
+  <!--   <link rel="stylesheet" href="js/jquery.mobile-1.4.3/jquery.mobile-1.4.3.css" /> -->
+  <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.3/jquery.mobile.structure-1.4.3.min.css" /> 
   <link rel="stylesheet" href="css/global.css" /> 
   <link rel="stylesheet" href="css/icons.css" /> 
   <!--   <link rel="stylesheet" href="css/flat-ui/jquery.mobile.flatui.min.css" />  -->
@@ -157,104 +157,98 @@
     <ul id="recentlyAddedList" data-role="listview" data-inset="true">
     </ul>
   </div>
-    <div id="audioPlayerFooter" data-role="footer" data-position="fixed" data-tap-toggle="false" style="background-color:rgba(233,233,233,0.7); ">
+  <div class="audioPlayerFooter" data-role="footer" data-position="fixed" data-tap-toggle="false" style="background-color:rgba(233,233,233,0.7); ">
 
 
 
-      <div class="centerwrapper">
+    <div class="centerwrapper">
+      <a href="#player" data-transition="flip">
         <div class="footerTitle">
-        <img src="images/music_file_icon.png" style="width: 40px; height: 40px;vertical-align:middle; float:left;"></img>
+          <img src="images/music_file_icon.png" style="width: 40px; height: 40px;vertical-align:middle; float:left;"></img>
 
-        <span style="color: #333333; font-size: 12px; ">Playing What's Goes Around Comes Aroundssssssssssssssssssssssssssssssss - Justin Timberlake</span>
-
-     
-
+          <span style="color: #333333; font-size: 12px; ">Playing What's Goes Around Comes Aroundssssssssssssssssssssssssssssssss - Justin Timberlake</span>
+        </div></a>
       </div>
-
- 
-</div>
-
-
 
     </div>
     <div data-role="popup" id="recentPlaylistPopupMenu" data-theme="a">
-    <ul data-role="listview" data-inset="true" id="recentPlayListContextMenu" style="min-width:210px;">
-      <li data-role="list-divider" >Choose an action</li>
-      <li data-icon="false" data-id="detail"><a href="#">Info</a></li>
-      <li data-icon="false" data-id="queue"><a href="#">Add to playlist</a></li>
-      <li data-icon="false" data-id="playnow"><a href="#">Play Now</a></li>
-    </ul>
-  </div>
-</div>
-
-<!-- Recent Page END -->
-
-<!-- Audio Detail Page START -->
-<div data-role="page" id="audiodetail">
-  <div data-role="header" data-position="fixed" data-tap-toggle="false">
-    <a data-rel="back" data-theme="b">Back</a>
-    <h1>Sermons</h1>
-  </div>
-  <div data-role="content">
-    <div class="centerwrapper">
-      <ul id="audiodetailUl" data-role="listview" data-inset="true">
-        <li data-role="list-divider"></li>
-        <li>
-          <div class="ad-imageView">
-            <span class="iconicfill-user ad-noImageIcon"></span>
-          </div>
-          <span class="iconicfill-user ad-author">周杰轮</span>
-          <span class="iconicfill-document-alt-fill ad-title">测试</span>
-          <span class="iconicfill-clock ad-duration">测试</span>
-
-
-
-      </li>
-    </ul>
-  </div>
-</div>
-</div>
-
-<!-- Audio Detail END -->
-
-
-<!-- Audio Player Page START -->
-<div data-role="page" id="player">
-  <div data-role="header" data-position="fixed" data-tap-toggle="false" > <h2><span >Playlist</span></h2>
-    <a data-rel="back" data-theme="b">Back</a>
-  </div>
-  <div data-role="content" >
-
-
-    <ul data-role="listview" data-inset="true" id="playlist">
-    </ul>
-  </div>
-
-  <div data-role="footer" data-position="fixed" data-tap-toggle="false" style="text-align: center; background-color:rgba(233,233,233,0.7);">
-
-    <audio id="audioplayer" style="width: 80%; min-width:300px " controls ></audio><br>
-    <h4><span id="rmusic" class="transparentBgText" style="color: #333333;">Testsetst</span></h4>
-    <div style="grid-rows:500px (30px 60px);">
-
-      <a id="btn-pre" class="ui-btn ui-mini"><span class="iconicfill-first playerButton" style="margin:auto; font-size:20px; line-height: 10px;padding-left: 1em;"></span></a>
-      <a id="btn-next" class="ui-btn ui-mini"><span class="iconicfill-last playerButton" style="margin:auto; font-size:20px; line-height: 10px; padding-left: 1em;"></span></a>
-      <a id="btn-loop" class="ui-btn ui-mini"><span class="iconicfill-loop-alt2 playerButton" style="margin:auto; font-size:20px; line-height: 10px; padding-left: 1em;"></span></a>
+      <ul data-role="listview" data-inset="true" id="recentPlayListContextMenu" style="min-width:210px;">
+        <li data-role="list-divider" >Choose an action</li>
+        <li data-icon="false" data-id="detail"><a href="#">Info</a></li>
+        <li data-icon="false" data-id="queue"><a href="#">Add to playlist</a></li>
+        <li data-icon="false" data-id="playnow"><a href="#">Play Now</a></li>
+      </ul>
     </div>
   </div>
 
-  <div data-role="popup" id="playlistPopupMenu" data-theme="a">
-    <ul data-role="listview" data-inset="true" id="playlistContextMenu" style="min-width:210px;">
-      <li data-role="list-divider" >Choose an action</li>
-      <li data-icon="false" data-id="playlistPlay"><a href="#">Play</a></li>
-      <li data-icon="false" data-id="playlistStopAll"><a href="#">Stop Playing</a></li>
-      <li data-icon="false" data-id="playlistRemove"><a href="#">Remove</a></li>
-      <li data-icon="false" data-id="playlistRemoveAll"><a href="#">Remove All</a></li>
-      <li data-icon="false" data-id="playlistDetail"><a href="#">Go To Detail Page</a></li>
-      <li data-icon="false" data-id="playlistReport"><a href="#">Report</a></li>
-    </ul>
+  <!-- Recent Page END -->
+
+  <!-- Audio Detail Page START -->
+  <div data-role="page" id="audiodetail">
+    <div data-role="header" data-position="fixed" data-tap-toggle="false">
+      <a data-rel="back" data-theme="b">Back</a>
+      <h1>Sermons</h1>
+    </div>
+    <div data-role="content">
+      <div class="centerwrapper">
+        <ul id="audiodetailUl" data-role="listview" data-inset="true">
+          <li data-role="list-divider"></li>
+          <li>
+            <div class="ad-imageView">
+              <span class="iconicfill-user ad-noImageIcon"></span>
+            </div>
+            <span class="iconicfill-user ad-author">周杰轮</span>
+            <span class="iconicfill-document-alt-fill ad-title">测试</span>
+            <span class="iconicfill-clock ad-duration">测试</span>
+
+
+
+          </li>
+        </ul>
+      </div>
+    </div>
   </div>
-</div>
-<!-- Audio Player Page END -->
+
+  <!-- Audio Detail END -->
+
+
+  <!-- Audio Player Page START -->
+  <div data-role="page" id="player">
+    <div data-role="header" data-position="fixed" data-tap-toggle="false" > <h2><span >Playlist</span></h2>
+      <a data-rel="back" data-theme="b">Back</a>
+    </div>
+    <div data-role="content" >
+
+
+      <ul data-role="listview" data-inset="true" id="playlist">
+      </ul>
+    </div>
+
+    <div data-role="footer" data-position="fixed" data-tap-toggle="false" style="text-align: center; background-color:rgba(233,233,233,0.7);">
+
+      <audio id="audioplayer" style="width: 80%; min-width:300px " controls ></audio><br>
+      <h4><span id="rmusic" class="transparentBgText" style="color: #333333;">Testsetst</span></h4>
+      <div style="grid-rows:500px (30px 60px);">
+
+        <a id="btn-pre" class="ui-btn ui-mini"><span class="iconicfill-first playerButton" style="margin:auto; font-size:20px; line-height: 10px;padding-left: 1em;"></span></a>
+        <a id="btn-next" class="ui-btn ui-mini"><span class="iconicfill-last playerButton" style="margin:auto; font-size:20px; line-height: 10px; padding-left: 1em;"></span></a>
+        <a id="btn-loop" class="ui-btn ui-mini"><span class="iconicfill-loop-alt2 playerButton" style="margin:auto; font-size:20px; line-height: 10px; padding-left: 1em;"></span></a>
+      </div>
+    </div>
+
+    <div data-role="popup" id="playlistPopupMenu" data-theme="a">
+      <ul data-role="listview" data-inset="true" id="playlistContextMenu" style="min-width:210px;">
+        <li data-role="list-divider" >Choose an action</li>
+        <li data-icon="false" data-id="playlistPlay"><a href="#">Play</a></li>
+        <li data-icon="false" data-id="playlistStopAll"><a href="#">Stop Playing</a></li>
+        <li data-icon="false" data-id="playlistRemove"><a href="#">Remove</a></li>
+        <li data-icon="false" data-id="playlistRemoveAll"><a href="#">Remove All</a></li>
+        <li data-icon="false" data-id="playlistDetail"><a href="#">Go To Detail Page</a></li>
+        <li data-icon="false" data-id="playlistReport"><a href="#">Report</a></li>
+      </ul>
+    </div>
+  </div>
+  <!-- Audio Player Page END -->
 
 
 
