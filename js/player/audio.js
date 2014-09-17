@@ -133,6 +133,7 @@ $(function() {
 
                 $('#playlist li:eq('+ i +') a').addClass('entypo-right-dir');
                 $('#playlist').listview().listview('refresh');
+                showFooterPlayer();
             }
 
             // 歌曲被点击
@@ -193,6 +194,7 @@ $(function() {
                     case 'playlistStopAll' :
                     Player.audio.pause();
                     Player.audio.currentTime = 0;
+                    hideFooterPlayer();
                     break;
                     case 'playlistRemove':
                     removeFromList(selectedIndex);
@@ -285,9 +287,27 @@ function hideEmptyList() {
 }
 
 function showFooterPlayer() {
+    // document.getElementsByClassName("audioPlayerFooter").style.display = "block";
+
+    var elements = document.getElementsByClassName("audioPlayerFooter");
+    console.log(elements);
+    for(var i = 0, length = elements.length; i < length; i++) {
+       // if( elements[i].textContent == ''){
+          elements[i].style.display = 'block';
+       // } 
+    }
+    // $("[id^=audioPlayerFooter]").empty().append(infoFooter);
+}
+
+function hideFooterPlayer() {
+    // document.getElementsByClassName("audioPlayerFooter").style.display = "none";
+    var elements = document.getElementsByClassName("audioPlayerFooter");
+    for(var i = 0, length = elements.length; i < length; i++) {
+       // if( elements[i].textContent == ''){
+          elements[i].style.display = 'none';
+       // } 
+    }
 
 
-
-    $("[id^=audioPlayerFooter]").empty().append(infoFooter);
 }
 
