@@ -56,7 +56,17 @@ $lang['username']  = 'Username';
 $lang['password']  = 'Password';
 $lang['retype_password']  = 'Retype Password';
 $lang['email_addr']  = 'Email Address';
+$lang['full_name']  = 'Full Name';
+$lang['contact_no']  = 'Contact Number';
+$lang['login']  = 'Login';
+$lang['create_account']  = 'Create Account';
 
+$lang['sign_in_label']  = 'Sign in to your SEFC Account';
+$lang['sign_up_label']  = 'Sign up for a SEFC account';
+$lang['register_label_long']  = 'Need a SEFC account?';
+$lang['sign_up_now']  = 'Sign Up Now';
+$lang['account_ready_msg']  = 'Your account is now ready.';
+$lang['register_complete_msg']  = 'Your registration is now completed, you can now login by hitting back button at the top.';
 
 $lang['label']      = 'Value for this label';
 $lang['firstname']  = 'First Name';
