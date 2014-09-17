@@ -1,22 +1,35 @@
+<?php
+session_start();
+error_reporting(0);
+header('Access-Control-Allow-Origin: *');
+header( 'Content-Type: text/html; charset=utf-8' ); 
+    // Include active language
+
+//handling multilanguage
+include('php/inc/lang/lang.php'); 
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1 " />
-  <title> SEFC </title>
+  <title> <? echo $lang['appname'];?> </title>
   <link rel="stylesheet" href="js/jquery.mobile-1.4.3/simpleblue.css" />
   <link rel="stylesheet" href="js/jquery.mobile-1.4.3/jquery.mobile.icons.min.css" />
   <!--   <link rel="stylesheet" href="js/jquery.mobile-1.4.3/jquery.mobile-1.4.3.css" /> -->
   <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.3/jquery.mobile.structure-1.4.3.min.css" /> 
+  <!-- custom css -->
   <link rel="stylesheet" href="css/global.css" /> 
   <link rel="stylesheet" href="css/icons.css" /> 
-  <!--   <link rel="stylesheet" href="css/flat-ui/jquery.mobile.flatui.min.css" />  -->
-
-
-
-
   <script src="js/jquery/jquery-1.11.1.min.js"></script>
   <script src="js/jquery.mobile-1.4.3/jquery.mobile-1.4.3.min.js"></script>
+  <!-- custom js -->
+  <!-- This is a resource bundle - Start-->
+  <script>
+    var resource = <?php echo json_encode($lang); ?>;
+  </script>
+  <!-- This is a resource bundle - End-->
   <script type="text/javascript" src="js/player/audio.js"></script>
   <script type="text/javascript" src="js/index.js"></script>
   
@@ -36,7 +49,6 @@
 <body>
 
 
-
   <!-- Main Page BEGIN -->	
   <div data-role="page" id="mainpage">
    <!-- panel content goes here -->
@@ -51,37 +63,37 @@
 
 
   <div data-role="header" data-position="fixed" data-tap-toggle="false" data-theme="a" >
-    <a href="#left-panel" data-icon="edit" data-theme="b" >Menu</a>
+    <a href="#left-panel" data-icon="edit" data-theme="b" ><? echo $lang['menu'];?></a>
     <h1>
-     SEFC Main    
-   </h1>
- </div>
- <div role="main" class="ui-content">
-  <div class="article">
-
-    <ul data-role="listview" data-inset="true" id="mainPageList">
-      <li data-role="fieldcontain">
-        <h2>Quick Search</h2>
-      </li>
-      <li data-id="byTitle"><a id="byTitle" data-theme="b"><span class="entypo-code">Title</span></a></li>
-      <li data-id="bySpeaker"><a id="bySpeaker" data-icon="check" data-iconpos="right"  data-theme="b"><span class="entypo-users">Speaker</span></a></li>
-      <li data-role="divider"></li>
-      <li data-role="fieldcontain">
-        <h2>Categories</h2>
-      </li>
-      <li data-id="chinese"><a id="chinese" data-icon="check" data-iconpos="right"  ><span class="entypo-folder">Chinese</span></a></li>
-      <li data-id="english"><a id="english" data-icon="check" data-iconpos="right"  ><span class="entypo-folder">English</span></a></li>
-      <li data-id="bilingual"><a id="bilingual" data-icon="check" data-iconpos="right"  ><span class="entypo-folder">Bilingual</span></a></li>
-      <li data-role="divider"></li>
-      <li data-id="chineseSpeaker"><a data-id="chineseSpeaker" id="chineseSpeaker" href="#speakers" data-icon="check" data-iconpos="right"><span class="entypo-user">Chinese Speaker</span></a></li>
-      <li data-id="englishSpeaker"><a id="englishSpeaker" href="#speakers" data-icon="check" data-iconpos="right" ><span class="entypo-user">English Speaker</span></a></li>
-      <li data-role="divider"></li>
-      <li data-id="recent"><a><span class="entypo-list">Recently Added</span></a></li>
-      <li data-id="browseByMonth"><a id="browseByMonth" href="#player" data-transition="flip" data-icon="check" data-iconpos="right"><span class="entypo-database">Browse by Month</span></a></li>
-
-    </ul>
+      <? echo $lang['sermonpage_title'];?>
+    </h1>
   </div>
-</div>
+  <div role="main" class="ui-content">
+    <div class="article">
+
+      <ul data-role="listview" data-inset="true" id="mainPageList">
+        <li data-role="fieldcontain">
+          <h2><? echo $lang['quick_search'];?></h2>
+        </li>
+        <li data-id="byTitle"><a id="byTitle" data-theme="b"><span class="entypo-code"><? echo $lang['title'];?></span></a></li>
+        <li data-id="bySpeaker"><a id="bySpeaker" data-icon="check" data-iconpos="right"  data-theme="b"><span class="entypo-users"><? echo $lang['speaker'];?></span></a></li>
+        <li data-role="divider"></li>
+        <li data-role="fieldcontain">
+          <h2><? echo $lang['categories'] ?></h2>
+        </li>
+        <li data-id="chinese"><a id="chinese" data-icon="check" data-iconpos="right"  ><span class="entypo-folder"><? echo $lang['chinese'];?></span></a></li>
+        <li data-id="english"><a id="english" data-icon="check" data-iconpos="right"  ><span class="entypo-folder"><? echo $lang['english'];?></span></a></li>
+        <li data-id="bilingual"><a id="bilingual" data-icon="check" data-iconpos="right"  ><span class="entypo-folder"><? echo $lang['bilingual'];?></span></a></li>
+        <li data-role="divider"></li>
+        <li data-id="chineseSpeaker"><a data-id="chineseSpeaker" id="chineseSpeaker" href="#speakers" data-icon="check" data-iconpos="right"><span class="entypo-user"><? echo $lang['chinese_speaker'];?></span></a></li>
+        <li data-id="englishSpeaker"><a id="englishSpeaker" href="#speakers" data-icon="check" data-iconpos="right" ><span class="entypo-user"><? echo $lang['english_speaker'];?></span></a></li>
+        <li data-role="divider"></li>
+        <li data-id="recent"><a><span class="entypo-list"><? echo $lang['recently_added'];?></span></a></li>
+        <li data-id="browseByMonth"><a id="browseByMonth" href="#player" data-transition="flip" data-icon="check" data-iconpos="right"><span class="entypo-database"><? echo $lang['browse_by_month'];?></span></a></li>
+
+      </ul>
+    </div>
+  </div>
 </div>
 <!-- Main Page END -->
 
@@ -89,9 +101,9 @@
 <!-- Search Page BEGIN -->    
 <div data-role="page" id="search">
  <div id="searchHeader" data-role="header" data-position="fixed">
-  <a href="#mainpage" data-icon="back" data-theme="b">Back</a>
+  <a href="#mainpage" data-icon="back" data-theme="b"><? echo $lang['back'];?></a>
   <h1>
-   Search    
+   <? echo $lang['search'];?>    
  </h1>
 </div>
 <div role="main" class="ui-content">
@@ -106,9 +118,9 @@
 <!-- SpeakerList Page BEGIN -->    
 <div data-role="page" id="speakers">
  <div  data-role="header" data-position="fixed">
-  <a href="#mainpage" data-icon="back" data-theme="b" >Back</a>
+  <a href="#mainpage" data-icon="back" data-theme="b" ><? echo $lang['back'];?></a>
   <h1>
-   Speakers    
+   <? echo $lang['speakers'];?>    
  </h1>
 </div>
 <div role="main" class="ui-content">
@@ -129,9 +141,9 @@
 <!-- Speaker Detail Page BEGIN -->  
 <div data-role="page" id="speaker">
  <div  data-role="header" data-position="fixed">
-  <a href="#speakers" data-icon="back" data-theme="b" >Back</a>
+  <a href="#speakers" data-icon="back" data-theme="b" ><? echo $lang['back'];?></a>
   <h1>
-   Speakers    
+   <? echo $lang['speakers'];?>    
  </h1>
 </div>
 <div role="main" class="ui-content">
@@ -149,8 +161,8 @@
 <!-- Recent Page START -->
 <div data-role="page" id="recent">
   <div data-role="header" data-position="fixed" data-tap-toggle="false">
-    <a data-rel="back" data-theme="b">Back</a>
-    <h1>Sermons</h1>
+    <a data-rel="back" data-theme="b"><? echo $lang['back'];?></a>
+    <h1><? echo $lang['sermons'];?></h1>
   </div>
   <div data-role="content">
 
@@ -173,10 +185,10 @@
     </div>
     <div data-role="popup" id="recentPlaylistPopupMenu" data-theme="a">
       <ul data-role="listview" data-inset="true" id="recentPlayListContextMenu" style="min-width:210px;">
-        <li data-role="list-divider" >Choose an action</li>
-        <li data-icon="false" data-id="detail"><a href="#">Info</a></li>
-        <li data-icon="false" data-id="queue"><a href="#">Add to playlist</a></li>
-        <li data-icon="false" data-id="playnow"><a href="#">Play Now</a></li>
+        <li data-role="list-divider" ><? echo $lang['choose_an_action'] ?></li>
+        <li data-icon="false" data-id="detail"><a href="#"><? echo $lang['info'] ?></a></li>
+        <li data-icon="false" data-id="queue"><a href="#"><? echo $lang['add_to_playlist'] ?></a></li>
+        <li data-icon="false" data-id="playnow"><a href="#"><? echo $lang['play_now'] ?></a></li>
       </ul>
     </div>
   </div>
@@ -186,8 +198,8 @@
   <!-- Audio Detail Page START -->
   <div data-role="page" id="audiodetail">
     <div data-role="header" data-position="fixed" data-tap-toggle="false">
-      <a data-rel="back" data-theme="b">Back</a>
-      <h1>Sermons</h1>
+      <a data-rel="back" data-theme="b"><? echo $lang['back'] ?></a>
+      <h1><? echo $lang['sermons'] ?></h1>
     </div>
     <div data-role="content">
       <div class="centerwrapper">
@@ -214,8 +226,8 @@
 
   <!-- Audio Player Page START -->
   <div data-role="page" id="player">
-    <div data-role="header" data-position="fixed" data-tap-toggle="false" > <h2><span >Playlist</span></h2>
-      <a data-rel="back" data-theme="b">Back</a>
+    <div data-role="header" data-position="fixed" data-tap-toggle="false" > <h2><span ><? echo $lang['playlist'] ?></span></h2>
+      <a data-rel="back" data-theme="b"><? echo $lang['back'] ?></a>
     </div>
     <div data-role="content" >
 
@@ -238,13 +250,13 @@
 
     <div data-role="popup" id="playlistPopupMenu" data-theme="a">
       <ul data-role="listview" data-inset="true" id="playlistContextMenu" style="min-width:210px;">
-        <li data-role="list-divider" >Choose an action</li>
-        <li data-icon="false" data-id="playlistPlay"><a href="#">Play</a></li>
-        <li data-icon="false" data-id="playlistStopAll"><a href="#">Stop Playing</a></li>
-        <li data-icon="false" data-id="playlistRemove"><a href="#">Remove</a></li>
-        <li data-icon="false" data-id="playlistRemoveAll"><a href="#">Remove All</a></li>
-        <li data-icon="false" data-id="playlistDetail"><a href="#">Go To Detail Page</a></li>
-        <li data-icon="false" data-id="playlistReport"><a href="#">Report</a></li>
+        <li data-role="list-divider" ><? echo $lang['choose_an_action'] ?></li>
+        <li data-icon="false" data-id="playlistPlay"><a href="#"><? echo $lang['play'] ?></a></li>
+        <li data-icon="false" data-id="playlistStopAll"><a href="#"><? echo $lang['stop_playing'] ?></a></li>
+        <li data-icon="false" data-id="playlistRemove"><a href="#"><? echo $lang['remove'] ?></a></li>
+        <li data-icon="false" data-id="playlistRemoveAll"><a href="#"><? echo $lang['remove_all'] ?></a></li>
+        <li data-icon="false" data-id="playlistDetail"><a href="#"><? echo $lang['go_to_detail_page'] ?></a></li>
+        <li data-icon="false" data-id="playlistReport"><a href="#"><? echo $lang['report'] ?></a></li>
       </ul>
     </div>
   </div>
