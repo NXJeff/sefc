@@ -1,6 +1,6 @@
 <?php
   //Language that we supported
-$available_langs = array('en','cn');
+$available_langs = array('en','chs');
 
 
   // Set our default language session
@@ -13,6 +13,7 @@ if(isset($_GET['lang']) && $_GET['lang'] != ''){
       $_SESSION['lang'] = $_GET['lang']; // Set session
   }
 }
+
   // Include active language
 include('php/inc/lang/lang.'.$_SESSION['lang'].'.php');
 ?>
