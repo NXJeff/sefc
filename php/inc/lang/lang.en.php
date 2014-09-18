@@ -4,7 +4,7 @@
  *	Please follow the convention as below
  *	$<type>['<full sentense with underscore as space with all lower case alphabet only >'] = '<display text>';
  */
-
+error_reporting(0);
 
 //ENGLISH
 //GLOBAL variables 
@@ -16,10 +16,6 @@ $lang['loading']  = 'Loading';
 $lang['load_more']  = 'Load More';
 $lang['search']  = 'Search';
 $lang['menu']  = 'Menu';
-
-
-
-
 
 //Sermon main page
 $lang['sermonpage_title'] = 'SEFC Sermons';
@@ -37,7 +33,6 @@ $lang['english_speaker'] = 'English Speaker';
 $lang['recently_added'] = 'Recently Added';
 $lang['browse_by_month'] = 'Browse By Month';
 
-
 //Player page
 $lang['choose_an_action']  = 'Choose An Action';
 $lang['info']  = 'Info';
@@ -51,7 +46,7 @@ $lang['remove_all'] = 'Remove All';
 $lang['go_to_detail_page'] = 'Go To Detail Page';
 $lang['report'] = 'Report';
 
-	//For Login and Registration
+//For Login and Registration
 $lang['username']  = 'Username';
 $lang['password']  = 'Password';
 $lang['retype_password']  = 'Retype Password';
@@ -75,7 +70,14 @@ $lang['phone']      = 'Phone';
   // ETC
 
 
-
+function getString($id) {
+	global $lang;
+	if(isset($lang[$id]) && $lang[$id]!= '') {
+		print $lang[$id];
+	} else {
+		print $id;	
+	}
+}
 
 
 
