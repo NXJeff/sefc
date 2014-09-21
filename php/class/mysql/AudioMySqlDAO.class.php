@@ -382,6 +382,7 @@ class AudioMySqlDAO implements AudioDAO{
 
 		$sql .= 'LIMIT ' . $offset .','. $item;
 		
+		// echo $sql;
 		$sqlQuery = new SqlQuery($sql);
 		return $this->getList($sqlQuery);
 	}

@@ -308,10 +308,6 @@ body,ul,li {
         vertical-align: middle;
     }
 
-/*    .li-views-likes::before {
-        float: right;
-        }*/
-
         .li-views-likes-icons {
             margin: 5px;
             padding: 2px;
@@ -336,6 +332,19 @@ body,ul,li {
         .li-duration::before{
             font-size: 20px;
             padding-right: 2em;
+            margin-left: 0.9em;
+        }
+
+        .li-filesize {
+            font-size: 14px;
+            display: block;
+            margin: 3px 8px 3px 8px;
+            line-height: 20px;
+        }
+
+        .li-filesize::before{
+            font-size: 20px;
+            padding-right: 2em !important;
             margin-left: 0.9em;
         }
 

@@ -4,7 +4,7 @@ var quickSearch = "title";
 var more = true;
 
 $(document).bind( "mobileinit", function () {
-    
+
 });
 
 
@@ -64,20 +64,8 @@ $( document ).on( "pageinit", "#mainpage", function() {
     /** 
     *   OnClick event on Buttons
     **/
-    // $('#byTitle').unbind('click').bind('click', function (e) {
 
-    // });
-
-// $('#bySpeaker').unbind('click').bind('click', function (e) {
-//     quickSearch = "speaker";
-//     $('input[data-type="search"]').val("");
-//     $( "#autocomplete" ).empty();
-//     $("#searchHeader").children('h1').text('Search By Speaker');
-//     $.mobile.changePage($(document.location.href = "#search"), {transition: 'slideup'});
-// });
-
-
-$('#mainPageList').delegate('li', 'vclick', function (e) {
+    $('#mainPageList').delegate('li', 'vclick', function (e) {
 
 //        localStorage.setItem('selectedProduct', $(this).attr('data-id'));
 console.log($(this).attr('data-id'));
@@ -108,6 +96,9 @@ console.log($(this).attr('data-id'));
             $.mobile.changePage($(document.location.href = "#recent"), {transition: 'slide'});
             break;
 
+            case 'browseByMonth':
+            $.mobile.changePage($(document.location.href = "#browseByMonth"), {transition: 'slide'});
+
             // case 'browseByMonth':
             // $.mobile.changePage($(document.location.href = "#player"), {transition: 'flip'});
             // break;
@@ -121,7 +112,24 @@ console.log($(this).attr('data-id'));
 
 /**  Recent Page START **/
 
-$( document ).on( "pageinit", "#recent", function() {
+$( document ).on( "pageinit", "#browseByMonth", function() {
+
+    $('#yearBrowseByMonth').bind('change', function(e) {
+            //debugger;
+            console.log($(this).val()); 
+
+            if($(this).val()!='0' && $('#monthBrowseByMonth').val()!='0') {
+                populateBrowseByMonthList($(this).val(),$('#monthBrowseByMonth').val());
+            }
+        });
+
+    $('#monthBrowseByMonth').bind('change', function(e) {
+            //debugger;
+            console.log($(this).val()); 
+            if($(this).val()!='0' && $('#yearBrowseByMonth').val()!='0') {
+                populateBrowseByMonthList($('#yearBrowseByMonth').val(),$(this).val());
+            }
+        });
     
 
 });
@@ -189,7 +197,7 @@ function populateRecentAudio(offset, itemperpage, orderBy, orderAs, init) {
 
                         console.log($(this));
 
-                        $('#recentlyAddedList').append("<li data-icon='false' data-name='"+JSON.stringify(this)+"'><a href='#'><span class='li-numbering'> #" + ($("#recentlyAddedList li").length) + "</span><span class='li-added-date typicons-time'>" + friendlyDate(this.addedDate + "T00:00:00Z") + "</span><span class='iconicfill-document-alt-fill li-title'>" + this.title + "</span><span class='iconicfill-user li-author'>"+ this.speaker +"</span><span class='iconicfill-clock li-duration'>" + this.duration + "</span><div class='li-views-likes'><span class='li-views-likes-icons typicons-heart'>0</span><span class='li-views-likes-icons iconicstroke-play'>123123</span></div></a></li>");
+                        $('#recentlyAddedList').append("<li data-icon='false' data-name='"+JSON.stringify(this)+"'><a href='#'><span class='li-numbering'> #" + ($("#recentlyAddedList li").length) + "</span><span class='li-added-date typicons-time'>" + friendlyDate(this.addedDate + "T00:00:00Z") + "</span><span class='iconicfill-document-alt-fill li-title'>" + this.title + "</span><span class='iconicfill-user li-author'>"+ this.speaker +"</span><span class='iconicfill-clock li-duration'>" + this.duration + "</span><span class='entypo-floppy li-filesize'>" + getFileSizeString(this.filesize) + "</span><div class='li-views-likes'><span class='li-views-likes-icons typicons-heart'>0</span><span class='li-views-likes-icons iconicstroke-play'>"+ this.playCount +"</span></div></a></li>");
                         more = true;
 
                     });
@@ -218,6 +226,104 @@ function populateRecentAudio(offset, itemperpage, orderBy, orderAs, init) {
                 // refreshScroll(offset);   
             },
             data: { "reqID" : 'A1',  'offset': offset, 'itemperpage': itemperpage, 'orderBy': orderBy, 'orderAs': orderAs }
+        });
+} 
+}
+
+
+function populateBrowseByMonthList(year, month) {
+
+    var htmlId = '#browseByMonthList';
+    // if(init) {
+        $(htmlId).html('');
+    // }
+
+    if(document.getElementById("loading")!=null) {
+        document.getElementById("loading").remove();
+    }
+    $(htmlId).append('<li id="loading">Loading.. </li>');
+    $(htmlId).listview().listview('refresh');
+    
+    var orderBy = 'added_date';
+    var orderAs = 'desc';
+    var startDate = new Date(year+"-"+month+"-01");
+    var endDate = new Date(year+"-"+month+"-01");
+    endDate = endDate.add(1).month();
+    // endDate.setMonth(endDate.getMonth + 1);
+    var count;
+    // if(offset == 0) {
+    //     more = true;
+    // }
+
+    count = $(htmlId + " li").length; 
+    // itemperpage = 10;
+    // offset = count -1;
+
+    // console.log('more: ' +more);
+    // console.log('offset: ' +offset);
+    if(document.getElementById("loading")!=null) {
+        $.ajax({
+            url: 'php/services.php',
+            type: 'post',
+            dataType: 'text',
+            success: function (response) {
+            // var dec = decrypt(response);
+            var res = JSON.parse(response); //parse to array object
+
+            var audioList = null;
+            // if (res.status == "ok") {
+
+                if(res == undefined ) {
+                    audioList = null;
+                } else {                
+                    // var data = new Array();
+                    // data = res.data;
+                    audioList = res;   
+                }
+
+                // if(offset == 0) {
+                    $(htmlId).html('');
+                    $(htmlId).append('<li data-role=\"list-divider\" style="text-align:center;"><span>Recent Released</span></li>');
+                // }
+
+                if(document.getElementById("loading")!=null) {
+                    document.getElementById("loading").remove();
+                }
+
+                if(audioList!=null && audioList.length > 0) {
+                    $.each(audioList, function () {
+
+                        console.log($(this));
+
+                        $(htmlId).append("<li data-icon='false' data-name='"+JSON.stringify(this)+"'><a href='#'><span class='li-numbering'> #" + ($(htmlId).length) + "</span><span class='li-added-date typicons-time'>" + friendlyDate(this.addedDate + "T00:00:00Z") + "</span><span class='iconicfill-document-alt-fill li-title'>" + this.title + "</span><span class='iconicfill-user li-author'>"+ this.speaker +"</span><span class='iconicfill-clock li-duration'>" + this.duration + "</span><span class='entypo-floppy li-filesize'>" + getFileSizeString(this.filesize) + "</span><div class='li-views-likes'><span class='li-views-likes-icons typicons-heart'>0</span><span class='li-views-likes-icons iconicstroke-play'>"+ this.playCount +"</span></div></a></li>");
+                        // more = true;
+
+                    });
+
+                    // if(audioList.length !== 10) {
+                    //     // more =false;
+                    // }
+                } else {   
+                    $(htmlId).append('<li stlye="text-align: center;">No Record Found.</li>');
+                    // more = false;
+                }
+                
+                // if(more) {
+                //     $(htmlId).append('<li id="loading" data-id="loadmore" data-role=\"list-divider\" style="text-align:center;" data-theme="b" ><span>Load More</span></li>');
+                // } else {
+                //     count = $(htmlId + " li").length; 
+                //     if(document.getElementById("endlist")!=null) {
+                //         document.getElementById("endlist").remove();
+                //     }
+                //     $(htmlId).append("<li data-id=\"endlist\" data-role=\"list-divider\"><span>End Of List - "+count+" records </span></li>");
+                // }
+                
+                $(htmlId).listview().listview('refresh');
+
+                //trigger refresh on iscroll
+                // refreshScroll(offset);  
+            },
+            data: { "reqID" : 'A1',  'offset': null, 'itemperpage': null, 'orderBy': orderBy, 'orderAs': orderAs, 'whereClause': "added_date>='"+startDate.toString("yyyy-MM-dd") +"' AND  added_date<'"+endDate.toString("yyyy-MM-dd")+"' "}
         });
 } 
 }
@@ -321,5 +427,20 @@ function getCurrentWrapperScrollerId() {
                     });
                 };
 
+                function getFileSizeString(bytes) {
+                    return getFileSizeString(bytes, 'MB');
+                }
+
+                function getFileSizeString(bytes, si) {
+                    var thresh = si ? 1000 : 1024;
+                    if(bytes < thresh) return bytes + ' B';
+                    var units = si ? ['kB','MB','GB','TB','PB','EB','ZB','YB'] : ['KB','MB','GiB','TiB','PiB','EiB','ZiB','YiB'];
+                    var u = -1;
+                    do {
+                        bytes /= thresh;
+                        ++u;
+                    } while(bytes >= thresh);
+                    return bytes.toFixed(1)+' '+units[u];
+                };
 
 

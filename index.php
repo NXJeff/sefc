@@ -19,6 +19,8 @@ include('php/inc/lang/lang.php');
   <link rel="stylesheet" href="js/jquery.mobile-1.4.3/jquery.mobile.icons.min.css" />
   <!--   <link rel="stylesheet" href="js/jquery.mobile-1.4.3/jquery.mobile-1.4.3.css" /> -->
   <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.3/jquery.mobile.structure-1.4.3.min.css" /> 
+  <script type="text/javascript" src="js/datejs/date.js"></script>
+  
   <!-- custom css -->
   <link rel="stylesheet" href="css/global.css" /> 
   <link rel="stylesheet" href="css/icons.css" /> 
@@ -27,7 +29,7 @@ include('php/inc/lang/lang.php');
   <!-- custom js -->
   <!-- This is a resource bundle - Start-->
   <script>
-    var resource = <?php echo json_encode($lang); ?>;
+  var resource = <?php echo json_encode($lang); ?>;
   </script>
   <!-- This is a resource bundle - End-->
   <script type="text/javascript" src="js/player/audio.js"></script>
@@ -89,7 +91,7 @@ include('php/inc/lang/lang.php');
         <li data-id="englishSpeaker"><a id="englishSpeaker" href="#speakers" data-icon="check" data-iconpos="right" ><span class="entypo-user"><?php getString('english_speaker');?></span></a></li>
         <li data-role="divider"></li>
         <li data-id="recent"><a><span class="entypo-list"><?php getString('recently_added');?></span></a></li>
-        <li data-id="browseByMonth"><a id="browseByMonth" href="#player" data-transition="flip" data-icon="check" data-iconpos="right"><span class="entypo-database"><?php getString('browse_by_month');?></span></a></li>
+        <li data-id="browseByMonth"><a><span class="entypo-database"><?php getString('browse_by_month');?></span></a></li>
 
       </ul>
     </div>
@@ -194,6 +196,61 @@ include('php/inc/lang/lang.php');
   </div>
 
   <!-- Recent Page END -->
+
+  <!-- Browse By Month Page START -->
+  <div data-role="page" id="browseByMonth">
+    <div data-role="header" data-position="fixed" data-tap-toggle="false">
+      <a data-rel="back" data-theme="b"><?php getString('back');?></a>
+      <h1><?php getString('sermons');?></h1>
+    </div>
+    <div data-role="content">
+
+      <div class="ui-field-contain">
+        <label for="yearBrowseByMonth">Year:</label>
+        <select id="yearBrowseByMonth" data-native-menu="false">
+          <option value="0">Select One</option>
+          <option value="2010">2010</option>
+          <option value="2011">2011</option>
+          <option value="2012">2012</option>
+          <option value="2013">2013</option>
+            <option value="2014">2014</option>
+          <option value="2015">2015</option>        </select>
+      </div>
+
+      <div class="ui-field-contain">
+        <label for="monthBrowseByMonth">Month:</label>
+        <select id="monthBrowseByMonth" data-native-menu="false">
+          <option value="0">Select One</option>
+          <option value="01">January</option>
+          <option value="02">February</option>
+          <option value="03">March</option>
+          <option value="04">April</option>
+          <option value="05">May</option>
+          <option value="06">June</option>
+          <option value="07">July</option>
+          <option value="08">August</option>
+          <option value="09">September</option>
+          <option value="10">October</option>
+          <option value="11">November</option>
+          <option value="12">December</option>
+        </select>
+      </div>
+
+      <ul id="browseByMonthList" data-role="listview" data-inset="true">
+      </ul>
+    </div>
+
+    <div data-role="popup" id="recentPlaylistPopupMenu" data-theme="a">
+      <ul data-role="listview" data-inset="true" id="recentPlayListContextMenu" style="min-width:210px;">
+        <li data-role="list-divider" ><?php getString('choose_an_action') ?></li>
+        <li data-icon="false" data-id="detail"><a href="#"><?php getString('info') ?></a></li>
+        <li data-icon="false" data-id="queue"><a href="#"><?php getString('add_to_playlist') ?></a></li>
+        <li data-icon="false" data-id="playnow"><a href="#"><?php getString('play_now') ?></a></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Browse By Month Page END -->
 
   <!-- Audio Detail Page START -->
   <div data-role="page" id="audiodetail">
