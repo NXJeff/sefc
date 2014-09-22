@@ -1,6 +1,7 @@
 
 //Variables
-var quickSearch = "title";
+var quickSearch = "title"; //used to differentiate selection of quick search
+var browseByLang;
 var more = true;
 
 $(document).bind( "mobileinit", function () {
@@ -59,13 +60,13 @@ $( document ).on( "pageinit", "#search", function() {
 /**  Main Page START **/
 $( document ).on( "pageinit", "#mainpage", function() {
     console.log('test');
-    $.mobile.page.prototype.options.contentTheme = "a";
+    // $.mobile.page.prototype.options.contentTheme = "a";
     //Button Listeners
     /** 
     *   OnClick event on Buttons
     **/
 
-    $('#mainPageList').delegate('li', 'vclick', function (e) {
+    $('#mainPageList').delegate('li', 'click', function (e) {
 
 //        localStorage.setItem('selectedProduct', $(this).attr('data-id'));
 console.log($(this).attr('data-id'));
@@ -79,7 +80,7 @@ console.log($(this).attr('data-id'));
             $('input[data-type="search"]').val("");
             $( "#autocomplete" ).empty();
             $("#searchHeader").children('h1').text('Search By Title');
-            $.mobile.changePage($(document.location.href = "#search"), {transition: 'slideup'});
+            $.mobile.changePage($(document.location.href = "#search"), {transition: 'pop'});
             break;
 
             case 'bySpeaker':
@@ -87,7 +88,7 @@ console.log($(this).attr('data-id'));
             $('input[data-type="search"]').val("");
             $( "#autocomplete" ).empty();
             $("#searchHeader").children('h1').text('Search By Speaker');
-            $.mobile.changePage($(document.location.href = "#search"), {transition: 'slideup'});
+            $.mobile.changePage($(document.location.href = "#search"), {transition: 'pop'});
             break;
 
             case 'recent':
@@ -98,6 +99,26 @@ console.log($(this).attr('data-id'));
 
             case 'browseByMonth':
             $.mobile.changePage($(document.location.href = "#browseByMonth"), {transition: 'slide'});
+            break;
+
+            case 'chinese':
+            browseByLang = "CN";
+            populateByLanguage(true);
+            $.mobile.changePage($(document.location.href = "#browseByLanguage"), {transition: 'slide'});
+            break;
+
+            case 'english':
+            browseByLang = "EN";
+            populateByLanguage(true);
+            $.mobile.changePage($(document.location.href = "#browseByLanguage"), {transition: 'slide'});
+            break;
+
+            case 'bilingual':
+            browseByLang = "BI";
+            populateByLanguage(true);
+            $.mobile.changePage($(document.location.href = "#browseByLanguage"), {transition: 'slide'});
+            break;
+
 
             // case 'browseByMonth':
             // $.mobile.changePage($(document.location.href = "#player"), {transition: 'flip'});
@@ -110,7 +131,7 @@ console.log($(this).attr('data-id'));
 /**  Main Page END **/
 
 
-/**  Recent Page START **/
+/**  Browse By Month Page START **/
 
 $( document ).on( "pageinit", "#browseByMonth", function() {
 
@@ -119,7 +140,7 @@ $( document ).on( "pageinit", "#browseByMonth", function() {
             console.log($(this).val()); 
 
             if($(this).val()!='0' && $('#monthBrowseByMonth').val()!='0') {
-                populateBrowseByMonthList($(this).val(),$('#monthBrowseByMonth').val());
+                populateBrowseByMonthList($(this).val(),$('#monthBrowseByMonth').val(), true);
             }
         });
 
@@ -127,39 +148,134 @@ $( document ).on( "pageinit", "#browseByMonth", function() {
             //debugger;
             console.log($(this).val()); 
             if($(this).val()!='0' && $('#yearBrowseByMonth').val()!='0') {
-                populateBrowseByMonthList($('#yearBrowseByMonth').val(),$(this).val());
+                populateBrowseByMonthList($('#yearBrowseByMonth').val(),$(this).val(), true);
             }
         });
+
+
+    $('#browseByMonthList').delegate('li', 'click', function (e) {
+                    //Data ID
+                    var dataid = $(this).attr('data-id');
+                    console.log(dataid);
+
+                    if(dataid=='loadmore') {
+                        populateBrowseByMonthList();
+                    } else {
+
+                        selectedIndex = $(this).index();
+                        selectedIndexData = $(this).attr('data-name');
+                        $('#browseByMonthPopupMenu').popup().popup("open", {transition: 'pop'});
+                        // addToPlayList(JSON.parse($(this).attr('data-name')));
+                    }
+                });
     
+    $('#browseByMonthPopupMenu').delegate('li', 'click', function (e) {
+        var dataid = $(this).attr('data-id');
+        console.log($(this).attr('data-name'));
+
+        console.log(dataid);
+
+        switch(dataid) {
+            case 'playnow':
+            alert('clicked playnow');
+            addToPlayList(JSON.parse(selectedIndexData), true);
+            break;
+            case 'queue':
+            alert('clicked queue');
+                    // removeFromList(selectedIndex);
+                    addToPlayList(JSON.parse(selectedIndexData), false);
+                    break;
+                    case 'detail':
+                    alert('clicked detail');
+                    removeAll();
+                    break;
+                }
+                $('#recentPlaylistPopupMenu').popup().popup("close");
+            });
 
 });
-/**  Recent Page END **/
+
+
+
+/**   Browse By Month Page END **/
+
+
+/**  Browse By Language Page START **/
+
+$( document ).on( "pageinit", "#browseByLanguage", function() {
+
+    $('#browseByLanguageList').delegate('li', 'click', function (e) {
+                    //Data ID
+                    var dataid = $(this).attr('data-id');
+                    console.log(dataid);
+
+                    if(dataid=='loadmore') {
+                        populateByLanguage();
+                    } else {
+
+                        selectedIndex = $(this).index();
+                        selectedIndexData = $(this).attr('data-name');
+                        $('#browseByLanguagePopupMenu').popup().popup("open", {transition: 'pop'});
+                        // addToPlayList(JSON.parse($(this).attr('data-name')));
+                    }
+                });
+    
+    $('#browseByLanguagePopupMenu').delegate('li', 'click', function (e) {
+        var dataid = $(this).attr('data-id');
+        console.log($(this).attr('data-name'));
+
+        console.log(dataid);
+
+        switch(dataid) {
+            case 'playnow':
+            alert('clicked playnow');
+            addToPlayList(JSON.parse(selectedIndexData), true);
+            break;
+            case 'queue':
+            alert('clicked queue');
+                    // removeFromList(selectedIndex);
+                    addToPlayList(JSON.parse(selectedIndexData), false);
+                    break;
+                    case 'detail':
+                    alert('clicked detail');
+                    removeAll();
+                    break;
+                }
+                $('#recentPlaylistPopupMenu').popup().popup("close");
+            });
+
+});
+
+
+
+/**   Browse By Month Page END **/
 
 
 
 
 /** Retriever function */
 function populateRecentAudio(offset, itemperpage, orderBy, orderAs, init) {
+    var htmlId = "#recentlyAddedList"; //Main #id used by this function
+
     if(init) {
-        $('#recentlyAddedList').html('');
+        $(htmlId).html('');
     }
 
     if(document.getElementById("loading")!=null) {
         document.getElementById("loading").remove();
     }
-    $('#recentlyAddedList').append('<li id="loading">Loading.. </li>');
-    $('#recentlyAddedList').listview().listview('refresh');
+    $(htmlId).append('<li id="loading">Loading.. </li>');
+    $(htmlId).listview().listview('refresh');
     
     var orderBy = 'added_date';
     var orderAs = 'desc';
-    var count;
     if(offset == 0) {
         more = true;
     }
 
-    count = $("#recentlyAddedList li").length; 
+    var count = $(htmlId + " .li-numbering").length;; 
     itemperpage = 10;
-    offset = count -1;
+    offset = count;
 
     // console.log('more: ' +more);
     // console.log('offset: ' +offset);
@@ -169,58 +285,53 @@ function populateRecentAudio(offset, itemperpage, orderBy, orderAs, init) {
             type: 'post',
             dataType: 'text',
             success: function (response) {
-            // var dec = decrypt(response);
+
             var res = JSON.parse(response); //parse to array object
 
             var audioList = null;
-            // if (res.status == "ok") {
 
-                if(res == undefined ) {
-                    audioList = null;
-                } else {                
-                    // var data = new Array();
-                    // data = res.data;
-                    audioList = res;   
+            if(res == undefined ) {
+                audioList = null;
+            } else {                
+                audioList = res;   
+            }
+
+            if(offset == 0) {
+                $(htmlId).html('');
+                $(htmlId).append('<li data-role=\"list-divider\" style="text-align:center;"><span>Recent Released</span></li>');
+            }
+
+            if(document.getElementById("loading")!=null) {
+                document.getElementById("loading").remove();
+            }
+
+            if(audioList!=null && audioList.length > 0) {
+                $.each(audioList, function () {
+
+                    $(htmlId).append("<li data-icon='false' data-name='"+JSON.stringify(this)+"'><a href='#'><span class='li-numbering'> #" + ($("#recentlyAddedList li").length) + "</span><span class='li-added-date typicons-time'>" + friendlyDate(this.addedDate + "T00:00:00Z") + "</span><span class='iconicfill-document-alt-fill li-title'>" + this.title + "</span><span class='iconicfill-user li-author'>"+ this.speaker +"</span><span class='iconicfill-clock li-duration'>" + this.duration + "</span><span class='entypo-floppy li-filesize'>" + getFileSizeString(this.filesize) + "</span><div class='li-views-likes'><span class='li-views-likes-icons typicons-heart'>0</span><span class='li-views-likes-icons iconicstroke-play'>"+ this.playCount +"</span></div></a></li>");
+                    more = true;
+
+                });
+
+                if(audioList.length !== 10) {
+                    more =false;
                 }
+            } else {   
+                $(htmlId).append('<li stlye="text-align: center;">No Record Found.</li>');
+                more = false;
+            }
 
-                if(offset == 0) {
-                    $('#recentlyAddedList').html('');
-                    $('#recentlyAddedList').append('<li data-role=\"list-divider\" style="text-align:center;"><span>Recent Released</span></li>');
+            if(more) {
+                $(htmlId).append('<li id="loading" data-id="loadmore" data-role=\"list-divider\" style="text-align:center;" data-theme="b" ><span>Load More</span></li>');
+            } else {
+                count = $(htmlId + " .li-numbering").length;
+                if(document.getElementById("endlist")!=null) {
+                    document.getElementById("endlist").remove();
                 }
+                $(htmlId).append("<li data-id=\"endlist\" data-role=\"list-divider\"><span>End Of List - "+count+" records </span></li>");
+            }
 
-                if(document.getElementById("loading")!=null) {
-                    document.getElementById("loading").remove();
-                }
-
-                if(audioList!=null && audioList.length > 0) {
-                    $.each(audioList, function () {
-
-                        console.log($(this));
-
-                        $('#recentlyAddedList').append("<li data-icon='false' data-name='"+JSON.stringify(this)+"'><a href='#'><span class='li-numbering'> #" + ($("#recentlyAddedList li").length) + "</span><span class='li-added-date typicons-time'>" + friendlyDate(this.addedDate + "T00:00:00Z") + "</span><span class='iconicfill-document-alt-fill li-title'>" + this.title + "</span><span class='iconicfill-user li-author'>"+ this.speaker +"</span><span class='iconicfill-clock li-duration'>" + this.duration + "</span><span class='entypo-floppy li-filesize'>" + getFileSizeString(this.filesize) + "</span><div class='li-views-likes'><span class='li-views-likes-icons typicons-heart'>0</span><span class='li-views-likes-icons iconicstroke-play'>"+ this.playCount +"</span></div></a></li>");
-                        more = true;
-
-                    });
-
-                    if(audioList.length !== 10) {
-                        more =false;
-                    }
-                } else {   
-                    $('#recentlyAddedList').append('<li stlye="text-align: center;">No Record Found.</li>');
-                    more = false;
-                }
-                
-                if(more) {
-                    $('#recentlyAddedList').append('<li id="loading" data-id="loadmore" data-role=\"list-divider\" style="text-align:center;" data-theme="b" ><span>Load More</span></li>');
-                } else {
-                    count = $("#recentlyAddedList li").length; 
-                    if(document.getElementById("endlist")!=null) {
-                        document.getElementById("endlist").remove();
-                    }
-                    $('#recentlyAddedList').append("<li data-id=\"endlist\" data-role=\"list-divider\"><span>End Of List - "+count+" records </span></li>");
-                }
-                
-                $('#recentlyAddedList').listview().listview('refresh');
+            $(htmlId).listview().listview('refresh');
 
                 //trigger refresh on iscroll
                 // refreshScroll(offset);   
@@ -231,12 +342,13 @@ function populateRecentAudio(offset, itemperpage, orderBy, orderAs, init) {
 }
 
 
-function populateBrowseByMonthList(year, month) {
+function populateBrowseByMonthList(year, month, init) {
 
-    var htmlId = '#browseByMonthList';
-    // if(init) {
+    var htmlId = '#browseByMonthList'; //Main #listId used by this function
+
+    if(init) {
         $(htmlId).html('');
-    // }
+    }
 
     if(document.getElementById("loading")!=null) {
         document.getElementById("loading").remove();
@@ -255,12 +367,12 @@ function populateBrowseByMonthList(year, month) {
     //     more = true;
     // }
 
-    count = $(htmlId + " li").length; 
-    // itemperpage = 10;
-    // offset = count -1;
+    count = $(htmlId + " .li-numbering").length; 
+    itemperpage = 10;
+    offset = count;
 
-    // console.log('more: ' +more);
-    // console.log('offset: ' +offset);
+    console.log('more: ' +more);
+    console.log('offset: ' +offset);
     if(document.getElementById("loading")!=null) {
         $.ajax({
             url: 'php/services.php',
@@ -271,59 +383,147 @@ function populateBrowseByMonthList(year, month) {
             var res = JSON.parse(response); //parse to array object
 
             var audioList = null;
-            // if (res.status == "ok") {
 
-                if(res == undefined ) {
-                    audioList = null;
-                } else {                
-                    // var data = new Array();
-                    // data = res.data;
-                    audioList = res;   
+            if(res == undefined ) {
+                audioList = null;
+            } else {                
+
+                audioList = res;   
+            }
+
+            if(offset == 0) {
+                $(htmlId).html('');
+                $(htmlId).append("<li data-role='list-divider' style='text-align:center;'><span>" + startDate.toString("MMMM yyyy") + "</span></li>");
+            }
+
+            if(document.getElementById("loading")!=null) {
+                document.getElementById("loading").remove();
+            }
+
+            if(audioList!=null && audioList.length > 0) {
+                $.each(audioList, function () {
+
+                    console.log($(this));
+
+                    $(htmlId).append("<li data-icon='false' data-name='"+JSON.stringify(this)+"'><a href='#'><span class='li-numbering'> #" + ($(htmlId + ' li').length) + "</span><span class='li-added-date typicons-time'>" + friendlyDate(this.addedDate + "T00:00:00Z") + "</span><span class='iconicfill-document-alt-fill li-title'>" + this.title + "</span><span class='iconicfill-user li-author'>"+ this.speaker +"</span><span class='iconicfill-clock li-duration'>" + this.duration + "</span><span class='entypo-floppy li-filesize'>" + getFileSizeString(this.filesize) + "</span><div class='li-views-likes'><span class='li-views-likes-icons typicons-heart'>0</span><span class='li-views-likes-icons iconicstroke-play'>"+ this.playCount +"</span></div></a></li>");
+                    more = true;
+
+                });
+
+                if(audioList.length !== 10) {
+                    more =false;
                 }
+            } else {   
+                $(htmlId).append('<li stlye="text-align: center;">No Record Found.</li>');
+                more = false;
+            }
 
-                // if(offset == 0) {
-                    $(htmlId).html('');
-                    $(htmlId).append('<li data-role=\"list-divider\" style="text-align:center;"><span>Recent Released</span></li>');
-                // }
-
-                if(document.getElementById("loading")!=null) {
-                    document.getElementById("loading").remove();
+            if(more) {
+                $(htmlId).append('<li id="loading" data-id="loadmore" data-role=\"list-divider\" style="text-align:center;" data-theme="b" ><span>Load More</span></li>');
+            } else {
+                    count = $(htmlId + " .li-numbering").length; //substract the list divider
+                    if(document.getElementById("endlist")!=null) {
+                        document.getElementById("endlist").remove();
+                    }
+                    $(htmlId).append("<li data-id=\"endlist\" data-role=\"list-divider\"><span>End Of List - "+count+" records </span></li>");
                 }
-
-                if(audioList!=null && audioList.length > 0) {
-                    $.each(audioList, function () {
-
-                        console.log($(this));
-
-                        $(htmlId).append("<li data-icon='false' data-name='"+JSON.stringify(this)+"'><a href='#'><span class='li-numbering'> #" + ($(htmlId).length) + "</span><span class='li-added-date typicons-time'>" + friendlyDate(this.addedDate + "T00:00:00Z") + "</span><span class='iconicfill-document-alt-fill li-title'>" + this.title + "</span><span class='iconicfill-user li-author'>"+ this.speaker +"</span><span class='iconicfill-clock li-duration'>" + this.duration + "</span><span class='entypo-floppy li-filesize'>" + getFileSizeString(this.filesize) + "</span><div class='li-views-likes'><span class='li-views-likes-icons typicons-heart'>0</span><span class='li-views-likes-icons iconicstroke-play'>"+ this.playCount +"</span></div></a></li>");
-                        // more = true;
-
-                    });
-
-                    // if(audioList.length !== 10) {
-                    //     // more =false;
-                    // }
-                } else {   
-                    $(htmlId).append('<li stlye="text-align: center;">No Record Found.</li>');
-                    // more = false;
-                }
-                
-                // if(more) {
-                //     $(htmlId).append('<li id="loading" data-id="loadmore" data-role=\"list-divider\" style="text-align:center;" data-theme="b" ><span>Load More</span></li>');
-                // } else {
-                //     count = $(htmlId + " li").length; 
-                //     if(document.getElementById("endlist")!=null) {
-                //         document.getElementById("endlist").remove();
-                //     }
-                //     $(htmlId).append("<li data-id=\"endlist\" data-role=\"list-divider\"><span>End Of List - "+count+" records </span></li>");
-                // }
                 
                 $(htmlId).listview().listview('refresh');
-
-                //trigger refresh on iscroll
-                // refreshScroll(offset);  
             },
-            data: { "reqID" : 'A1',  'offset': null, 'itemperpage': null, 'orderBy': orderBy, 'orderAs': orderAs, 'whereClause': "added_date>='"+startDate.toString("yyyy-MM-dd") +"' AND  added_date<'"+endDate.toString("yyyy-MM-dd")+"' "}
+            data: { "reqID" : 'A2',  'offset': null, 'itemperpage': null, 'orderBy': orderBy, 'orderAs': orderAs, 'startDate': startDate.toString("yyyy-MM-dd"), 'endDate': endDate.toString("yyyy-MM-dd")}
+        });
+} 
+}
+
+function populateByLanguage(init) {
+
+    var htmlId = '#browseByLanguageList'; //Main #listId used by this function
+
+    if(init) {
+        $(htmlId).html('');
+    }
+
+    if(document.getElementById("loading")!=null) {
+        document.getElementById("loading").remove();
+    }
+    $(htmlId).append('<li id="loading">Loading.. </li>');
+    $(htmlId).listview().listview('refresh');
+    
+    var orderBy = 'added_date';
+    var orderAs = 'desc';
+    var listDividerTitle;
+    //divider title
+    if(browseByLang == 'CN') {
+        listDividerTitle = "Chinese Sermons";
+    } else if (browseByLang == "EN") {
+        listDividerTitle = "English Sermons";
+    } else if (browseByLang == "BI") {
+        listDividerTitle = "Bi-lingual Sermons";
+    }
+
+    var count = $(htmlId + " .li-numbering").length; 
+    itemperpage = 10;
+    offset = count;
+
+    console.log('more: ' +more);
+    console.log('offset: ' +offset);
+    if(document.getElementById("loading")!=null) {
+        $.ajax({
+            url: 'php/services.php',
+            type: 'post',
+            dataType: 'text',
+            success: function (response) {
+            // var dec = decrypt(response);
+            var res = JSON.parse(response); //parse to array object
+
+            var audioList = null;
+
+            if(res == undefined ) {
+                audioList = null;
+            } else {                
+                audioList = res;   
+            }
+
+            if(offset == 0) {
+                $(htmlId).html('');
+                $(htmlId).append('<li data-role=\"list-divider\" style="text-align:center;"><span>'+listDividerTitle+'</span></li>');
+            }
+
+            if(document.getElementById("loading")!=null) {
+                document.getElementById("loading").remove();
+            }
+
+            if(audioList!=null && audioList.length > 0) {
+                $.each(audioList, function () {
+
+                    console.log($(this));
+
+                    $(htmlId).append("<li data-icon='false' data-name='"+JSON.stringify(this)+"'><a href='#'><span class='li-numbering'> #" + ($(htmlId + ' li').length) + "</span><span class='li-added-date typicons-time'>" + friendlyDate(this.addedDate + "T00:00:00Z") + "</span><span class='iconicfill-document-alt-fill li-title'>" + this.title + "</span><span class='iconicfill-user li-author'>"+ this.speaker +"</span><span class='iconicfill-clock li-duration'>" + this.duration + "</span><span class='entypo-floppy li-filesize'>" + getFileSizeString(this.filesize) + "</span><div class='li-views-likes'><span class='li-views-likes-icons typicons-heart'>0</span><span class='li-views-likes-icons iconicstroke-play'>"+ this.playCount +"</span></div></a></li>");
+                    more = true;
+
+                });
+
+                if(audioList.length !== 10) {
+                    more =false;
+                }
+            } else {   
+                $(htmlId).append('<li stlye="text-align: center;">No Record Found.</li>');
+                more = false;
+            }
+
+            if(more) {
+                $(htmlId).append('<li id="loading" data-id="loadmore" data-role=\"list-divider\" style="text-align:center;" data-theme="b" ><span>Load More</span></li>');
+            } else {
+                    count = $(htmlId + " .li-numbering").length; //substract the list divider
+                    if(document.getElementById("endlist")!=null) {
+                        document.getElementById("endlist").remove();
+                    }
+                    $(htmlId).append("<li data-id=\"endlist\" data-role=\"list-divider\"><span>End Of List - "+count+" records </span></li>");
+                }
+                
+                $(htmlId).listview().listview('refresh');
+            },
+            data: { "reqID" : 'A3',  'offset': offset, 'itemperpage': itemperpage, 'orderBy': orderBy, 'orderAs': orderAs, 'lang': browseByLang}
         });
 } 
 }

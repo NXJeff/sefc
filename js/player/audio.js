@@ -133,17 +133,17 @@ $(function() {
 
                 $('#playlist li:eq('+ i +') a').addClass('entypo-right-dir');
                 $('#playlist').listview().listview('refresh');
-                showFooterPlayer();
+                showFooterPlayer(Player.data[Player.currentIndex]);
             }
 
             // 歌曲被点击
-            $('#playlist').undelegate('li', 'vclick').delegate('li', 'vclick', function (e) {
+            $('#playlist').undelegate('li', 'click').delegate('li', 'click', function (e) {
                 selectedIndex = $(this).index();
-                $('#playlistPopupMenu').popup().popup("open", {transition: 'slideup'});
+                $('#playlistPopupMenu').popup().popup("open", {transition: 'pop'});
             });
 
             /**  Recent Page START **/
-            $('#recentlyAddedList').undelegate('li', 'vclick').delegate('li', 'vclick', function (e) {
+            $('#recentlyAddedList').undelegate('li', 'click').delegate('li', 'click', function (e) {
                     //Data ID
                     var dataid = $(this).attr('data-id');
                     // console.log(dataid);
@@ -154,13 +154,13 @@ $(function() {
 
                         selectedIndex = $(this).index();
                         selectedIndexData = $(this).attr('data-name');
-                        $('#recentPlaylistPopupMenu').popup().popup("open", {transition: 'slideup'});
+                        $('#recentPlaylistPopupMenu').popup().popup("open", {transition: 'pop'});
                         // addToPlayList(JSON.parse($(this).attr('data-name')));
                     }
                 });
 
             //recent list 
-            $('#recentPlayListContextMenu').undelegate('li', 'vclick').delegate('li', 'vclick', function (e) {
+            $('#recentPlayListContextMenu').undelegate('li', 'click').delegate('li', 'click', function (e) {
                 var dataid = $(this).attr('data-id');
                 console.log($(this).attr('data-name'));
 
@@ -183,7 +183,7 @@ $(function() {
             /**  Recent Page END **/
 
             //Playlist in audio player
-            $('#playlistContextMenu').undelegate('li', 'vclick').delegate('li', 'vclick', function (e) {
+            $('#playlistContextMenu').undelegate('li', 'click').delegate('li', 'click', function (e) {
                 var dataid = $(this).attr('data-id');
 
                 console.log(dataid);
@@ -214,7 +214,7 @@ $(function() {
 
             // $('#playlist').undelegate('li', 'taphold').delegate('li', 'taphold', function (e) {
             //     selectedIndex = $(this).index();
-            //     $('#playlistPopupMenu').popup().popup("open", {transition: 'slideup'});
+            //     $('#playlistPopupMenu').popup().popup("open", {transition: 'pop'});
             // });
 }
 };
@@ -286,17 +286,21 @@ function hideEmptyList() {
     }
 }
 
-function showFooterPlayer() {
+function showFooterPlayer(audio) {
     // document.getElementsByClassName("audioPlayerFooter").style.display = "block";
 
     var elements = document.getElementsByClassName("audioPlayerFooter");
-    console.log(elements);
+
     for(var i = 0, length = elements.length; i < length; i++) {
-       // if( elements[i].textContent == ''){
-          elements[i].style.display = 'block';
-       // } 
-    }
-    // $("[id^=audioPlayerFooter]").empty().append(infoFooter);
+
+      elements[i].removeChild(elements[i].firstChild);
+      elements[i].innerHTML = getFooterCode(audio);
+      elements[i].style.display = 'block';
+  }
+}
+
+function getFooterCode(audio) {
+    return "<div class='centerwrapper'><a href='#player' data-transition='flip'><div class='footerTitle'><img src='images/music_file_icon.png' style='width: 40px; height: 40px;vertical-align:middle; float:left;'></img><span style='color: #333333; font-size: 12px; '>" + audio.title + "-" + audio.speaker + "</span></div></a></div>";
 }
 
 function hideFooterPlayer() {
@@ -306,7 +310,7 @@ function hideFooterPlayer() {
        // if( elements[i].textContent == ''){
           elements[i].style.display = 'none';
        // } 
-    }
+   }
 
 
 }

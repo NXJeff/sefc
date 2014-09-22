@@ -15,17 +15,18 @@ include('php/inc/lang/lang.php');
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1 " />
   <title> <?php getString('appname');?> </title>
-  <link rel="stylesheet" href="js/jquery.mobile-1.4.3/simpleblue.css" />
-  <link rel="stylesheet" href="js/jquery.mobile-1.4.3/jquery.mobile.icons.min.css" />
+  <link rel="stylesheet" href="js/jquery.mobile-1.4.4/simpleblue.css" />
+  <link rel="stylesheet" href="js/jquery.mobile-1.4.4/jquery.mobile.icons-1.4.4.min.css" />
   <!--   <link rel="stylesheet" href="js/jquery.mobile-1.4.3/jquery.mobile-1.4.3.css" /> -->
-  <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.3/jquery.mobile.structure-1.4.3.min.css" /> 
+  <link rel="stylesheet" href="js/jquery.mobile-1.4.4/jquery.mobile.structure-1.4.4.min.css" /> 
   <script type="text/javascript" src="js/datejs/date.js"></script>
   
   <!-- custom css -->
   <link rel="stylesheet" href="css/global.css" /> 
   <link rel="stylesheet" href="css/icons.css" /> 
   <script src="js/jquery/jquery-1.11.1.min.js"></script>
-  <script src="js/jquery.mobile-1.4.3/jquery.mobile-1.4.3.min.js"></script>
+  <!-- <script src="js/jquery.mobile-1.4.3/jquery.mobile-1.4.3.min.js"></script> -->
+  <script src="js/jquery.mobile-1.4.4/jquery.mobile-1.4.4.min.js"></script>
   <!-- custom js -->
   <!-- This is a resource bundle - Start-->
   <script>
@@ -96,6 +97,7 @@ include('php/inc/lang/lang.php');
       </ul>
     </div>
   </div>
+  
 </div>
 <!-- Main Page END -->
 
@@ -171,20 +173,10 @@ include('php/inc/lang/lang.php');
     <ul id="recentlyAddedList" data-role="listview" data-inset="true">
     </ul>
   </div>
-  <div class="audioPlayerFooter" data-role="footer" data-position="fixed" data-tap-toggle="false" style="background-color:rgba(233,233,233,0.7); ">
+  <!-- global footer START -->
+  <div class="audioPlayerFooter" data-role="footer" data-position="fixed" data-tap-toggle="false" style="background-color:rgba(233,233,233,0.7); " />
+    <!-- global footer END -->
 
-
-
-    <div class="centerwrapper">
-      <a href="#player" data-transition="flip">
-        <div class="footerTitle">
-          <img src="images/music_file_icon.png" style="width: 40px; height: 40px;vertical-align:middle; float:left;"></img>
-
-          <span style="color: #333333; font-size: 12px; ">Playing What's Goes Around Comes Aroundssssssssssssssssssssssssssssssss - Justin Timberlake</span>
-        </div></a>
-      </div>
-
-    </div>
     <div data-role="popup" id="recentPlaylistPopupMenu" data-theme="a">
       <ul data-role="listview" data-inset="true" id="recentPlayListContextMenu" style="min-width:210px;">
         <li data-role="list-divider" ><?php getString('choose_an_action') ?></li>
@@ -194,6 +186,7 @@ include('php/inc/lang/lang.php');
       </ul>
     </div>
   </div>
+
 
   <!-- Recent Page END -->
 
@@ -240,8 +233,8 @@ include('php/inc/lang/lang.php');
       </ul>
     </div>
 
-    <div data-role="popup" id="recentPlaylistPopupMenu" data-theme="a">
-      <ul data-role="listview" data-inset="true" id="recentPlayListContextMenu" style="min-width:210px;">
+    <div data-role="popup" id="browseByMonthPopupMenu" data-theme="a">
+      <ul data-role="listview" data-inset="true" id="browseByMonthListContextMenu" style="min-width:210px;">
         <li data-role="list-divider" ><?php getString('choose_an_action') ?></li>
         <li data-icon="false" data-id="detail"><a href="#"><?php getString('info') ?></a></li>
         <li data-icon="false" data-id="queue"><a href="#"><?php getString('add_to_playlist') ?></a></li>
@@ -251,6 +244,29 @@ include('php/inc/lang/lang.php');
   </div>
 
   <!-- Browse By Month Page END -->
+
+  <!-- By Languages (EN/CN/BI) Page START -->
+  <div data-role="page" id="browseByLanguage">
+    <div data-role="header" data-position="fixed" data-tap-toggle="false">
+      <a data-rel="back" data-theme="b"><?php getString('back');?></a>
+      <h1><?php getString('sermons');?></h1>
+    </div>
+    <div data-role="content">
+      <ul id="browseByLanguageList" data-role="listview" data-inset="true">
+      </ul>
+    </div>
+
+    <div data-role="popup" id="browseByLanguagePopupMenu" data-theme="a">
+      <ul data-role="listview" data-inset="true" id="browseByLanguageContextMenu" style="min-width:210px;">
+        <li data-role="list-divider" ><?php getString('choose_an_action') ?></li>
+        <li data-icon="false" data-id="detail"><a href="#"><?php getString('info') ?></a></li>
+        <li data-icon="false" data-id="queue"><a href="#"><?php getString('add_to_playlist') ?></a></li>
+        <li data-icon="false" data-id="playnow"><a href="#"><?php getString('play_now') ?></a></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- By Languages (EN/CN/BI) Page END -->
 
   <!-- Audio Detail Page START -->
   <div data-role="page" id="audiodetail">
