@@ -251,6 +251,8 @@ body,ul,li {
 
     }
 
+    .highlight { font-weight: bold }
+
     #audioplayer {
         margin-top: 1em;
     }

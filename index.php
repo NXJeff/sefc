@@ -35,6 +35,7 @@ include('php/inc/lang/lang.php');
   <!-- This is a resource bundle - End-->
   <script type="text/javascript" src="js/player/audio.js"></script>
   <script type="text/javascript" src="js/index.js"></script>
+  <script src="js/jquery.highlight-4.closure.js"></script>
   
   <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
 
@@ -97,25 +98,42 @@ include('php/inc/lang/lang.php');
       </ul>
     </div>
   </div>
-  
+  <!-- global footer START -->
+  <div class="audioPlayerFooter" data-role="footer" data-position="fixed" data-tap-toggle="false" style="background-color:rgba(233,233,233,0.7); ">
+  </div>
+  <!-- global footer END -->
 </div>
 <!-- Main Page END -->
 
 
 <!-- Search Page BEGIN -->    
 <div data-role="page" id="search">
- <div id="searchHeader" data-role="header" data-position="fixed">
-  <a href="#mainpage" data-icon="back" data-theme="b"><?php getString('back');?></a>
-  <h1>
-   <?php getString('search');?>    
- </h1>
-</div>
-<div role="main" class="ui-content">
+  <div id="searchHeader" data-role="header" data-position="fixed" data-tap-toggle="false">
+    <a href="#mainpage" data-icon="back" data-theme="b"><?php getString('back');?></a>
+    <h1>
+     <?php getString('search');?>    
+   </h1>
+ </div>
+ <div role="main" class="ui-content">
 
- <ul id="listview" data-role="listview" data-filter="true" data-listomatic="true"></ul>
- 
-</div>
+   <form class="ui-filterable">
+    <input id="autocomplete-input" data-type="search" placeholder="Find a city...">
+  </form>
+  <ul id="autocomplete" data-role="listview" data-inset="true" data-filter="true" data-input="#autocomplete-input"></ul>
 
+</div>
+<!-- global footer START -->
+<div class="audioPlayerFooter" data-role="footer" data-position="fixed" data-tap-toggle="false" style="background-color:rgba(233,233,233,0.7); ">
+</div>
+<!-- global footer END -->
+<div data-role="popup" id="autocompletePopUpMenu" data-theme="a">
+  <ul data-role="listview" data-inset="true" style="min-width:210px;">
+    <li data-role="list-divider" ><?php getString('choose_an_action') ?></li>
+    <li data-icon="false" data-id="detail"><a href="#"><?php getString('info') ?></a></li>
+    <li data-icon="false" data-id="queue"><a href="#"><?php getString('add_to_playlist') ?></a></li>
+    <li data-icon="false" data-id="playnow"><a href="#"><?php getString('play_now') ?></a></li>
+  </ul>
+</div>
 </div>
 <!-- Search Page END -->  
 
@@ -138,6 +156,10 @@ include('php/inc/lang/lang.php');
    <li><a id="bilingual" data-icon="check" data-iconpos="right">Name C</a></li>
  </ul>
 </div>
+<!-- global footer START -->
+<div class="audioPlayerFooter" data-role="footer" data-position="fixed" data-tap-toggle="false" style="background-color:rgba(233,233,233,0.7); ">
+</div>
+<!-- global footer END -->
 </div>
 <!-- SpeakerList Page END -->  
 
@@ -159,6 +181,10 @@ include('php/inc/lang/lang.php');
   </ul>
 
 </div>
+<!-- global footer START -->
+<div class="audioPlayerFooter" data-role="footer" data-position="fixed" data-tap-toggle="false" style="background-color:rgba(233,233,233,0.7); ">
+</div>
+<!-- global footer END -->
 </div> 
 <!-- Speaker Detail Page END -->
 
@@ -174,40 +200,41 @@ include('php/inc/lang/lang.php');
     </ul>
   </div>
   <!-- global footer START -->
-  <div class="audioPlayerFooter" data-role="footer" data-position="fixed" data-tap-toggle="false" style="background-color:rgba(233,233,233,0.7); " />
-    <!-- global footer END -->
-
-    <div data-role="popup" id="recentPlaylistPopupMenu" data-theme="a">
-      <ul data-role="listview" data-inset="true" id="recentPlayListContextMenu" style="min-width:210px;">
-        <li data-role="list-divider" ><?php getString('choose_an_action') ?></li>
-        <li data-icon="false" data-id="detail"><a href="#"><?php getString('info') ?></a></li>
-        <li data-icon="false" data-id="queue"><a href="#"><?php getString('add_to_playlist') ?></a></li>
-        <li data-icon="false" data-id="playnow"><a href="#"><?php getString('play_now') ?></a></li>
-      </ul>
-    </div>
+  <div class="audioPlayerFooter" data-role="footer" data-position="fixed" data-tap-toggle="false" style="background-color:rgba(233,233,233,0.7); ">
   </div>
+  <!-- global footer END -->
+
+  <div data-role="popup" id="recentPlaylistPopupMenu" data-theme="a">
+    <ul data-role="listview" data-inset="true" id="recentPlayListContextMenu" style="min-width:210px;">
+      <li data-role="list-divider" ><?php getString('choose_an_action') ?></li>
+      <li data-icon="false" data-id="detail"><a href="#"><?php getString('info') ?></a></li>
+      <li data-icon="false" data-id="queue"><a href="#"><?php getString('add_to_playlist') ?></a></li>
+      <li data-icon="false" data-id="playnow"><a href="#"><?php getString('play_now') ?></a></li>
+    </ul>
+  </div>
+</div>
 
 
-  <!-- Recent Page END -->
+<!-- Recent Page END -->
 
-  <!-- Browse By Month Page START -->
-  <div data-role="page" id="browseByMonth">
-    <div data-role="header" data-position="fixed" data-tap-toggle="false">
-      <a data-rel="back" data-theme="b"><?php getString('back');?></a>
-      <h1><?php getString('sermons');?></h1>
-    </div>
-    <div data-role="content">
+<!-- Browse By Month Page START -->
+<div data-role="page" id="browseByMonth">
+  <div data-role="header" data-position="fixed" data-tap-toggle="false">
+    <a data-rel="back" data-theme="b"><?php getString('back');?></a>
+    <h1><?php getString('sermons');?></h1>
+  </div>
+  <div data-role="content">
 
-      <div class="ui-field-contain">
-        <label for="yearBrowseByMonth">Year:</label>
-        <select id="yearBrowseByMonth" data-native-menu="false">
-          <option value="0">Select One</option>
-          <option value="2010">2010</option>
-          <option value="2011">2011</option>
-          <option value="2012">2012</option>
-          <option value="2013">2013</option>
-            <option value="2014">2014</option>
-          <option value="2015">2015</option>        </select>
+    <div class="ui-field-contain">
+      <label for="yearBrowseByMonth">Year:</label>
+      <select id="yearBrowseByMonth" data-native-menu="false">
+        <option value="0">Select One</option>
+        <option value="2010">2010</option>
+        <option value="2011">2011</option>
+        <option value="2012">2012</option>
+        <option value="2013">2013</option>
+        <option value="2014">2014</option>
+        <option value="2015">2015</option>        </select>
       </div>
 
       <div class="ui-field-contain">
@@ -233,6 +260,11 @@ include('php/inc/lang/lang.php');
       </ul>
     </div>
 
+    <!-- global footer START -->
+    <div class="audioPlayerFooter" data-role="footer" data-position="fixed" data-tap-toggle="false" style="background-color:rgba(233,233,233,0.7); ">
+    </div>
+    <!-- global footer END -->
+
     <div data-role="popup" id="browseByMonthPopupMenu" data-theme="a">
       <ul data-role="listview" data-inset="true" id="browseByMonthListContextMenu" style="min-width:210px;">
         <li data-role="list-divider" ><?php getString('choose_an_action') ?></li>
@@ -255,8 +287,12 @@ include('php/inc/lang/lang.php');
       <ul id="browseByLanguageList" data-role="listview" data-inset="true">
       </ul>
     </div>
+    <!-- global footer START -->
+    <div class="audioPlayerFooter" data-role="footer" data-position="fixed" data-tap-toggle="false" style="background-color:rgba(233,233,233,0.7); ">
+    </div>
+    <!-- global footer END -->
 
-    <div data-role="popup" id="browseByLanguagePopupMenu" data-theme="a">
+    <div data-role="popup" class="audioResultContextMenu" id="browseByLanguagePopupMenu" data-theme="a">
       <ul data-role="listview" data-inset="true" id="browseByLanguageContextMenu" style="min-width:210px;">
         <li data-role="list-divider" ><?php getString('choose_an_action') ?></li>
         <li data-icon="false" data-id="detail"><a href="#"><?php getString('info') ?></a></li>
@@ -292,6 +328,10 @@ include('php/inc/lang/lang.php');
         </ul>
       </div>
     </div>
+    <!-- global footer START -->
+    <div class="audioPlayerFooter" data-role="footer" data-position="fixed" data-tap-toggle="false" style="background-color:rgba(233,233,233,0.7); ">
+    </div>
+    <!-- global footer END -->
   </div>
 
   <!-- Audio Detail END -->
