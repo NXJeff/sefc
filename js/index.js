@@ -25,35 +25,82 @@ $(document).bind( "mobileinit", function () {
 
 /**  Quick Search Page START **/
 $( document ).on( "pageinit", "#search", function() {
+
     $( "#autocomplete" ).on( "filterablebeforefilter", function ( e, data ) {
         var $ul = $( this ),
         $input = $( data.input ),
         value = $input.val(),
         html = "";
         $ul.html( "" );
+        var htmlId = "#autocomplete"; //Main #id used by this function
+        
         if ( value && value.length > 0 ) {
-            console.log("quickSearch: " + quickSearch);
-            $ul.html( "<li><div class='ui-loader'><span class='ui-icon ui-icon-loading'></span></div></li>" );
-            $ul.listview( "refresh" );
+
             $.ajax({
-                url: "http://gd.geobytes.com/AutoCompleteCity",
-                dataType: "jsonp",
-                crossDomain: true,
-                data: {
-                    q: $input.val()
-                }
-            })
-            .then( function ( response ) {
-                $.each( response, function ( i, val ) {
-                    html += "<li>" + val + "</li>";
-                });
-                $ul.html( html );
-                $ul.listview( "refresh" );
-                $ul.trigger( "updatelayout");
+                url: "php/services.php",
+                type: 'post',
+                dataType: "text",
+                success: function (response) {
+                    var res = JSON.parse(response); //parse to array object
+                    if(res!=null && res.length > 0) {
+                        $.each( res, function ( i, val ) {
+                            html += "<li data-icon='false' data-name='"+JSON.stringify(this)+"'><a href='#'><span class='li-numbering'> #" + ($(htmlId + ' li').length) + "</span><span class='li-added-date typicons-time'>" + friendlyDate(this.addedDate + "T00:00:00Z") + "</span><span class='iconicfill-document-alt-fill li-title'>" + this.title + "</span><span class='iconicfill-user li-author'>"+ this.speaker +"</span><span class='iconicfill-clock li-duration'>" + this.duration + "</span><span class='entypo-floppy li-filesize'>" + getFileSizeString(this.filesize) + "</span><div class='li-views-likes'><span class='li-views-likes-icons typicons-heart'>0</span><span class='li-views-likes-icons iconicstroke-play'>"+ this.playCount +"</span></div></a></li>";
+                        });
+                        $ul.html( html );
+                        $ul.listview( "refresh" );
+                        $ul.trigger( "updatelayout");
+                        $ul.highlight($input.val());
+
+                    } 
+                    
+                },
+                data: { "reqID" : 'S1',  'offset': null, 'itemperpage': null, 'orderBy': null, 'orderAs': null, 'keyword': $input.val()  }
+
+
             });
-        }
-    });
+}
 });
+
+$('#autocomplete').delegate('li', 'click', function (e) {
+                    //Data ID
+                    var dataid = $(this).attr('data-id');
+                    console.log(dataid);
+
+                    if(dataid=='loadmore') {
+                        populateByLanguage();
+                    } else {
+
+                        selectedIndex = $(this).index();
+                        selectedIndexData = $(this).attr('data-name');
+                        $('#autocompletePopUpMenu').popup().popup("open", {transition: 'pop'});
+                        // addToPlayList(JSON.parse($(this).attr('data-name')));
+                    }
+                });
+
+$('#autocompletePopUpMenu').delegate('li', 'click', function (e) {
+    var dataid = $(this).attr('data-id');
+    console.log($(this).attr('data-name'));
+
+    console.log(dataid);
+
+    switch(dataid) {
+        case 'playnow':
+        addToPlayList(JSON.parse(selectedIndexData), true);
+        break;
+        case 'queue':
+        addToPlayList(JSON.parse(selectedIndexData), false);
+        break;
+        case 'detail':
+        removeAll();
+        break;
+    }
+    $('#autocompletePopUpMenu').popup().popup("close");
+});
+
+
+});
+
+
 /**  Quick Search Page END **/
 
 
@@ -228,21 +275,17 @@ $( document ).on( "pageinit", "#browseByLanguage", function() {
 
         switch(dataid) {
             case 'playnow':
-            alert('clicked playnow');
             addToPlayList(JSON.parse(selectedIndexData), true);
             break;
             case 'queue':
-            alert('clicked queue');
-                    // removeFromList(selectedIndex);
-                    addToPlayList(JSON.parse(selectedIndexData), false);
-                    break;
-                    case 'detail':
-                    alert('clicked detail');
-                    removeAll();
-                    break;
-                }
-                $('#recentPlaylistPopupMenu').popup().popup("close");
-            });
+            addToPlayList(JSON.parse(selectedIndexData), false);
+            break;
+            case 'detail':
+            removeAll();
+            break;
+        }
+        $('#browseByLanguagePopupMenu').popup().popup("close");
+    });
 
 });
 
