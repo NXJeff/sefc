@@ -25,6 +25,7 @@ $lang['menu']  = '目录';
 $lang['sermonpage_title'] = 'SEFC 信息';
 $lang['sermons'] = '信息';
 $lang['quick_search'] = '快速搜寻';
+$lang['search_by_keywords'] = '搜寻关键词';
 $lang['title'] = '主题';
 $lang['speaker'] = '讲员';
 $lang['speakers'] = '讲员';

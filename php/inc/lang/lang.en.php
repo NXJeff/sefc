@@ -21,6 +21,7 @@ $lang['menu']  = 'Menu';
 $lang['sermonpage_title'] = 'SEFC Sermons';
 $lang['sermons'] = 'Sermons';
 $lang['quick_search'] = 'Quick Search';
+$lang['search_by_keywords'] = 'Search By Keywords';
 $lang['title'] = 'Title';
 $lang['speaker'] = 'Speaker';
 $lang['speakers'] = 'Speakers';

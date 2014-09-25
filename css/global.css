@@ -420,12 +420,13 @@ body,ul,li {
 
         .audioPlayerFooter {
             display: none;
+
         }
 
         .footerTitle {
             color:#FFFFFF;
 
-            font-size:150%;
+            font-size:20px;
             line-height:30px;
             overflow:hidden;
             float:left;
@@ -436,6 +437,14 @@ body,ul,li {
 
         .footerControl {
             float:right;
+            margin-right: 1em;
+            color: #333333;
+            font-size: 12px;
+            /*width: 40%;*/
+        }
+
+        .footerControl::before {
+            padding-right: 1em;
             /*width: 40%;*/
         }
 

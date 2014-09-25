@@ -47,13 +47,22 @@
  	$arr = DAOFactory::getAudioDAO()->queryLazyLoad($offset, $items, $whereClause, $orderBy, $orderAs);
  	break;
 
+ 	case 'A4':		//List all speakers
+ 	if(isset($_POST['offset'])){ $offset = $_POST['offset']; } 
+ 	if(isset($_POST['itemperpage'])){ $items = $_POST['itemperpage']; } 
+ 	if(isset($_POST['orderBy'])){ $orderBy = $_POST['orderBy']; } 
+ 	if(isset($_POST['orderAs'])){ $orderAs = $_POST['orderAs']; } 
+ 	if(isset($_POST['lang'])){ $language = $_POST['lang']; } 
+ 	$whereClause = " language='".$language."' ";
+ 	$arr = DAOFactory::getSpeakersDAO()->queryLazyLoad($offset, $items, $whereClause, $orderBy, $orderAs);
+ 	break;
+
  	case 'S1': //search for title and speaker
  	if(isset($_POST['offset'])){ $offset = $_POST['offset']; } 
  	if(isset($_POST['itemperpage'])){ $items = $_POST['itemperpage']; } 
  	if(isset($_POST['orderBy'])){ $orderBy = $_POST['orderBy']; } 
  	if(isset($_POST['orderAs'])){ $orderAs = $_POST['orderAs']; } 
  	if(isset($_POST['keyword'])){ $keyword = $_POST['keyword']; } 
-
  	$whereClause = " title like '".$keyword."%' or title like '%".$keyword."%' or title like '%".$keyword."' or speaker like '".$keyword."%' or speaker like '%".$keyword."%' or speaker like '%".$keyword."'  ";
 
  	$arr = DAOFactory::getAudioDAO()->queryLazyLoad($offset, $items, $whereClause, $orderBy, $orderAs);
@@ -61,7 +70,6 @@
 
  	break;
 
-   //SELECT * FROM sefc.audio where title like '%神' or title like '%神%' or title like '神%' ;
  }
 
 

@@ -192,9 +192,9 @@ $(function() {
                     playByMe(selectedIndex);
                     break;
                     case 'playlistStopAll' :
+                    hideFooterPlayer();
                     Player.audio.pause();
                     Player.audio.currentTime = 0;
-                    hideFooterPlayer();
                     break;
                     case 'playlistRemove':
                     removeFromList(selectedIndex);
@@ -300,7 +300,7 @@ function showFooterPlayer(audio) {
 }
 
 function getFooterCode(audio) {
-    return "<div class='centerwrapper'><a href='#player' data-transition='flip'><div class='footerTitle'><img src='images/music_file_icon.png' style='width: 40px; height: 40px;vertical-align:middle; float:left;'></img><span style='color: #333333; font-size: 12px; '>" + audio.title + "-" + audio.speaker + "</span></div></a></div>";
+    return "<div class='centerwrapper'><a href='#player' data-transition='flip'><div class='footerTitle'><img src='images/music_file_icon.png' style='width: 40px; height: 40px;vertical-align:middle; float:left;'></img><span style='color: #333333; font-size: 14px; '>" + audio.title + "-" + audio.speaker + "</span><span class='iconicfill-list footerControl' >PlayList</span></div></a></div>";
 }
 
 function hideFooterPlayer() {

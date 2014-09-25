@@ -14,6 +14,12 @@ class DAOFactory{
 		return new AudioMySqlExtDAO();
 	}
 
+	public static function getSpeakersDAO(){
+		return new SpeakersMySqlExtDAO();
+	}
+	public static function getUsersDAO(){
+		return new UsersMySqlExtDAO();
+	}
 
 }
 ?>

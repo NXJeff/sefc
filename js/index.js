@@ -2,6 +2,7 @@
 //Variables
 var quickSearch = "title"; //used to differentiate selection of quick search
 var browseByLang;
+var browseByLangSpeaker;
 var more = true;
 
 $(document).bind( "mobileinit", function () {
@@ -33,7 +34,7 @@ $( document ).on( "pageinit", "#search", function() {
         html = "";
         $ul.html( "" );
         var htmlId = "#autocomplete"; //Main #id used by this function
-        
+        var count = 1;
         if ( value && value.length > 0 ) {
 
             $.ajax({
@@ -44,7 +45,7 @@ $( document ).on( "pageinit", "#search", function() {
                     var res = JSON.parse(response); //parse to array object
                     if(res!=null && res.length > 0) {
                         $.each( res, function ( i, val ) {
-                            html += "<li data-icon='false' data-name='"+JSON.stringify(this)+"'><a href='#'><span class='li-numbering'> #" + ($(htmlId + ' li').length) + "</span><span class='li-added-date typicons-time'>" + friendlyDate(this.addedDate + "T00:00:00Z") + "</span><span class='iconicfill-document-alt-fill li-title'>" + this.title + "</span><span class='iconicfill-user li-author'>"+ this.speaker +"</span><span class='iconicfill-clock li-duration'>" + this.duration + "</span><span class='entypo-floppy li-filesize'>" + getFileSizeString(this.filesize) + "</span><div class='li-views-likes'><span class='li-views-likes-icons typicons-heart'>0</span><span class='li-views-likes-icons iconicstroke-play'>"+ this.playCount +"</span></div></a></li>";
+                            html += "<li data-icon='false' data-name='"+JSON.stringify(this)+"'><a href='#'><span class='li-numbering'> #" + count++ + "</span><span class='li-added-date typicons-time'>" + friendlyDate(this.addedDate + "T00:00:00Z") + "</span><span class='iconicfill-document-alt-fill li-title'>" + this.title + "</span><span class='iconicfill-user li-author'>"+ this.speaker +"</span><span class='iconicfill-clock li-duration'>" + this.duration + "</span><span class='entypo-floppy li-filesize'>" + getFileSizeString(this.filesize) + "</span><div class='li-views-likes'><span class='li-views-likes-icons typicons-heart'>0</span><span class='li-views-likes-icons iconicstroke-play'>"+ this.playCount +"</span></div></a></li>";
                         });
                         $ul.html( html );
                         $ul.listview( "refresh" );
@@ -54,7 +55,7 @@ $( document ).on( "pageinit", "#search", function() {
                     } 
                     
                 },
-                data: { "reqID" : 'S1',  'offset': null, 'itemperpage': null, 'orderBy': null, 'orderAs': null, 'keyword': $input.val()  }
+                data: { "reqID" : 'S1',  'offset': null, 'itemperpage': null, 'orderBy': null, 'orderAs': null, 'keyword': value  }
 
 
             });
@@ -127,7 +128,7 @@ console.log($(this).attr('data-id'));
             $('input[data-type="search"]').val("");
             $( "#autocomplete" ).empty();
             $("#searchHeader").children('h1').text('Search By Title');
-            $.mobile.changePage($(document.location.href = "#search"), {transition: 'pop'});
+            $.mobile.changePage($(document.location.href = "#search"), {transition: 'slide'});
             break;
 
             case 'bySpeaker':
@@ -135,7 +136,7 @@ console.log($(this).attr('data-id'));
             $('input[data-type="search"]').val("");
             $( "#autocomplete" ).empty();
             $("#searchHeader").children('h1').text('Search By Speaker');
-            $.mobile.changePage($(document.location.href = "#search"), {transition: 'pop'});
+            $.mobile.changePage($(document.location.href = "#search"), {transition: 'slide'});
             break;
 
             case 'recent':
@@ -166,10 +167,17 @@ console.log($(this).attr('data-id'));
             $.mobile.changePage($(document.location.href = "#browseByLanguage"), {transition: 'slide'});
             break;
 
+            case 'englishSpeaker':
+            browseByLangSpeaker = "EN";
+            populateSpeakers(true);
+            $.mobile.changePage($(document.location.href = "#speakers"), {transition: 'slide'});
+            break;
 
-            // case 'browseByMonth':
-            // $.mobile.changePage($(document.location.href = "#player"), {transition: 'flip'});
-            // break;
+            case 'chineseSpeaker':
+            browseByLangSpeaker = "CN";
+            populateSpeakers(true);
+            $.mobile.changePage($(document.location.href = "#speakers"), {transition: 'slide'});
+            break;
         }
     });
 
@@ -571,6 +579,100 @@ function populateByLanguage(init) {
 } 
 }
 
+
+function populateSpeakers(init) {
+
+    var htmlId = '#speakersList'; //Main #listId used by this function
+
+    if(init) {
+        $(htmlId).html('');
+    }
+
+    if(document.getElementById("loading")!=null) {
+        document.getElementById("loading").remove();
+    }
+    $(htmlId).append('<li id="loading">Loading.. </li>');
+    $(htmlId).listview().listview('refresh');
+    
+    var orderBy = 'name';
+    var orderAs = 'asc';
+    var listDividerTitle;
+    //divider title
+    if(browseByLangSpeaker == 'CN') {
+        listDividerTitle = "Chinese Speakers";
+        console.log("CN");
+    } else if (browseByLangSpeaker == "EN") {
+        listDividerTitle = "English Speakers";
+        console.log("EN");
+    } 
+
+    var count = $(htmlId + " .li-numbering").length; 
+    itemperpage = 10;
+    offset = count;
+
+    console.log('more: ' +more);
+    console.log('offset: ' +offset);
+    if(document.getElementById("loading")!=null) {
+        $.ajax({
+            url: 'php/services.php',
+            type: 'post',
+            dataType: 'text',
+            success: function (response) {
+            // var dec = decrypt(response);
+            var res = JSON.parse(response); //parse to array object
+
+            var dataList = null;
+
+            if(res == undefined ) {
+                dataList = null;
+            } else {                
+                dataList = res;   
+            }
+
+            if(offset == 0) {
+                $(htmlId).html('');
+                $(htmlId).append('<li data-role=\"list-divider\" style="text-align:center;"><span>'+listDividerTitle+'</span></li>');
+            }
+
+            if(document.getElementById("loading")!=null) {
+                document.getElementById("loading").remove();
+            }
+
+            if(dataList!=null && dataList.length > 0) {
+                $.each(dataList, function () {
+
+                    console.log($(this));
+
+                    $(htmlId).append("<li data-icon='false' data-name='"+JSON.stringify(this)+"'><a href='#'><span class='li-numbering'> #" + ($(htmlId + ' li').length) + "</span><span class='iconicfill-user li-author'>"+ this.name +"</span><span class='iconicfill-clock li-duration'>" + this.description + "</span><span class='entypo-floppy li-filesize'>" + this.contacts + "</span></div></a></li>");
+                    more = true;
+
+                });
+
+                if(dataList.length !== 10) {
+                    more =false;
+                }
+            } else {   
+                $(htmlId).append('<li stlye="text-align: center;">No Record Found.</li>');
+                more = false;
+            }
+
+            if(more) {
+                $(htmlId).append('<li id="loading" data-id="loadmore" data-role=\"list-divider\" style="text-align:center;" data-theme="b" ><span>Load More</span></li>');
+            } else {
+                    count = $(htmlId + " .li-numbering").length; //substract the list divider
+                    if(document.getElementById("endlist")!=null) {
+                        document.getElementById("endlist").remove();
+                    }
+                    $(htmlId).append("<li data-id=\"endlist\" data-role=\"list-divider\"><span>End Of List - "+count+" records </span></li>");
+                }
+                
+                $(htmlId).listview().listview('refresh');
+            },
+            data: { "reqID" : 'A4',  'offset': offset, 'itemperpage': itemperpage, 'orderBy': orderBy, 'orderAs': orderAs, 'lang': browseByLangSpeaker}
+        });
+} 
+}
+
 /**
 *   option: 0 = initial load, 1 = refresh the list, 2 = request next page
 *
@@ -639,7 +741,6 @@ function getCurrentWrapperScrollerId() {
     }
 
     function friendlyDate(time){
-        console.log(time);
         var date = new Date((time || "").replace(/-/g,"/").replace(/[TZ]/g," ")),
         diff = (((new Date()).getTime() - date.getTime()) / 1000),
         day_diff = Math.floor(diff / 86400);

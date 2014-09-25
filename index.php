@@ -36,10 +36,8 @@ include('php/inc/lang/lang.php');
   <script type="text/javascript" src="js/player/audio.js"></script>
   <script type="text/javascript" src="js/index.js"></script>
   <script src="js/jquery.highlight-4.closure.js"></script>
-  
-  <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
 
-  
+    <link rel="stylesheet" href="css/font.css" />   
 
   <script id="panel-init">
   $(function() {
@@ -79,8 +77,7 @@ include('php/inc/lang/lang.php');
         <li data-role="fieldcontain">
           <h2><?php getString('quick_search');?></h2>
         </li>
-        <li data-id="byTitle"><a id="byTitle" data-theme="b"><span class="entypo-code"><?php getString('title');?></span></a></li>
-        <li data-id="bySpeaker"><a id="bySpeaker" data-icon="check" data-iconpos="right"  data-theme="b"><span class="entypo-users"><?php getString('speaker');?></span></a></li>
+        <li data-id="byTitle"><a id="byTitle" data-theme="b"><span class="entypo-code"><?php getString('search_by_keywords');?></span></a></li>
         <li data-role="divider"></li>
         <li data-role="fieldcontain">
           <h2><?php getString('categories') ?></h2>
@@ -89,8 +86,8 @@ include('php/inc/lang/lang.php');
         <li data-id="english"><a id="english" data-icon="check" data-iconpos="right"  ><span class="entypo-folder"><?php getString('english');?></span></a></li>
         <li data-id="bilingual"><a id="bilingual" data-icon="check" data-iconpos="right"  ><span class="entypo-folder"><?php getString('bilingual');?></span></a></li>
         <li data-role="divider"></li>
-        <li data-id="chineseSpeaker"><a data-id="chineseSpeaker" id="chineseSpeaker" href="#speakers" data-icon="check" data-iconpos="right"><span class="entypo-user"><?php getString('chinese_speaker');?></span></a></li>
-        <li data-id="englishSpeaker"><a id="englishSpeaker" href="#speakers" data-icon="check" data-iconpos="right" ><span class="entypo-user"><?php getString('english_speaker');?></span></a></li>
+        <li data-id="chineseSpeaker"><a data-id="chineseSpeaker" id="chineseSpeaker" data-icon="check" data-iconpos="right"><span class="entypo-user"><?php getString('chinese_speaker');?></span></a></li>
+        <li data-id="englishSpeaker"><a id="englishSpeaker" data-icon="check" data-iconpos="right" ><span class="entypo-user"><?php getString('english_speaker');?></span></a></li>
         <li data-role="divider"></li>
         <li data-id="recent"><a><span class="entypo-list"><?php getString('recently_added');?></span></a></li>
         <li data-id="browseByMonth"><a><span class="entypo-database"><?php getString('browse_by_month');?></span></a></li>
@@ -117,7 +114,7 @@ include('php/inc/lang/lang.php');
  <div role="main" class="ui-content">
 
    <form class="ui-filterable">
-    <input id="autocomplete-input" data-type="search" placeholder="Find a city...">
+    <input id="autocomplete-input" data-type="search" placeholder="<?php getString('search_by_keywords');?>">
   </form>
   <ul id="autocomplete" data-role="listview" data-inset="true" data-filter="true" data-input="#autocomplete-input"></ul>
 
@@ -149,12 +146,9 @@ include('php/inc/lang/lang.php');
   <form class="ui-filterable">
     <input id="filterBasic-input" data-type="search">
   </form>
-  <ul data-role="listview" data-inset="true" data-filter="true" data-input="#filterBasic-input">
-   <li data-role="list-divider" >A - Z</li>
-   <li><a href="#speaker" id="chinese" data-icon="check" data-iconpos="right">Name A</a></li>
-   <li><a id="english" data-icon="check" data-iconpos="right">Name B</a></li>
-   <li><a id="bilingual" data-icon="check" data-iconpos="right">Name C</a></li>
- </ul>
+       <ul id="speakersList" data-role="listview" data-inset="true" data-input="#filterBasic-input">
+      </ul>
+
 </div>
 <!-- global footer START -->
 <div class="audioPlayerFooter" data-role="footer" data-position="fixed" data-tap-toggle="false" style="background-color:rgba(233,233,233,0.7); ">
