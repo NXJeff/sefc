@@ -48,13 +48,19 @@
  	break;
 
  	case 'A4':		//List all speakers
+ 	if(isset($_POST['lang'])){ $language = $_POST['lang']; } 
+ 	// $whereClause = " language='".$language."' ";
+ 	$arr = DAOFactory::getSpeakersDAO()->queryByLanguage($language);
+ 	break;
+
+ 	case 'A5':		//List all records by speaker
  	if(isset($_POST['offset'])){ $offset = $_POST['offset']; } 
  	if(isset($_POST['itemperpage'])){ $items = $_POST['itemperpage']; } 
  	if(isset($_POST['orderBy'])){ $orderBy = $_POST['orderBy']; } 
  	if(isset($_POST['orderAs'])){ $orderAs = $_POST['orderAs']; } 
- 	if(isset($_POST['lang'])){ $language = $_POST['lang']; } 
- 	$whereClause = " language='".$language."' ";
- 	$arr = DAOFactory::getSpeakersDAO()->queryLazyLoad($offset, $items, $whereClause, $orderBy, $orderAs);
+ 	if(isset($_POST['speaker'])){ $speaker = $_POST['speaker']; } 
+ 	$whereClause = " speaker='".$speaker."' ";
+ 	$arr = DAOFactory::getAudioDAO()->queryLazyLoad($offset, $items, $whereClause, $orderBy, $orderAs);
  	break;
 
  	case 'S1': //search for title and speaker
@@ -67,7 +73,16 @@
 
  	$arr = DAOFactory::getAudioDAO()->queryLazyLoad($offset, $items, $whereClause, $orderBy, $orderAs);
 
+ 	break;
 
+ 	case 'UP': //User Pending:search for pending verification users
+ 	$status = 'P';
+ 	$arr = DAOFactory::getUsersDAO()->queryByStatus($status);
+ 	break;
+
+ 	case 'UA': //User Arppove: approve User
+ 	$status = 'A';
+ 	$arr = DAOFactory::getUsersDAO()->queryByStatus($status);
  	break;
 
  }

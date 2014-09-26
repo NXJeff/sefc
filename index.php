@@ -144,9 +144,9 @@ include('php/inc/lang/lang.php');
 </div>
 <div role="main" class="ui-content">
   <form class="ui-filterable">
-    <input id="filterBasic-input" data-type="search">
-  </form>
-       <ul id="speakersList" data-role="listview" data-inset="true" data-input="#filterBasic-input">
+    <input id="filterSpeakers" data-type="search" placeholder="Search speaker name...">
+</form>
+       <ul id="speakersList" data-role="listview" data-inset="true" data-input="#filterSpeakers" data-filter="true" >
       </ul>
 
 </div>
@@ -183,7 +183,7 @@ include('php/inc/lang/lang.php');
 <!-- Speaker Detail Page END -->
 
 <!-- Recent Page START -->
-<div data-role="page" id="recent">
+<div data-role="page" id="audioList">
   <div data-role="header" data-position="fixed" data-tap-toggle="false">
     <a data-rel="back" data-theme="b"><?php getString('back');?></a>
     <h1><?php getString('sermons');?></h1>

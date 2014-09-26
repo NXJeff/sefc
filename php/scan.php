@@ -1,7 +1,7 @@
 <?php
 header( 'Content-Type: text/html; charset=utf-8' ); 
 //Get the db config file from global external source
-$file = 'conf/db.ini'; 
+$file = '../conf/db.ini'; 
 if (!$settings = parse_ini_file($file, TRUE)) throw new exception('Unable to open ' . $file . '.');
 session_start();
 
@@ -22,7 +22,7 @@ else
 // $rDir = opendir($sDir);
 // print $s_Dir;
 
-$di = new RecursiveDirectoryIterator('messages/');
+$di = new RecursiveDirectoryIterator('../content/Messages/');
 foreach (new RecursiveIteratorIterator($di) as $filename => $file) {
     if (!$file->isFile())
         continue;
@@ -73,26 +73,26 @@ $sList = $sList2 = '';
 try {
 
 
-$user = $settings['database']['username'];
-$pswd =  $settings['database']['password'];
-$db = $settings['database']['schema'];
-$conn = mysql_connect( $settings['database']['host'], $user, $pswd);  
-mysql_set_charset('utf8',$conn); 
-mysql_select_db($db, $conn);
+    $user = $settings['database']['username'];
+    $pswd =  $settings['database']['password'];
+    $db = $settings['database']['schema'];
+    $conn = mysql_connect( $settings['database']['host'], $user, $pswd);  
+    mysql_set_charset('utf8',$conn); 
+    mysql_select_db($db, $conn);
 
 
-foreach ($aFiles as $sSingleFile) {
+    foreach ($aFiles as $sSingleFile) {
     // print_r($aFiles);
     //$aTags = readID3($sSingleFile); // obtaining ID3 tags info
-    $audio = $AE->GetInfo($sSingleFile);
-    $createdDate = getCreatedDate($sSingleFile);
-    $extraMeta = getExtraMeta($sSingleFile);
-    $filesize = $extraMeta['Filesize'];
-    $duration = $extraMeta['Length mm:ss'];
-    $title = $audio['Title'];
-    $speaker = $audio['Artist'];
-    $url = getURL($sSingleFile);
-    $language = getLanguage($sSingleFile);
+        $audio = $AE->GetInfo($sSingleFile);
+        $createdDate = getCreatedDate($sSingleFile);
+        $extraMeta = getExtraMeta($sSingleFile);
+        $filesize = $extraMeta['Filesize'];
+        $duration = $extraMeta['Length mm:ss'];
+        $title = $audio['Title'];
+        $speaker = $audio['Artist'];
+        $url = getURL($sSingleFile);
+        $language = getLanguage($sSingleFile);
 
     // print getDuration($sSingleFile);
 
@@ -104,10 +104,19 @@ foreach ($aFiles as $sSingleFile) {
     // $sList2 .= '<tr><td>'.$aTags['Title'].'</td><td>'.$aTags['Encoded'].'</td><td>'.$aTags['Copyright'].'</td>
     //                 <td>'.$aTags['Publisher'].'</td><td>'.$aTags['OriginalArtist'].'</td><td>'.$aTags['URL'].'</td>
     //                 <td>'.$aTags['Comments'].'</td><td>'.$aTags['Composer'].'</td></tr>';
-    $query = "INSERT INTO audio (title, speaker, duration, added_date, filesize, url, language) VALUES ('$title', '$speaker', '$duration', '$createdDate', '$filesize', '$url', '$language')";
+        $selectSpeaker = "SELECT * from speakers where name = '$speaker'";
+        $result = mysql_query($selectSpeaker) or die("Unable to search because : " . mysql_error()); 
+        $rows = mysql_num_rows($result);
+        if( $rows == 0)  {
 
+            $query = "INSERT INTO speakers (language, name) VALUES ('$language', '$speaker')";
+            mysql_query($query);
+        }     
+
+        
+        $query = "INSERT INTO audio (title, speaker, duration, added_date, filesize, url, language) VALUES ('$title', '$speaker', '$duration', '$createdDate', '$filesize', '$url', '$language')";
     // print $query;
-     mysql_query($query);
+        mysql_query($query);
 
     // $retrieveBackInfo = mysql_query("SELECT * FROM reservations WHERE res_code='$resCode'");
     // $rows = mysql_num_rows($retrieveBackReservation);
@@ -116,9 +125,9 @@ foreach ($aFiles as $sSingleFile) {
     // }
 
 
-}
+    }
 
-mysql_close($conn);
+    mysql_close($conn);
 
 } catch (Exception $e) {
     echo $e->getMessage();

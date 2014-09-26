@@ -3,7 +3,7 @@
  * Class that operate on table 'users'. Database Mysql.
  *
  * @author: http://phpdao.com
- * @date: 2014-08-22 16:39
+ * @date: 2014-09-26 15:58
  */
 class UsersMySqlDAO implements UsersDAO{
 
@@ -14,7 +14,7 @@ class UsersMySqlDAO implements UsersDAO{
 	 * @return UsersMySql 
 	 */
 	public function load($id){
-		$sql = 'SELECT * FROM users WHERE user_login = ?';
+		$sql = 'SELECT * FROM users WHERE login = ?';
 		$sqlQuery = new SqlQuery($sql);
 		$sqlQuery->set($id);
 		return $this->getRow($sqlQuery);
@@ -44,10 +44,10 @@ class UsersMySqlDAO implements UsersDAO{
  	 * Delete record from table
  	 * @param user primary key
  	 */
-	public function delete($user_login){
-		$sql = 'DELETE FROM users WHERE user_login = ?';
+	public function delete($login){
+		$sql = 'DELETE FROM users WHERE login = ?';
 		$sqlQuery = new SqlQuery($sql);
-		$sqlQuery->set($user_login);
+		$sqlQuery->set($login);
 		return $this->executeUpdate($sqlQuery);
 	}
 	
@@ -57,17 +57,19 @@ class UsersMySqlDAO implements UsersDAO{
  	 * @param UsersMySql user
  	 */
 	public function insert($user){
-		$sql = 'INSERT INTO users (user_password, user_email, user_fullname, user_contact, user_role) VALUES (?, ?, ?, ?, ?)';
+		$sql = 'INSERT INTO users (password, email, fullname, contact, role, status, preferences) VALUES (?, ?, ?, ?, ?, ?, ?)';
 		$sqlQuery = new SqlQuery($sql);
 		
-		$sqlQuery->set($user->userPassword);
-		$sqlQuery->set($user->userEmail);
-		$sqlQuery->set($user->userFullname);
-		$sqlQuery->set($user->userContact);
-		$sqlQuery->set($user->userRole);
+		$sqlQuery->set($user->password);
+		$sqlQuery->set($user->email);
+		$sqlQuery->set($user->fullname);
+		$sqlQuery->set($user->contact);
+		$sqlQuery->set($user->role);
+		$sqlQuery->set($user->status);
+		$sqlQuery->set($user->preferences);
 
 		$id = $this->executeInsert($sqlQuery);	
-		$user->userLogin = $id;
+		$user->login = $id;
 		return $id;
 	}
 	
@@ -77,16 +79,18 @@ class UsersMySqlDAO implements UsersDAO{
  	 * @param UsersMySql user
  	 */
 	public function update($user){
-		$sql = 'UPDATE users SET user_password = ?, user_email = ?, user_fullname = ?, user_contact = ?, user_role = ? WHERE user_login = ?';
+		$sql = 'UPDATE users SET password = ?, email = ?, fullname = ?, contact = ?, role = ?, status = ?, preferences = ? WHERE login = ?';
 		$sqlQuery = new SqlQuery($sql);
 		
-		$sqlQuery->set($user->userPassword);
-		$sqlQuery->set($user->userEmail);
-		$sqlQuery->set($user->userFullname);
-		$sqlQuery->set($user->userContact);
-		$sqlQuery->set($user->userRole);
+		$sqlQuery->set($user->password);
+		$sqlQuery->set($user->email);
+		$sqlQuery->set($user->fullname);
+		$sqlQuery->set($user->contact);
+		$sqlQuery->set($user->role);
+		$sqlQuery->set($user->status);
+		$sqlQuery->set($user->preferences);
 
-		$sqlQuery->set($user->userLogin);
+		$sqlQuery->set($user->login);
 		return $this->executeUpdate($sqlQuery);
 	}
 
@@ -99,72 +103,100 @@ class UsersMySqlDAO implements UsersDAO{
 		return $this->executeUpdate($sqlQuery);
 	}
 
-		public function queryByUserPassword($value){
-		$sql = 'SELECT * FROM users WHERE user_password = ?';
+		public function queryByPassword($value){
+		$sql = 'SELECT * FROM users WHERE password = ?';
 		$sqlQuery = new SqlQuery($sql);
 		$sqlQuery->set($value);
 		return $this->getList($sqlQuery);
 	}
 
-	public function queryByUserEmail($value){
-		$sql = 'SELECT * FROM users WHERE user_email = ?';
+	public function queryByEmail($value){
+		$sql = 'SELECT * FROM users WHERE email = ?';
 		$sqlQuery = new SqlQuery($sql);
 		$sqlQuery->set($value);
 		return $this->getList($sqlQuery);
 	}
 
-	public function queryByUserFullname($value){
-		$sql = 'SELECT * FROM users WHERE user_fullname = ?';
+	public function queryByFullname($value){
+		$sql = 'SELECT * FROM users WHERE fullname = ?';
 		$sqlQuery = new SqlQuery($sql);
 		$sqlQuery->set($value);
 		return $this->getList($sqlQuery);
 	}
 
-	public function queryByUserContact($value){
-		$sql = 'SELECT * FROM users WHERE user_contact = ?';
+	public function queryByContact($value){
+		$sql = 'SELECT * FROM users WHERE contact = ?';
 		$sqlQuery = new SqlQuery($sql);
 		$sqlQuery->set($value);
 		return $this->getList($sqlQuery);
 	}
 
-	public function queryByUserRole($value){
-		$sql = 'SELECT * FROM users WHERE user_role = ?';
+	public function queryByRole($value){
+		$sql = 'SELECT * FROM users WHERE role = ?';
+		$sqlQuery = new SqlQuery($sql);
+		$sqlQuery->set($value);
+		return $this->getList($sqlQuery);
+	}
+
+	public function queryByStatus($value){
+		$sql = 'SELECT * FROM users WHERE status = ?';
+		$sqlQuery = new SqlQuery($sql);
+		$sqlQuery->set($value);
+		return $this->getList($sqlQuery);
+	}
+
+	public function queryByPreferences($value){
+		$sql = 'SELECT * FROM users WHERE preferences = ?';
 		$sqlQuery = new SqlQuery($sql);
 		$sqlQuery->set($value);
 		return $this->getList($sqlQuery);
 	}
 
 
-		public function deleteByUserPassword($value){
-		$sql = 'DELETE FROM users WHERE user_password = ?';
+		public function deleteByPassword($value){
+		$sql = 'DELETE FROM users WHERE password = ?';
 		$sqlQuery = new SqlQuery($sql);
 		$sqlQuery->set($value);
 		return $this->executeUpdate($sqlQuery);
 	}
 
-	public function deleteByUserEmail($value){
-		$sql = 'DELETE FROM users WHERE user_email = ?';
+	public function deleteByEmail($value){
+		$sql = 'DELETE FROM users WHERE email = ?';
 		$sqlQuery = new SqlQuery($sql);
 		$sqlQuery->set($value);
 		return $this->executeUpdate($sqlQuery);
 	}
 
-	public function deleteByUserFullname($value){
-		$sql = 'DELETE FROM users WHERE user_fullname = ?';
+	public function deleteByFullname($value){
+		$sql = 'DELETE FROM users WHERE fullname = ?';
 		$sqlQuery = new SqlQuery($sql);
 		$sqlQuery->set($value);
 		return $this->executeUpdate($sqlQuery);
 	}
 
-	public function deleteByUserContact($value){
-		$sql = 'DELETE FROM users WHERE user_contact = ?';
+	public function deleteByContact($value){
+		$sql = 'DELETE FROM users WHERE contact = ?';
 		$sqlQuery = new SqlQuery($sql);
 		$sqlQuery->set($value);
 		return $this->executeUpdate($sqlQuery);
 	}
 
-	public function deleteByUserRole($value){
-		$sql = 'DELETE FROM users WHERE user_role = ?';
+	public function deleteByRole($value){
+		$sql = 'DELETE FROM users WHERE role = ?';
+		$sqlQuery = new SqlQuery($sql);
+		$sqlQuery->set($value);
+		return $this->executeUpdate($sqlQuery);
+	}
+
+	public function deleteByStatus($value){
+		$sql = 'DELETE FROM users WHERE status = ?';
+		$sqlQuery = new SqlQuery($sql);
+		$sqlQuery->set($value);
+		return $this->executeUpdate($sqlQuery);
+	}
+
+	public function deleteByPreferences($value){
+		$sql = 'DELETE FROM users WHERE preferences = ?';
 		$sqlQuery = new SqlQuery($sql);
 		$sqlQuery->set($value);
 		return $this->executeUpdate($sqlQuery);
@@ -180,12 +212,14 @@ class UsersMySqlDAO implements UsersDAO{
 	protected function readRow($row){
 		$user = new User();
 		
-		$user->userLogin = $row['user_login'];
-		$user->userPassword = $row['user_password'];
-		$user->userEmail = $row['user_email'];
-		$user->userFullname = $row['user_fullname'];
-		$user->userContact = $row['user_contact'];
-		$user->userRole = $row['user_role'];
+		$user->login = $row['login'];
+		$user->password = $row['password'];
+		$user->email = $row['email'];
+		$user->fullname = $row['fullname'];
+		$user->contact = $row['contact'];
+		$user->role = $row['role'];
+		$user->status = $row['status'];
+		$user->preferences = $row['preferences'];
 
 		return $user;
 	}
@@ -284,7 +318,8 @@ class UsersMySqlDAO implements UsersDAO{
 		$sqlQuery = new SqlQuery($sql);
 		return $this->getList($sqlQuery);
 	}
-
-
 }
+
+
+
 ?>

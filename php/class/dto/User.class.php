@@ -3,16 +3,18 @@
 	 * Object represents table 'users'
 	 *
      	 * @author: http://phpdao.com
-     	 * @date: 2014-08-22 16:39	 
+     	 * @date: 2014-09-26 15:57	 
 	 */
 	class User{
 		
-		var $userLogin;
-		var $userPassword;
-		var $userEmail;
-		var $userFullname;
-		var $userContact;
-		var $userRole;
+		var $login;
+		var $password;
+		var $email;
+		var $fullname;
+		var $contact;
+		var $role;
+		var $status;
+		var $preferences;
 		
 	}
 ?>

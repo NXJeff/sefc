@@ -1,11 +1,9 @@
 <?php
-
-error_reporting(E_ALL & ~E_NOTICE);
 /**
  * Class that operate on table 'audio'. Database Mysql.
  *
  * @author: http://phpdao.com
- * @date: 2014-08-22 16:39
+ * @date: 2014-09-26 15:57
  */
 class AudioMySqlDAO implements AudioDAO{
 
@@ -382,7 +380,6 @@ class AudioMySqlDAO implements AudioDAO{
 
 		$sql .= 'LIMIT ' . $offset .','. $item;
 		
-		// echo $sql;
 		$sqlQuery = new SqlQuery($sql);
 		return $this->getList($sqlQuery);
 	}

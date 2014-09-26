@@ -3,6 +3,7 @@
 var quickSearch = "title"; //used to differentiate selection of quick search
 var browseByLang;
 var browseByLangSpeaker;
+var browseBySpeaker;
 var more = true;
 
 $(document).bind( "mobileinit", function () {
@@ -142,7 +143,7 @@ console.log($(this).attr('data-id'));
             case 'recent':
             // init_iscroll('#recentlyAddedWrapper', 'recentAudio');
             populateRecentAudio(null,null,null,null,true); 
-            $.mobile.changePage($(document.location.href = "#recent"), {transition: 'slide'});
+            $.mobile.changePage($(document.location.href = "#audioList"), {transition: 'slide'});
             break;
 
             case 'browseByMonth':
@@ -300,6 +301,22 @@ $( document ).on( "pageinit", "#browseByLanguage", function() {
 
 
 /**   Browse By Month Page END **/
+
+
+/** Browse By Speaker **/
+$( document ).on( "pageinit", "#speakers", function() {
+
+    $('#speakersList').delegate('li', 'click', function (e) {
+        var dataid = $(this).attr('data-id');
+        console.log($(this).attr('data-name'));
+        browseBySpeaker = $(this).attr('data-name');
+        populateAudioBySpeaker(null,null,null,null,true);
+        $.mobile.changePage($(document.location.href = "#audioList"), {transition: 'slide'});
+    });
+
+});
+
+/** Browse By Speaker **/
 
 
 
@@ -607,7 +624,7 @@ function populateSpeakers(init) {
     } 
 
     var count = $(htmlId + " .li-numbering").length; 
-    itemperpage = 10;
+    itemperpage = null;
     offset = count;
 
     console.log('more: ' +more);
@@ -643,7 +660,7 @@ function populateSpeakers(init) {
 
                     console.log($(this));
 
-                    $(htmlId).append("<li data-icon='false' data-name='"+JSON.stringify(this)+"'><a href='#'><span class='li-numbering'> #" + ($(htmlId + ' li').length) + "</span><span class='iconicfill-user li-author'>"+ this.name +"</span><span class='iconicfill-clock li-duration'>" + this.description + "</span><span class='entypo-floppy li-filesize'>" + this.contacts + "</span></div></a></li>");
+                    $(htmlId).append("<li data-icon='false' data-name='"+this.name+"' data-filtertext='" + this.name + "'><a href='#'><span class='li-numbering'> #" + ($(htmlId + ' li').length) + "</span><span class='iconicfill-user li-author'>"+ this.name +"</span>  </div></a></li>");
                     more = true;
 
                 });
@@ -668,7 +685,95 @@ function populateSpeakers(init) {
                 
                 $(htmlId).listview().listview('refresh');
             },
-            data: { "reqID" : 'A4',  'offset': offset, 'itemperpage': itemperpage, 'orderBy': orderBy, 'orderAs': orderAs, 'lang': browseByLangSpeaker}
+            data: { "reqID" : 'A4',  'offset': null, 'itemperpage': null, 'orderBy': orderBy, 'orderAs': orderAs, 'lang': browseByLangSpeaker}
+        });
+} 
+}
+
+function populateAudioBySpeaker(offset, itemperpage, orderBy, orderAs, init) {
+    var htmlId = "#recentlyAddedList"; //Main #id used by this function
+
+    if(init) {
+        $(htmlId).html('');
+        $(htmlId).listview().listview('refresh');
+    }
+
+    if(document.getElementById("loading")!=null) {
+        document.getElementById("loading").remove();
+    }
+    $(htmlId).append('<li id="loading">Loading.. </li>');
+    $(htmlId).listview().listview('refresh');
+    
+    var orderBy = 'added_date';
+    var orderAs = 'desc';
+    if(offset == 0) {
+        more = true;
+    }
+
+    var count = $(htmlId + " .li-numbering").length;; 
+    itemperpage = 10;
+    offset = count;
+
+    // console.log('more: ' +more);
+    // console.log('offset: ' +offset);
+    if(document.getElementById("loading")!=null) {
+        $.ajax({
+            url: 'php/services.php',
+            type: 'post',
+            dataType: 'text',
+            success: function (response) {
+
+            var res = JSON.parse(response); //parse to array object
+
+            var audioList = null;
+
+            if(res == undefined ) {
+                audioList = null;
+            } else {                
+                audioList = res;   
+            }
+
+            if(offset == 0) {
+                $(htmlId).html('');
+                $(htmlId).append('<li data-role=\"list-divider\" style="text-align:center;"><span>' + browseBySpeaker +'</span></li>');
+            }
+
+            if(document.getElementById("loading")!=null) {
+                document.getElementById("loading").remove();
+            }
+
+            if(audioList!=null && audioList.length > 0) {
+                $.each(audioList, function () {
+
+                    $(htmlId).append("<li data-icon='false' data-name='"+JSON.stringify(this)+"'><a href='#'><span class='li-numbering'> #" + ($("#recentlyAddedList li").length) + "</span><span class='li-added-date typicons-time'>" + friendlyDate(this.addedDate + "T00:00:00Z") + "</span><span class='iconicfill-document-alt-fill li-title'>" + this.title + "</span><span class='iconicfill-user li-author'>"+ this.speaker +"</span><span class='iconicfill-clock li-duration'>" + this.duration + "</span><span class='entypo-floppy li-filesize'>" + getFileSizeString(this.filesize) + "</span><div class='li-views-likes'><span class='li-views-likes-icons typicons-heart'>0</span><span class='li-views-likes-icons iconicstroke-play'>"+ this.playCount +"</span></div></a></li>");
+                    more = true;
+
+                });
+
+                if(audioList.length !== 10) {
+                    more =false;
+                }
+            } else {   
+                $(htmlId).append('<li stlye="text-align: center;">No Record Found.</li>');
+                more = false;
+            }
+
+            if(more) {
+                $(htmlId).append('<li id="loading" data-id="loadmore" data-role=\"list-divider\" style="text-align:center;" data-theme="b" ><span>Load More</span></li>');
+            } else {
+                count = $(htmlId + " .li-numbering").length;
+                if(document.getElementById("endlist")!=null) {
+                    document.getElementById("endlist").remove();
+                }
+                $(htmlId).append("<li data-id=\"endlist\" data-role=\"list-divider\"><span>End Of List - "+count+" records </span></li>");
+            }
+
+            $(htmlId).listview().listview('refresh');
+
+                //trigger refresh on iscroll
+                // refreshScroll(offset);   
+            },
+            data: { "reqID" : 'A5',  'offset': offset, 'itemperpage': itemperpage, 'orderBy': orderBy, 'orderAs': orderAs, 'speaker' : browseBySpeaker }
         });
 } 
 }

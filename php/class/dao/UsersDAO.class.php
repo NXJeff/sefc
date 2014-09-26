@@ -3,7 +3,7 @@
  * Intreface DAO
  *
  * @author: http://phpdao.com
- * @date: 2014-08-22 16:39
+ * @date: 2014-09-26 15:58
  */
 interface UsersDAO{
 
@@ -30,7 +30,7 @@ interface UsersDAO{
  	 * Delete record from table
  	 * @param user primary key
  	 */
-	public function delete($user_login);
+	public function delete($login);
 	
 	/**
  	 * Insert record to table
@@ -51,26 +51,34 @@ interface UsersDAO{
 	 */
 	public function clean();
 
-	public function queryByUserPassword($value);
+	public function queryByPassword($value);
 
-	public function queryByUserEmail($value);
+	public function queryByEmail($value);
 
-	public function queryByUserFullname($value);
+	public function queryByFullname($value);
 
-	public function queryByUserContact($value);
+	public function queryByContact($value);
 
-	public function queryByUserRole($value);
+	public function queryByRole($value);
+
+	public function queryByStatus($value);
+
+	public function queryByPreferences($value);
 
 
-	public function deleteByUserPassword($value);
+	public function deleteByPassword($value);
 
-	public function deleteByUserEmail($value);
+	public function deleteByEmail($value);
 
-	public function deleteByUserFullname($value);
+	public function deleteByFullname($value);
 
-	public function deleteByUserContact($value);
+	public function deleteByContact($value);
 
-	public function deleteByUserRole($value);
+	public function deleteByRole($value);
+
+	public function deleteByStatus($value);
+
+	public function deleteByPreferences($value);
 
 
 }

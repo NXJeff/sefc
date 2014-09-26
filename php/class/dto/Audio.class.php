@@ -3,7 +3,7 @@
 	 * Object represents table 'audio'
 	 *
      	 * @author: http://phpdao.com
-     	 * @date: 2014-08-22 16:39	 
+     	 * @date: 2014-09-26 15:57	 
 	 */
 	class Audio{
 		
